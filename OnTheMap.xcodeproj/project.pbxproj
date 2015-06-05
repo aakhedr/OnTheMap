@@ -19,6 +19,7 @@
 		3666C13B1B1EDD5600C27CD0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666C13A1B1EDD5600C27CD0 /* LoginViewController.swift */; };
 		3666C13D1B1EE01A00C27CD0 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666C13C1B1EE01A00C27CD0 /* UdacityClient.swift */; };
 		36DAEAFA1B1FAC11000CD8A5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */; };
+		36F354B31B21C40A0081739B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F354B21B21C40A0081739B /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		3666C13A1B1EDD5600C27CD0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3666C13C1B1EE01A00C27CD0 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
+		36F354B21B21C40A0081739B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				3666C13A1B1EDD5600C27CD0 /* LoginViewController.swift */,
+				36F354B21B21C40A0081739B /* MapViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -116,8 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				3637115D1B1EB39700407E8C /* AppDelegate.swift */,
-				363711611B1EB39700407E8C /* Main.storyboard */,
 				36256F001B20935D00510FAF /* Clients */,
+				363711611B1EB39700407E8C /* Main.storyboard */,
 				36256F021B20945900510FAF /* Controller */,
 				363711641B1EB39700407E8C /* Images.xcassets */,
 				363711661B1EB39700407E8C /* LaunchScreen.xib */,
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3666C13B1B1EDD5600C27CD0 /* LoginViewController.swift in Sources */,
+				36F354B31B21C40A0081739B /* MapViewController.swift in Sources */,
 				36DAEAFA1B1FAC11000CD8A5 /* UdacityConstants.swift in Sources */,
 				3637115E1B1EB39700407E8C /* AppDelegate.swift in Sources */,
 				3666C13D1B1EE01A00C27CD0 /* UdacityClient.swift in Sources */,
