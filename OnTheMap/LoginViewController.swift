@@ -41,7 +41,9 @@ class LoginViewController: UIViewController {
             self.debugLabel!.text = "Logged in to Udacity"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
             
-            // Present the next view controller here!
+            // Present the next view controller
+            let nextController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
+            self.presentViewController(nextController, animated: true, completion: nil)
         }
     }
     
