@@ -24,6 +24,7 @@
 		3666C13B1B1EDD5600C27CD0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666C13A1B1EDD5600C27CD0 /* LoginViewController.swift */; };
 		3666C13D1B1EE01A00C27CD0 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666C13C1B1EE01A00C27CD0 /* UdacityClient.swift */; };
 		36DAEAFA1B1FAC11000CD8A5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */; };
+		36F295561B2327DB0028D536 /* ConfigUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F295551B2327DB0028D536 /* ConfigUI.swift */; };
 		36F354B31B21C40A0081739B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F354B21B21C40A0081739B /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		3666C13A1B1EDD5600C27CD0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3666C13C1B1EE01A00C27CD0 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
+		36F295551B2327DB0028D536 /* ConfigUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigUI.swift; sourceTree = "<group>"; };
 		36F354B21B21C40A0081739B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +146,7 @@
 				3637115D1B1EB39700407E8C /* AppDelegate.swift */,
 				36256F001B20935D00510FAF /* Clients */,
 				363711611B1EB39700407E8C /* Main.storyboard */,
+				36F295571B2329240028D536 /* View */,
 				36256F021B20945900510FAF /* Controller */,
 				363711641B1EB39700407E8C /* Images.xcassets */,
 				363711661B1EB39700407E8C /* LaunchScreen.xib */,
@@ -186,6 +189,14 @@
 				3666C1351B1EBE1400C27CD0 /* Roboto-Thin.ttf */,
 			);
 			name = RobotoFont;
+			sourceTree = "<group>";
+		};
+		36F295571B2329240028D536 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36F295551B2327DB0028D536 /* ConfigUI.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +311,7 @@
 				3612DE5E1B222BA8005A0B2E /* TableViewController.swift in Sources */,
 				36256EFF1B20933600510FAF /* UdacityTasks.swift in Sources */,
 				3612DE5C1B220FFA005A0B2E /* Student.swift in Sources */,
+				36F295561B2327DB0028D536 /* ConfigUI.swift in Sources */,
 				3612DE571B220A2E005A0B2E /* ParseConstants.swift in Sources */,
 				3612DE591B220A43005A0B2E /* ParseTasks.swift in Sources */,
 			);

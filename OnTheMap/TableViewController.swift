@@ -12,30 +12,33 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBOutlet weak var studentsTableView: UITableView!
 
-    var students: [Student] = [Student]()
-    
+    var students = [Student]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        /* Set the Table View Delegate and Data Source */
+        studentsTableView.delegate = self
+        studentsTableView.dataSource = self
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        /* Configure naviagation bar buttons */
+        ConfigUI.sharedInstance().configureNavBarButtons(self)
+        
+        /* Set a human readible title for the view */
+        self.parentViewController!.title = "On The Map"
+
+        /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
                 self.students = students
-                
-                println("number of students in the table: \(self.students.count)")
-                println()
-                println(self.students[0].firstName)
-                println(self.students[0].lastName)
-                println(self.students[0].mediaURL)
-                
                 dispatch_async(dispatch_get_main_queue()) {
+
                     // reload table view here
-                    self.studentsTableView.reloadData()
+                    self.studentsTableView!.reloadData()
                 }
             } else {
                 println("error: \(error)")
@@ -43,36 +46,32 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    /* Table View Delegate and Table View Data Source */
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection seciont: Int) -> Int {
+        return students.count
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         /* Get the cell */
         let cellReuseIdentifier = "StudentCell"
-        let student = students[indexPath.row]
         var cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as! UITableViewCell
-
+        let student = students[indexPath.row]
+        
         /* Set the cell properties */
         cell.textLabel!.text = student.firstName + " " + student.lastName
-        cell.detailTextLabel!.text = student.mediaURL
-        
+        cell.imageView!.image = UIImage(named: "pin")
+
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return students.count
-    }
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // Push the next view controller here!
+        let student = students[indexPath.row]
+
+        /* Open Safari at the media url of the selected student */
+        UIApplication.sharedApplication().openURL(NSURL(string: student.mediaURL)!)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

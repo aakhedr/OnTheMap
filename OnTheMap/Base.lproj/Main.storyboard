@@ -138,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1220" y="175"/>
+            <point key="canvasLocation" x="-1221" y="118"/>
         </scene>
         <!--List-->
         <scene sceneID="8lH-Fk-Jol">
@@ -175,7 +175,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="list" id="0QT-Ba-TR3"/>
                     <connections>
-                        <outlet property="studentsTableView" destination="4s6-HO-97v" id="lMx-A8-A6v"/>
+                        <outlet property="studentsTableView" destination="4s6-HO-97v" id="0Zn-NN-Uo3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HkF-nE-bOf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -185,7 +185,7 @@
         <!--Map-->
         <scene sceneID="lBh-ZC-n8G">
             <objects>
-                <viewController id="B7K-Sn-OEM" sceneMemberID="viewController">
+                <viewController id="B7K-Sn-OEM" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dGJ-ca-9zU"/>
                         <viewControllerLayoutGuide type="bottom" id="faV-K8-hYI"/>
@@ -193,13 +193,27 @@
                     <view key="view" contentMode="scaleToFill" id="6lA-tJ-d1Z">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5NR-W6-m4B">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="top" secondItem="dGJ-ca-9zU" secondAttribute="bottom" id="Gwt-U2-0sv"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="bottom" secondItem="faV-K8-hYI" secondAttribute="top" id="Ylo-bM-mcH"/>
+                            <constraint firstAttribute="trailing" secondItem="5NR-W6-m4B" secondAttribute="trailing" id="c0j-1B-Vly"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="leading" secondItem="6lA-tJ-d1Z" secondAttribute="leading" id="cop-Jq-ZOW"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Ghs-R9-ikv"/>
+                    <connections>
+                        <outlet property="studentsMapView" destination="5NR-W6-m4B" id="vn4-va-Xqk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T32-eU-IkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="-156"/>
+            <point key="canvasLocation" x="1229" y="-214"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tFe-DH-Xzd">
@@ -215,7 +229,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b2y-12-JuO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-393" y="175"/>
+            <point key="canvasLocation" x="-354" y="118"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="8w5-QD-q70">
@@ -235,7 +249,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDs-iD-OmQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="409" y="175"/>
+            <point key="canvasLocation" x="467" y="118"/>
         </scene>
     </scenes>
     <resources>
