@@ -12,26 +12,18 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var studentsMapView: MKMapView!
-
+    
+    var students = [Student]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         studentsMapView.delegate = self
-    }
-    
-    var students = [Student]()
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
         
         /* Show world map */
         let initialLocation = MKCoordinateRegionForMapRect(MKMapRectWorld)
         studentsMapView.region = initialLocation
-        studentsMapView.delegate = self
         
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)
@@ -39,21 +31,54 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
                 self.students = students
-//                dispatch_async(dispatch_get_main_queue()) {
-//                    
-//                    // Add Annotation here
-//                    for student in self.students {
-//                        self.studentsMapView.addAnnotation(student)
-//                    }
-//                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    // Add Annotations here
+                    let annotations = Annotation.annotationsFromStudents(self.students)
+                    self.studentsMapView.addAnnotations(annotations)
+                }
             } else {
                 println("error: \(error)")
             }
         }
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /* Set a human readible title for the view */
+        self.parentViewController!.title = "On The Map"
+    }
+    
+    /* Map View Delegate */
+
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+
+        if let annotation = annotation as? Annotation {
+            
+            let identifier = "pin"
+            var view: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+                as? MKPinAnnotationView {
+                    dequeuedView.annotation = annotation
+                    view = dequeuedView
+            } else {
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view.canShowCallout = true
+                view.calloutOffset = CGPoint(x: -5, y: 5)
+                view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
+            }
+            return view
+        }
+        return nil
     }
 
-
-    
-
-
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        let annotation = view.annotation as! Annotation
+        
+        /* Open Safari at the media url of the selected student */
+        UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle)!)
+    }
 }

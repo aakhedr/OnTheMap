@@ -20,6 +20,20 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         /* Set the Table View Delegate and Data Source */
         studentsTableView.delegate = self
         studentsTableView.dataSource = self
+        
+        /* Load up Student objects from Parse */
+        ParseClient.sharedInstance().getStudentsLocations { students, error in
+            if let students = students {
+                self.students = students
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    // reload table view here
+                    self.studentsTableView!.reloadData()
+                }
+            } else {
+                println("error: \(error)")
+            }
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -31,19 +45,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         /* Set a human readible title for the view */
         self.parentViewController!.title = "On The Map"
 
-        /* Load up Student objects from Parse */
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
-            if let students = students {
-                self.students = students
-                dispatch_async(dispatch_get_main_queue()) {
-
-                    // reload table view here
-                    self.studentsTableView!.reloadData()
-                }
-            } else {
-                println("error: \(error)")
-            }
-        }
     }
     
     /* Table View Delegate and Table View Data Source */
