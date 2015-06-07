@@ -9,7 +9,7 @@
 extension UdacityClient {
     
     /*Constants */
-    struct Constants {
+    struct Parameters {
         
         static let BaseURL = "https://www.udacity.com/"
     }
@@ -18,6 +18,7 @@ extension UdacityClient {
     struct Methods {
         
         static let session = "api/session"
+        static let PublicData = "api/users/"
     }
     
     // JSON Body Keys
@@ -31,10 +32,14 @@ extension UdacityClient {
     /* JSON Response Keys */
     struct JSONResponseKeys {
         
-        static let Session = "session"
-        static let ID = "id"
+        static let Account = "account"
+        static let Key = "key"
         static let StatusCode = "status"
         static let Error = "error"
+        static let User = "user"
+        static let UserFirstName = "first_name"
+        static let UserLastName = "last_name"
+        
         static let StatusMessage = "status_message"
     }
     

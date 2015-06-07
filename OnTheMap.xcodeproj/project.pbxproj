@@ -90,8 +90,17 @@
 				3612DE561B220A2D005A0B2E /* ParseConstants.swift */,
 				3612DE581B220A43005A0B2E /* ParseClient.swift */,
 				3612DE541B220A1B005A0B2E /* ParseConvenience.swift */,
+				3612DE5B1B220FFA005A0B2E /* Student.swift */,
 			);
 			name = Parse;
+			sourceTree = "<group>";
+		};
+		361836941B249F5700D38921 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				36256F001B20935D00510FAF /* Clients */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		36256F001B20935D00510FAF /* Clients */ = {
@@ -146,8 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				3637115D1B1EB39700407E8C /* AppDelegate.swift */,
-				36256F001B20935D00510FAF /* Clients */,
-				36F2955C1B2381460028D536 /* Model */,
+				361836941B249F5700D38921 /* Model */,
 				36F295571B2329240028D536 /* View */,
 				36256F021B20945900510FAF /* Controller */,
 				363711611B1EB39700407E8C /* Main.storyboard */,
@@ -200,14 +208,6 @@
 				36F295551B2327DB0028D536 /* ConfigUI.swift */,
 			);
 			name = View;
-			sourceTree = "<group>";
-		};
-		36F2955C1B2381460028D536 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3612DE5B1B220FFA005A0B2E /* Student.swift */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

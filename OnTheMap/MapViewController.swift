@@ -28,7 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)
-        
+
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
@@ -44,7 +44,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 println("error: \(error)")
             }
         }
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,22 +61,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             let identifier = "pin"
             var view: MKPinAnnotationView
+            
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
                 as? MKPinAnnotationView {
+                    
                     dequeuedView.annotation = annotation
                     view = dequeuedView
+
             } else {
+                
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
             }
+            
             return view
         }
+        
         return nil
     }
 
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        
         let annotation = view.annotation as! Annotation
         
         /* Open Safari at the media url of the selected student */

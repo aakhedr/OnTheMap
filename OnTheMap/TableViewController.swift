@@ -12,6 +12,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBOutlet weak var studentsTableView: UITableView!
     var students = [Student]()
+    var userID: Int!
     
     /* Lifecycle */
 

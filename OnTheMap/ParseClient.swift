@@ -1,5 +1,5 @@
 //
-//  ParseConvenience.swift
+//  ParseClient.swift
 //  OnTheMap
 //
 //  Created by Ahmed Khedr on 6/5/15.
@@ -27,23 +27,80 @@ class ParseClient: NSObject {
         let url = NSURL(string: urlString)!
 
         let request = NSMutableURLRequest(URL: url)
-        request.addValue(ParseClient.Parameters.ParseApplicationID, forHTTPHeaderField: ParseClient.Parameters.ParseApplicationID_KEY)
-        request.addValue(ParseClient.Parameters.RESTAPIKey, forHTTPHeaderField: ParseClient.Parameters.RESTAPIKey_Key)
+        request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_Key)
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             
             /* 5/6. Parse the data and use the data (happens in completion handler */
             if let error = downloadError {
+                
+                println("error in client: \(error)")
+                
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
+                
+                println("newError: \(newError)")
+
             } else {
+                
                 ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
+
         /* 7. Start the request */
         task.resume()
         
         return task
     }
+    
+    func taskForPOSTMethod(urlString: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        /* 1. Set the parameters */
+        // Already set
+        
+        /* 2. The NSURL */
+        let url = NSURL(string: urlString)!
+        
+        /* 3. Configure the request */
+        var jsonifyError: NSError? = nil
+
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_Key)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        
+        /* Make the request */
+        let task = session.dataTaskWithRequest(request) { data, response, downloadError in
+            
+            /* 5/6. Parse the data and use the data (happens in completion handler) */
+            if let error = downloadError {
+                
+                let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
+                
+            } else {
+                
+                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            }
+        }
+        
+        /* 7. Start the task */
+        task.resume()
+        
+        return task
+    }
+
+
 }
+
+
+
+
+
+
+
+

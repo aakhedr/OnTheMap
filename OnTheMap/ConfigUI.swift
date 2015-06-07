@@ -10,8 +10,16 @@ import UIKit
 
 class ConfigUI: NSObject {
     
-    /* Add Buttons and actions to the Table and Map View Controllers */
+    var targetView: UIViewController!
+    
+    /* Add Buttons and actions */
     func configureNavBarButtons(viewController: UIViewController) {
+        
+        if viewController is MapViewController {
+            targetView = viewController
+        } else {
+            targetView = viewController
+        }
         
         let logoutButton = UIBarButtonItem(
             title: "Logout",
@@ -46,20 +54,73 @@ class ConfigUI: NSObject {
     
     func refresh() {
         
-        println("refresh")
+        ParseClient.sharedInstance().getStudentsLocations { students, error in
+            
+            if let students = students {
+                
+                let newStudents = students
+                
+                if self.targetView is MapViewController {
+                    
+                    let controller = self.targetView as! MapViewController
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        /* Update Annotations */
+                        let annotations = Annotation.annotationsFromStudents(newStudents)
+                        controller.studentsMapView.addAnnotations(annotations)
+                    }
+                } else {
+
+                    let controller = self.targetView as! TableViewController
+                    println(controller)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        /* Reload table data */
+                        controller.students = newStudents
+                        controller.studentsTableView.reloadData()
+                    }
+                }
+            } else {
+                
+                println("error: \(error)")
+            }
+        }
     }
     
     func pin() {
         
-        println("pin")
+        let userID = UdacityClient.sharedInstance().userID!
+        UdacityClient.sharedInstance().getUserPublicData(userID) { userFirstName, userLastName, error in
+            
+            if let error = error {
+                
+                println("error: \(error)")
+
+            } else {
+                
+                ParseClient.sharedInstance().postUserLocation(userID, userFirstName: userFirstName!, userLastName: userLastName!) { data, error in
+
+                    if let error = error {
+                        
+                        println("error: \(error)")
+                        
+                    } else {
+                        
+                        println("location posted!")
+                    }
+                }
+            }
+        }
     }
     
     /* Shared Instance */
     class func sharedInstance() -> ConfigUI {
         
         struct Singleton {
+            
             static var sharedInstance = ConfigUI()
         }
+        
         return Singleton.sharedInstance
     }
     

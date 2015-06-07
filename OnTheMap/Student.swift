@@ -12,9 +12,10 @@ struct Student {
     let lastName: String
     let mapString: String
     let mediaURL: String
-    let latitude: Double
-    let longitude: Double
-    
+    var latitude: Double
+    var longitude: Double
+    let uniqueKey: String
+
     /* Construct a Student object from a dictionary */
     init(dictionary: [String : AnyObject]) {
         
@@ -24,6 +25,7 @@ struct Student {
         mediaURL = (dictionary[ParseClient.JSONResponseKeys.MediaURL] as! String)
         latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as! Double
         longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as! Double
+        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as! String
     }
 
     /* Helper: Given an array of dictionaries, convert them to an array of Student objects */
@@ -32,8 +34,10 @@ struct Student {
         var students = [Student]()
         
         for result in results {
+            
             students.append(Student(dictionary: result))
         }
+        
     return students
     }
 }

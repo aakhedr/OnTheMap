@@ -32,7 +32,7 @@ extension ParseClient {
         static let BaseURLAndMethod =
             "https://api.parse.com/1/classes/StudentLocation"
     }
-    
+        
     /* JSON Resonse Keys */
     struct JSONResponseKeys {
         
