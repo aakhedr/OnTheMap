@@ -10,16 +10,19 @@ extension UdacityClient {
     
     /*Constants */
     struct Constants {
+        
         static let BaseURL = "https://www.udacity.com/"
     }
     
     /* Methods */
     struct Methods {
+        
         static let session = "api/session"
     }
     
     // JSON Body Keys
     struct JSONBodyKeys {
+        
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"
@@ -27,6 +30,7 @@ extension UdacityClient {
     
     /* JSON Response Keys */
     struct JSONResponseKeys {
+        
         static let Session = "session"
         static let ID = "id"
         static let StatusCode = "status"

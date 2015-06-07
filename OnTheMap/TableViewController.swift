@@ -11,8 +11,9 @@ import UIKit
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var studentsTableView: UITableView!
-
     var students = [Student]()
+    
+    /* Lifecycle */
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.students = students
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    // reload table view here
+                    /* reload table view data */
                     self.studentsTableView!.reloadData()
                 }
             } else {

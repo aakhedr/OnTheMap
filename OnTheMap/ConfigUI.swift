@@ -10,7 +10,7 @@ import UIKit
 
 class ConfigUI: NSObject {
     
-    /* Add Buttons and actions to the Table and Map View Controller */
+    /* Add Buttons and actions to the Table and Map View Controllers */
     func configureNavBarButtons(viewController: UIViewController) {
         
         let logoutButton = UIBarButtonItem(
@@ -53,7 +53,8 @@ class ConfigUI: NSObject {
         
         println("pin")
     }
-
+    
+    /* Shared Instance */
     class func sharedInstance() -> ConfigUI {
         
         struct Singleton {

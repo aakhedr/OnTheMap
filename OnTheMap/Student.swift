@@ -8,15 +8,16 @@
 
 struct Student {
     
-    var firstName: String
-    var lastName: String
-    var mapString: String
-    var mediaURL: String
-    var latitude: Double
-    var longitude: Double
+    let firstName: String
+    let lastName: String
+    let mapString: String
+    let mediaURL: String
+    let latitude: Double
+    let longitude: Double
     
-    /* Construct a TMDBMovie from a dictionary */
+    /* Construct a Student object from a dictionary */
     init(dictionary: [String : AnyObject]) {
+        
         firstName = (dictionary[ParseClient.JSONResponseKeys.FirstName] as! String)
         lastName = (dictionary[ParseClient.JSONResponseKeys.LastName] as! String)
         mapString = (dictionary[ParseClient.JSONResponseKeys.MapString] as! String)
@@ -27,6 +28,7 @@ struct Student {
 
     /* Helper: Given an array of dictionaries, convert them to an array of Student objects */
     static func studentsFromResults(results: [[String : AnyObject]]) -> [Student] {
+
         var students = [Student]()
         
         for result in results {

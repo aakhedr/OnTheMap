@@ -2,106 +2,59 @@
 //  UdacityClient.swift
 //  OnTheMap
 //
-//  Created by Ahmed Khedr on 6/3/15.
+//  Created by Ahmed Khedr on 6/4/15.
 //  Copyright (c) 2015 Ahmed Khedr. All rights reserved.
 //
 
 import Foundation
 
 class UdacityClient: NSObject {
-    
+
     var session: NSURLSession
     var sessionID: String? = nil
     
     override init() {
         session = NSURLSession.sharedSession()
-
+        
         super.init()
-    }
+    }    
     
-    func authenticateWithUdacityCredentials(email: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
-        self.getSessionID(email, password: password) { success, sessionID, errorString in
-            if success {
-                self.sessionID = sessionID
-                completionHandler(success: success, errorString: errorString)
+    func taskForPOSTMethod(method: String, parameters: [String : AnyObject], jsonBody: [String: AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        /* 1. Set the parameters */
+        // Already set in parameters 
+
+        /* 2. Build the URL */
+        let urlString = UdacityClient.Constants.BaseURL + method
+        let url = NSURL(string: urlString)!
+        
+        /* 3. Configure the request */
+        var jsonifyError: NSError? = nil
+        
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        
+        /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+            
+            /* 5/6. Parse the data and use the data (happens in completion handler) */
+            if let error = downloadError {
+                let newError = UdacityClient.errorForData(data, response: response, error: error)
+                
+                println("new error: \(newError)")
+
+                completionHandler(result: nil, error: downloadError)
             } else {
-                completionHandler(success: success, errorString: errorString)
+                UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
-    }
-
-    func getSessionID(email: String, password: String, completionHandler: (success: Bool, sessionID: String?, errorString: String?) -> Void) {
+        /* 7. Start the request */
+        task.resume()
         
-        /* 1. Specify parameters and JSON body for the post method */
-        var parameters = [
-            "email": email,
-            "password": password
-        ]
-        
-        let jsonBody =
-        [
-            UdacityClient.JSONBodyKeys.Udacity:
-                [
-                    UdacityClient.JSONBodyKeys.Username: "\(email)",
-                    UdacityClient.JSONBodyKeys.Password: "\(password)"
-                ]
-        ]
-        
-        /* 2. Make the request */
-        let task = self.taskForPOSTMethod(UdacityClient.Methods.session, parameters: parameters, jsonBody: jsonBody) { JSONResult, error in
-
-            /* 3. Send the desired value(s) to completion handler */
-            if let error = error {
-                let networkErrorString = String(_cocoaString: error)
-                completionHandler(success: false, sessionID: nil, errorString: networkErrorString)
-            } else {
-                if let statusCode = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.StatusCode) as? Int {
-                    if statusCode == 403 {
-                        let udacityErrorString = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.Error) as! String
-                        completionHandler(success: false, sessionID: nil, errorString: udacityErrorString)
-                    }
-                } else {
-                    if let session = JSONResult.valueForKey(UdacityClient.JSONResponseKeys.Session) as? NSDictionary {
-                        if let sessionID = session.valueForKey(UdacityClient.JSONResponseKeys.ID) as? String {
-                            completionHandler(success: true, sessionID: sessionID, errorString: nil)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    /* Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error */
-    class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
-        if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
-            if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.StatusMessage] as? String {
-                let userInfo = [NSLocalizedDescriptionKey : errorMessage]
-                return NSError(domain: "Udacity error", code: 1, userInfo: userInfo)
-            }
-        }
-        return error
-    }
-    
-    /* Helper: Given raw JSON, return a usable Foundation object */
-    class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
-        var parsingError: NSError? = nil
-        
-        /* Exclude the first 5 characters as per Udacity docs */
-        let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
-
-        let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
-        if let error = parsingError {
-            completionHandler(result: nil, error: error)
-        } else {
-            completionHandler(result: parsedResult, error: nil)
-        }
-    }
-
-    class func sharedInstance() -> UdacityClient {
-        struct Singleton {
-            static var sharedInstance = UdacityClient()
-        }
-        return Singleton.sharedInstance
+        return task
     }
 }
 

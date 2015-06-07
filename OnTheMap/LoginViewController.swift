@@ -14,14 +14,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let textFieldDelegate = TextFieldDelegte()
+    /* View lifecycle */
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        email!.delegate = textFieldDelegate
-        password!.delegate = textFieldDelegate
+        email!.delegate = self
+        password!.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,6 +34,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         unsubscribeFromKeyboardNotifications()
     }
+    
+    /* Actions */
 
     @IBAction func loginWithUdacityCredentials(sender: UIButton) {
         if email!.text == "" || password!.text == "" {
@@ -95,15 +96,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if email!.editing || password!.editing {
             let userInfo = notification.userInfo
             let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-            
+
             return keyboardSize.CGRectValue().height
-            
         } else {
-            // Otherwise do not move view up (editing topTextField)
             return 0
         }
     }
 
-
+    /* Text Field Delegate */
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
 }
 

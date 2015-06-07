@@ -12,6 +12,7 @@ extension ParseClient {
     
     /* Parameters */
     struct Parameters {
+        
         static let ParseApplicationID =
             "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let RESTAPIKey =
@@ -27,12 +28,14 @@ extension ParseClient {
     
     /* Methods */
     struct Methods {
+        
         static let BaseURLAndMethod =
             "https://api.parse.com/1/classes/StudentLocation"
     }
     
     /* JSON Resonse Keys */
     struct JSONResponseKeys {
+        
         static let ObjectId = "objectId"
         static let UniqueKey = "uniqueKey"
         static let FirstName = "firstName"

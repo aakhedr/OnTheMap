@@ -23,6 +23,7 @@ class Annotation: NSObject, MKAnnotation {
         super.init()
     }
     
+    /* Helper: Given an array of Student objects, convert them to an array of Annotation objects */
     class func annotationsFromStudents(students: [Student]) -> [Annotation] {
         var annotations = [Annotation]()
         

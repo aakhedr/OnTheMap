@@ -12,13 +12,14 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var studentsMapView: MKMapView!
-    
     var students = [Student]()
+    
+    /* View lifecycle */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        /* Set Map View Delegate */
         studentsMapView.delegate = self
         
         /* Show world map */
@@ -28,13 +29,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
+        /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
                 self.students = students
                 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    // Add Annotations here
+                    /* Add Annotations */
                     let annotations = Annotation.annotationsFromStudents(self.students)
                     self.studentsMapView.addAnnotations(annotations)
                 }
@@ -81,4 +83,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Open Safari at the media url of the selected student */
         UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle)!)
     }
+    
+    /* Actions in ConfigUI.swift */
+
 }
