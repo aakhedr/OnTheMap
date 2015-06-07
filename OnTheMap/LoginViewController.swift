@@ -74,7 +74,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             self.debugLabel!.text = "Logged in to Udacity"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
             
-            // Present the next view controller
+            // TODO: Segue to the Map and Table Tabbed View
             let nextController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
             self.presentViewController(nextController, animated: true, completion: nil)
         }

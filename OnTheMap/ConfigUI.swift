@@ -15,11 +15,7 @@ class ConfigUI: NSObject {
     /* Add Buttons and actions */
     func configureNavBarButtons(viewController: UIViewController) {
         
-        if viewController is MapViewController {
-            targetView = viewController
-        } else {
-            targetView = viewController
-        }
+        targetView = viewController
         
         let logoutButton = UIBarButtonItem(
             title: "Logout",
@@ -59,25 +55,23 @@ class ConfigUI: NSObject {
             if let students = students {
                 
                 let newStudents = students
-                
                 if self.targetView is MapViewController {
                     
-                    let controller = self.targetView as! MapViewController
+                    let mapViewController = self.targetView as! MapViewController
                     dispatch_async(dispatch_get_main_queue()) {
                         
                         /* Update Annotations */
                         let annotations = Annotation.annotationsFromStudents(newStudents)
-                        controller.studentsMapView.addAnnotations(annotations)
+                        mapViewController.studentsMapView.addAnnotations(annotations)
                     }
                 } else {
 
-                    let controller = self.targetView as! TableViewController
-                    println(controller)
+                    let tableViewController = self.targetView as! TableViewController
                     dispatch_async(dispatch_get_main_queue()) {
                         
                         /* Reload table data */
-                        controller.students = newStudents
-                        controller.studentsTableView.reloadData()
+                        tableViewController.students = newStudents
+                        tableViewController.studentsTableView.reloadData()
                     }
                 }
             } else {
@@ -103,10 +97,15 @@ class ConfigUI: NSObject {
                     if let error = error {
                         
                         println("error: \(error)")
-                        
+
                     } else {
                         
                         println("location posted!")
+                        
+                        /* Present the Information Posting View Controller modally */
+
+                        let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
+                        self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
                     }
                 }
             }
@@ -123,6 +122,4 @@ class ConfigUI: NSObject {
         
         return Singleton.sharedInstance
     }
-    
-
 }

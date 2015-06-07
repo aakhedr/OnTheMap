@@ -25,7 +25,9 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
+
             if let students = students {
+                
                 self.students = students
                 dispatch_async(dispatch_get_main_queue()) {
                     
@@ -33,6 +35,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.studentsTableView!.reloadData()
                 }
             } else {
+                
                 println("error: \(error)")
             }
         }

@@ -47,7 +47,7 @@ extension ParseClient {
             JSONResponseKeys.FirstName: userFirstName,
             JSONResponseKeys.LastName: userLastName,
 
-            // See to this
+            // TODO: adjust this after creating the Information Posting View in storyboard
             JSONResponseKeys.MapString: "OUTLET",
             JSONResponseKeys.MediaURL: "https://eg.linkedin.com/in/ahmedabdelhadykhedr",
             JSONResponseKeys.Latitude: 30.0500,
