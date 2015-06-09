@@ -103,7 +103,7 @@ class ConfigUI: NSObject {
                         println("location posted!")
                         
                         /* Present the Information Posting View Controller modally */
-
+                        
                         let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
                         self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
                     }

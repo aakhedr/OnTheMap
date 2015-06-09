@@ -9,7 +9,7 @@
 import UIKit
 
 class InformationPostingViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
