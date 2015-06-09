@@ -134,6 +134,7 @@
                         <outlet property="debugLabel" destination="BSb-gk-GHH" id="oAX-t8-6aN"/>
                         <outlet property="email" destination="dlk-J7-w8g" id="VRO-7t-BnY"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
+                        <segue destination="F8H-U2-ymw" kind="showDetail" identifier="TabbedViewSegue" id="osC-Oh-pBm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -218,7 +219,7 @@
         <!--Navigation Controller-->
         <scene sceneID="tFe-DH-Xzd">
             <objects>
-                <navigationController storyboardIdentifier="NavigationController" id="F8H-U2-ymw" sceneMemberID="viewController">
+                <navigationController id="F8H-U2-ymw" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7HI-zF-klb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

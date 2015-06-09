@@ -58,7 +58,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
             if success {
         
-                self.completeLogin()
+                self.completeLogin(sender)
             
             } else {
             
@@ -67,16 +67,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         }
     }
     
-    func completeLogin() {
+    func completeLogin(sender: UIButton) {
         
         dispatch_async(dispatch_get_main_queue()) {
             
             self.debugLabel!.text = "Logged in to Udacity"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
             
-            // TODO: Segue to the Map and Table Tabbed View
-            let nextController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
-            self.presentViewController(nextController, animated: true, completion: nil)
+            /* Segue to the Map and Table Tabbed View */
+            self.performSegueWithIdentifier("TabbedViewSegue", sender: sender)
         }
     }
     
