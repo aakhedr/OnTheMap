@@ -28,7 +28,6 @@ extension ParseClient {
                 if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
 
                     var students = Student.studentsFromResults(results)
-                    
                     completionHandler(result: students, error: nil)
                 
                 } else {
@@ -62,7 +61,6 @@ extension ParseClient {
 
             } else {
                 
-                println("JSONResult postUserLocation: \(JSONResult)")
                 completionHandler(data: JSONResult, error: nil)
             }
         }
@@ -73,7 +71,8 @@ extension ParseClient {
         
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
             
-            println("parsed result: \(parsedResult)")
+            println()
+            println("parsed result in errorForData ParseClient: \(parsedResult)")
             
             if let errorMessage = parsedResult[ParseClient.JSONResponseKeys.StatusMessage] as? String {
                 

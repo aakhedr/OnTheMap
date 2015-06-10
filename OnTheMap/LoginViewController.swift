@@ -150,6 +150,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         if textField == password! {
             
             textField.resignFirstResponder()
+            self.view.frame.origin.y = origin
+
             self.loginWithUdacityCredentials(loginButton)
 
         } else {

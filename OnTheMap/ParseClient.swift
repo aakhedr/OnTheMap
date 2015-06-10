@@ -36,12 +36,12 @@ class ParseClient: NSObject {
             /* 5/6. Parse the data and use the data (happens in completion handler */
             if let error = downloadError {
                 
-                println("error in client: \(error)")
+                println("error in taskForGETMethod in ParseClient: \(error)")
                 
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
                 
-                println("newError: \(newError)")
+                println("newError in taskForGETMethod in ParseClient: \(newError)")
 
             } else {
                 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConfigUI: NSObject {
+class ConfigUI: NSObject, UIAlertViewDelegate {
     
     var targetView: UIViewController!
     
@@ -64,6 +64,7 @@ class ConfigUI: NSObject {
                         let annotations = Annotation.annotationsFromStudents(newStudents)
                         mapViewController.studentsMapView.addAnnotations(annotations)
                     }
+
                 } else {
 
                     let tableViewController = self.targetView as! TableViewController
@@ -76,7 +77,7 @@ class ConfigUI: NSObject {
                 }
             } else {
                 
-                println("error: \(error)")
+                println("error in refresh: \(error)")
             }
         }
     }
@@ -88,7 +89,17 @@ class ConfigUI: NSObject {
             
             if let error = error {
                 
-                println("error: \(error)")
+                println("error in pin: \(error)")
+                
+                // Add interface to let the user retry
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let alertController = UIAlertController(title: "Network Error!", message: "There is a problem connecting to Parse", preferredStyle: UIAlertControllerStyle.Alert)
+                    let okAction = UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default, handler: nil)
+                    let cancelAction = UIAlertAction(title: "Cancel for now!", style: UIAlertActionStyle.Cancel, handler: nil)
+                    alertController.addAction(okAction)
+                    alertController.addAction(cancelAction)
+                }
 
             } else {
                 

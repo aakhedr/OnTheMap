@@ -32,8 +32,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
+
                 self.students = students
-                
                 dispatch_async(dispatch_get_main_queue()) {
 
                     /* Add Annotations */
@@ -42,7 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             } else {
                 
-                println("error: \(error)")
+                println("error in viewDidLoad MapViewController: \(error)")
             }
         }
     }

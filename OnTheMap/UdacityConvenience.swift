@@ -46,8 +46,7 @@ extension UdacityClient {
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
-                let networkErrorString = String(_cocoaString: error)
-                completionHandler(userID: nil, errorString: networkErrorString)
+                completionHandler(userID: nil, errorString: "Network Error")
                 
             } else {
 
@@ -84,8 +83,7 @@ extension UdacityClient {
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
-                let networkErrorString = String(_cocoaString: error)
-                completionHandler(firstName: nil, lastName: nil, errorString: networkErrorString)
+                completionHandler(firstName: nil, lastName: nil, errorString: "Network Error")
                 
             } else {
                 
@@ -96,8 +94,6 @@ extension UdacityClient {
                         if let userFirstName = user.valueForKey(JSONResponseKeys.UserFirstName) as? String {
                             
                             completionHandler(firstName: userFirstName, lastName: userLastName, errorString: nil)
-                            
-                            println(userFirstName + " " + userLastName)
                         }
                     }
                 }
@@ -110,11 +106,13 @@ extension UdacityClient {
 
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
             
-            println("parsed result \(parsedResult)")
+            println()
+            println("parsed result in errorForData UdacityClient \(parsedResult)")
             
             if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.StatusMessage] as? String {
                 
-                println("error 3: \(error)")
+                println()
+                println("error in errorForData UdacityClient: \(error)")
                 
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
                 return NSError(domain: "Udacity error", code: 1, userInfo: userInfo)
@@ -127,14 +125,10 @@ extension UdacityClient {
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
-        println(NSString(data: data, encoding: NSUTF8StringEncoding))
-        
         var parsingError: NSError? = nil
         
         /* Exclude the first 5 characters as per Udacity docs */
         let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
-        
-        println(NSString(data: newData, encoding: NSUTF8StringEncoding))
 
         let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
         

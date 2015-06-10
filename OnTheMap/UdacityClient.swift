@@ -46,11 +46,11 @@ class UdacityClient: NSObject {
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
                 
-                print("error 1: \(error)")
+                print("error 1 in taskForPOSTMethod UdacityClient: \(error)")
                 
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 
-                println("error 2: \(newError)")
+                println("error 2 in taskForPOSTMethod UdacityClient: \(newError)")
                 
                 completionHandler(result: nil, error: newError)
                 

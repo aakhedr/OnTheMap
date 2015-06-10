@@ -36,7 +36,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             } else {
                 
-                println("error: \(error)")
+                println("error in viewDidLoad TableViewContorller: \(error)")
             }
         }
     }

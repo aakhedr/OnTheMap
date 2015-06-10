@@ -57,7 +57,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 if let error = error {
                     
-                    println("geocoder error: \(error)")
+                    println("error in findOnTheMapAction: \(error)")
                     
                 } else {
                     
@@ -92,7 +92,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                                 
                                 if code == 142 {
                                     
-                                    println("Code equals 142: true. Could not post!")
                                     dispatch_async(dispatch_get_main_queue()) {
                                         
                                         self.nonEditableTextView.text = "You must enter a link here!"
@@ -101,12 +100,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                                 
                             } else {
                                 
-                                println("Code is not equal 142 and user position should be posted!")
                                 dispatch_async(dispatch_get_main_queue()) {
                                     
-                                    /* Check if I really have to do this! */
                                     self.annotation.subtitle = self.nonEditableTextView.text!
-
                                     self.dismissViewControllerAnimated(true, completion: nil)
                                 }
                             }
@@ -135,7 +131,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             let coordinate: CLLocationCoordinate2D = placemark.location.coordinate
             let latitude: CLLocationDegrees = placemark.location.coordinate.latitude
             let longitude: CLLocationDegrees = placemark.location.coordinate.longitude
-            let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+            let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
             
             regions.append(MKCoordinateRegion(center: coordinate, span: span))
         }
@@ -152,9 +148,10 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         nonEditableTextView.backgroundColor = UIColor.blueColor()
         findOnTheMapButton.setTitle("Submit", forState: UIControlState.Normal)
         
+        
         nonEditableTextView.editable = true       // Enable user to type his/ her URL
         nonEditableTextView.textColor = UIColor.whiteColor()
-        nonEditableTextView.text = ""
+        nonEditableTextView.text = "Enter a link to share!"
     }
     
     /* Dismiss keyboard in case of a tap! */
@@ -184,6 +181,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     /* Text View Delegate */
+    
     // Dismisses the keyboard when done editing user media URL
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
@@ -196,4 +194,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         
         return true
     }
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        
+        textView.text = ""
+        
+        return true
+    }
+        
 }
