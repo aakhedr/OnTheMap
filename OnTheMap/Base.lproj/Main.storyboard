@@ -54,7 +54,7 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,7 +69,7 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -112,30 +112,21 @@
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="WcJ-NK-ogQ"/>
                             <constraint firstItem="0Rg-Qu-O1h" firstAttribute="trailing" secondItem="Tw5-UQ-Ukf" secondAttribute="trailing" id="Zxz-YQ-j9g"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="BSb-gk-GHH" secondAttribute="leading" id="bAb-EU-DZg"/>
-                            <constraint firstItem="BSb-gk-GHH" firstAttribute="centerX" secondItem="fGv-gk-xCe" secondAttribute="centerX" id="ciR-Dz-b0j"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="d4N-8Q-AKi"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="top" secondItem="BSb-gk-GHH" secondAttribute="bottom" constant="8" symbolic="YES" id="d6l-UN-egS"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="centerX" secondItem="fGv-gk-xCe" secondAttribute="centerX" id="hBB-tT-Cpj"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="top" secondItem="eni-h1-Bbt" secondAttribute="bottom" constant="8" symbolic="YES" id="icl-iJ-Fq7"/>
-                            <constraint firstItem="BSb-gk-GHH" firstAttribute="centerX" secondItem="fGv-gk-xCe" secondAttribute="centerX" id="ipI-cH-t5M"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="lfB-ZJ-74J"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="mTK-qz-gti"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="nic-eh-fMd"/>
-                            <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="ree-EU-cEq"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="y6e-0t-HRg"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="zry-kV-CdF"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="ciR-Dz-b0j"/>
-                                <exclude reference="ipI-cH-t5M"/>
-                                <exclude reference="ree-EU-cEq"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="debugLabel" destination="BSb-gk-GHH" id="oAX-t8-6aN"/>
                         <outlet property="email" destination="dlk-J7-w8g" id="VRO-7t-BnY"/>
+                        <outlet property="loginButton" destination="Tw5-UQ-Ukf" id="E9e-8A-3ho"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
                         <segue destination="F8H-U2-ymw" kind="showDetail" identifier="TabbedViewSegue" id="osC-Oh-pBm"/>
                     </connections>
@@ -274,7 +265,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="cancel:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="yhK-7u-CbU"/>
+                                    <action selector="cancel:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="WYo-f0-R3g"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="247" editable="NO" text="Where are you  studying now?" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69f-9a-WNF">

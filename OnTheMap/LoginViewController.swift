@@ -13,6 +13,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     @IBOutlet weak var debugLabel: UILabel!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
+    
+    var origin: CGFloat!
+    var newOrigin: CGFloat!
     
     /* Lifecycle */
     
@@ -28,6 +32,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         /* Set Text Field Delegate */
         email!.delegate = self
         password!.delegate = self
+        
+        /* original origin */
+        origin = view.frame.origin.y
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,7 +53,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
 
     @IBAction func loginWithUdacityCredentials(sender: UIButton) {
         
-        if email!.text == "" || password!.text == "" {
+        if email!.text.isEmpty || password!.text.isEmpty {
         
             self.debugLabel!.text = "You must enter username and password!"
             self.debugLabel!.backgroundColor = UIColor.redColor()
@@ -123,14 +130,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         
-        if email!.editing || password!.editing {
+        if newOrigin == nil {
             
             let userInfo = notification.userInfo
             let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-
-            return keyboardSize.CGRectValue().height
+            
+            newOrigin = keyboardSize.CGRectValue().height / 2.0
+            
+            return newOrigin
         }
-  
+        
         return 0
     }
 
@@ -138,7 +147,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        textField.resignFirstResponder()
+        if textField == password! {
+            
+            textField.resignFirstResponder()
+            self.loginWithUdacityCredentials(loginButton)
+
+        } else {
+            
+            password!.becomeFirstResponder()
+        }
         
         return true
     }
