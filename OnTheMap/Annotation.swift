@@ -13,13 +13,21 @@ class Annotation: NSObject, MKAnnotation {
     
     let coordinate: CLLocationCoordinate2D      // Required
     let title: String
-    let subtitle: String
+    var subtitle: String?
     
-    init(latitude: Double, longitude: Double, firstName: String, lastName: String, mediaURL: String) {
+    init(latitude: Double, longitude: Double, firstName: String, lastName: String, mediaURL: String?) {
         
         self.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
         self.title = firstName + " " + lastName
-        self.subtitle = mediaURL
+
+        if let mediaURL = mediaURL {
+
+            self.subtitle = mediaURL
+
+        } else {
+            
+            self.subtitle = nil
+        }
         
         super.init()
     }
@@ -43,7 +51,6 @@ class Annotation: NSObject, MKAnnotation {
         
         return annotations
     }
-    
-    
 }
+
 

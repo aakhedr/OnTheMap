@@ -17,7 +17,7 @@ extension UdacityClient {
     /* Methods */
     struct Methods {
         
-        static let session = "api/session"
+        static let Session = "api/session"
         static let PublicData = "api/users/"
     }
     

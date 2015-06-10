@@ -48,7 +48,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         if email!.text == "" || password!.text == "" {
         
-            self.debugLabel!.text = "You must enter a username and password!"
+            self.debugLabel!.text = "You must enter username and password!"
             self.debugLabel!.backgroundColor = UIColor.redColor()
             
             return
@@ -91,7 +91,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         }
     }
 
-    /* Dismiss keyboard in case done editing */
+    /* Dismiss keyboard in case of a tap */
     func handleSingleTap(recognizer: UIGestureRecognizer) {
         
         view.endEditing(true)

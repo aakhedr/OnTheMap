@@ -92,21 +92,17 @@ class ConfigUI: NSObject {
 
             } else {
                 
-                ParseClient.sharedInstance().postUserLocation(userID, userFirstName: userFirstName!, userLastName: userLastName!) { data, error in
-
-                    if let error = error {
-                        
-                        println("error: \(error)")
-
-                    } else {
-                        
-                        println("location posted!")
-                        
-                        /* Present the Information Posting View Controller modally */
-                        
-                        let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
-                        self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
-                    }
+                /* Present the Information Posting View Controller modally */
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
+                    
+                    /* Set information posting view controller properties */
+                    informationPostingViewContorller.userFirstName = userFirstName
+                    informationPostingViewContorller.userLastName = userLastName
+                    
+                    self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
                 }
             }
         }

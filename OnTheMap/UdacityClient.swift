@@ -11,7 +11,10 @@ import Foundation
 class UdacityClient: NSObject {
 
     var session: NSURLSession
+    
     var userID: String? = nil
+    var userFirstName: String? = nil
+    var userLastName: String? = nil
     
     override init() {
         session = NSURLSession.sharedSession()
@@ -43,11 +46,16 @@ class UdacityClient: NSObject {
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
                 
+                print("error 1: \(error)")
+                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                
+                println("error 2: \(newError)")
+                
+                completionHandler(result: nil, error: newError)
                 
             } else {
-                
+                                
                 UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
@@ -77,7 +85,7 @@ class UdacityClient: NSObject {
             if let error = downloadError {
                 
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
-                completionHandler(result: nil, error: downloadError)
+                completionHandler(result: nil, error: newError)
                 
             } else {
                 

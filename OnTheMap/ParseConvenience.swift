@@ -39,19 +39,17 @@ extension ParseClient {
         }
     }
     
-    func postUserLocation(userID: String, userFirstName: String, userLastName: String, completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func postUserLocation(userID: String, userFirstName: String, userLastName: String, mapString: String, meidaURL: String, latitude: Double, longitude: Double,  completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Specify the JSON body */
         let jsonBody: [String : AnyObject] = [
             JSONResponseKeys.UniqueKey: userID,
             JSONResponseKeys.FirstName: userFirstName,
             JSONResponseKeys.LastName: userLastName,
-
-            // TODO: adjust this after creating the Information Posting View in storyboard
-            JSONResponseKeys.MapString: "OUTLET",
-            JSONResponseKeys.MediaURL: "https://eg.linkedin.com/in/ahmedabdelhadykhedr",
-            JSONResponseKeys.Latitude: 30.0500,
-            JSONResponseKeys.Longitude: 31.2333
+            JSONResponseKeys.MapString: mapString,
+            JSONResponseKeys.MediaURL: meidaURL,
+            JSONResponseKeys.Latitude: latitude,
+            JSONResponseKeys.Longitude: longitude
         ]
         
         /* 2. Make the request */
@@ -64,6 +62,7 @@ extension ParseClient {
 
             } else {
                 
+                println("JSONResult postUserLocation: \(JSONResult)")
                 completionHandler(data: JSONResult, error: nil)
             }
         }

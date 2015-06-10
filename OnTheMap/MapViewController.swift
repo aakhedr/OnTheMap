@@ -41,6 +41,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     self.studentsMapView.addAnnotations(annotations)
                 }
             } else {
+                
                 println("error: \(error)")
             }
         }
@@ -87,7 +88,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let annotation = view.annotation as! Annotation
         
         /* Open Safari at the media url of the selected student */
-        UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle)!)
+        UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
     }
     
     /* Actions in ConfigUI.swift */

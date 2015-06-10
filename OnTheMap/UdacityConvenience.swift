@@ -12,27 +12,24 @@ extension UdacityClient {
     
     func authenticateWithUdacityCredentials(email: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
 
-        self.getUserID(email, password: password) { success, userID, errorString in
-            if success {
+        self.getUserID(email, password: password) {userID, errorString in
+            if let userID = userID {
                 
-                self.userID = userID!
+                self.userID = userID
                 
-                completionHandler(success: success, errorString: errorString)
+                completionHandler(success: true, errorString: nil)
                 
             } else {
                 
-                completionHandler(success: success, errorString: errorString)
+                completionHandler(success: false, errorString: errorString)
             }
         }
     }
 
-    func getUserID(email: String, password: String, completionHandler: (success: Bool, userID: String?, errorString: String?) -> Void) {
+    func getUserID(email: String, password: String, completionHandler: (userID: String?, errorString: String?) -> Void) {
         
-        /* 1. Specify parameters and JSON body for the post method */
-        var parameters = [
-            "email": email,
-            "password": password
-        ]
+        /* 1. JSON body for the post method */
+        // No parameters needed! Only the json body is needed according to the docs!
         
         let jsonBody =
         [
@@ -44,13 +41,13 @@ extension UdacityClient {
         ]
         
         /* 2. Make the request */
-        let task = self.taskForPOSTMethod(UdacityClient.Methods.session, jsonBody: jsonBody) { JSONResult, error in
+        let task = self.taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: jsonBody) { JSONResult, error in
 
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
                 let networkErrorString = String(_cocoaString: error)
-                completionHandler(success: false, userID: nil, errorString: networkErrorString)
+                completionHandler(userID: nil, errorString: networkErrorString)
                 
             } else {
 
@@ -59,7 +56,7 @@ extension UdacityClient {
                     if statusCode == 403 {
                         
                         let udacityErrorString = JSONResult.valueForKey(JSONResponseKeys.Error) as! String
-                        completionHandler(success: false, userID: nil, errorString: udacityErrorString)
+                        completionHandler(userID: nil, errorString: udacityErrorString)
                     }
                 
                 } else {
@@ -68,7 +65,7 @@ extension UdacityClient {
                         
                         if let userID = account.valueForKey(JSONResponseKeys.Key) as? String {
                             
-                            completionHandler(success: true, userID: userID, errorString: nil)
+                            completionHandler(userID: userID, errorString: nil)
                         }
                     }
                 }
@@ -78,7 +75,7 @@ extension UdacityClient {
     
     func getUserPublicData(userID: String, completionHandler: (firstName: String?, lastName: String?, errorString: String?) -> Void) {
         
-        /* 1. Specify parameters and JSON body for the post method */
+        /* 1. Specify parameters */
         // userID
         
         /* 2. Make the request */
@@ -117,6 +114,8 @@ extension UdacityClient {
             
             if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.StatusMessage] as? String {
                 
+                println("error 3: \(error)")
+                
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
                 return NSError(domain: "Udacity error", code: 1, userInfo: userInfo)
             }
@@ -128,10 +127,14 @@ extension UdacityClient {
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
+        println(NSString(data: data, encoding: NSUTF8StringEncoding))
+        
         var parsingError: NSError? = nil
         
         /* Exclude the first 5 characters as per Udacity docs */
         let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+        
+        println(NSString(data: newData, encoding: NSUTF8StringEncoding))
 
         let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
         
