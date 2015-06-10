@@ -30,7 +30,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ConfigUI.sharedInstance().configureNavBarButtons(self)
 
         /* Load up Student objects from Parse */
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
+        ParseClient.sharedInstance().getStudentsLocations { students, error, errorString in
+            
             if let students = students {
 
                 self.students = students
@@ -40,7 +41,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     let annotations = Annotation.annotationsFromStudents(self.students)
                     self.studentsMapView.addAnnotations(annotations)
                 }
+            
             } else {
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let alertController = UIAlertController(title: "Error", message: errorString!, preferredStyle: UIAlertControllerStyle.Alert)
+                    let okAction = UIAlertAction(title: "Try again!", style: UIAlertActionStyle.Default, handler: nil)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
                 
                 println("error in viewDidLoad MapViewController: \(error)")
             }

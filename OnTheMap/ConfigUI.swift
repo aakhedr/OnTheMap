@@ -96,9 +96,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     
                     let alertController = UIAlertController(title: "Network Error!", message: "There is a problem connecting to Parse", preferredStyle: UIAlertControllerStyle.Alert)
                     let okAction = UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default, handler: nil)
-                    let cancelAction = UIAlertAction(title: "Cancel for now!", style: UIAlertActionStyle.Cancel, handler: nil)
                     alertController.addAction(okAction)
-                    alertController.addAction(cancelAction)
                 }
 
             } else {

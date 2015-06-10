@@ -21,16 +21,13 @@ extension ParseClient {
             "X-Parse-Application-Id"
         static let RESTAPIKey_Key =
             "X-Parse-REST-API-Key"
-        /*
-        static let Limit = 100
-        */
     }
     
     /* Methods */
     struct Methods {
         
         static let BaseURLAndMethod =
-            "https://api.parse.com/1/classes/StudentLocation"
+            "https://api.parse.com/1/classes/StudentLocation?limit=1000"
     }
         
     /* JSON Resonse Keys */
