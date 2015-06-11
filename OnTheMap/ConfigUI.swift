@@ -59,14 +59,22 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
 
                 // Add interface to let the user retry
                 dispatch_async(dispatch_get_main_queue()) {
+                    
+                    var alertController: UIAlertController!
+                    
                     if error!.code == 0 {
                         
-                        let alertController = UIAlertController(title: "Network error!", message: "Could not connect to Udacity to logout at this time. Please check your network connection!", preferredStyle: UIAlertControllerStyle.Alert)
-                        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                        alertController = UIAlertController(title: "Network error!", message: "Error connecting to Udacity. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+
+                    } else {
+                        
+                        alertController = UIAlertController(title: "Error connecting to Udacity!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                    }
+
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
                         alertController.addAction(okAction)
                         
-                        self.targetView.presentViewController(alertController, animated: true, completion: nil)
-                    }
+                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
                 }
             }
         }
@@ -112,14 +120,26 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         UdacityClient.sharedInstance().getUserPublicData(userID) { userFirstName, userLastName, error in
             
             if let error = error {
-                
-                println("error in pin: \(error)")
+            
+                println("error domain: \(error.domain)")
+                println("error code: \(error.code)")
+                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                 
                 // Add interface to let the user retry
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    let alertController = UIAlertController(title: "Network Error!", message: "There is a problem connecting to Parse", preferredStyle: UIAlertControllerStyle.Alert)
-                    let okAction = UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default, handler: nil)
+                    var alertController: UIAlertController!
+                    
+                    if error.code == 0 {
+                        
+                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Udacity. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+
+                    } else {
+                        
+                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                    }
+
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
                     alertController.addAction(okAction)
                     
                     self.targetView.presentViewController(alertController, animated: true, completion: nil)

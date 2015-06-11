@@ -116,7 +116,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
                 switch error.code {
                     
                 case 0:
-                    self.debugLabel!.text = "Error. Check your network!"
+                    self.debugLabel!.text = "Error. Check your Internet connection!"
                 case 1:
                     self.debugLabel!.text = "Invalid username and/ or password!"
                 default:
