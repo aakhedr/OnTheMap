@@ -30,7 +30,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ConfigUI.sharedInstance().configureNavBarButtons(self)
 
         /* Load up Student objects from Parse */
-        ParseClient.sharedInstance().getStudentsLocations { students, error, errorString in
+        ParseClient.sharedInstance().getStudentsLocations { students, error in
             
             if let students = students {
 
@@ -44,14 +44,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             } else {
                 
+                println("error domain: \(error!.domain)")
+                println("error code: \(error!.code)")
+                println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
+                
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    let alertController = UIAlertController(title: "Error", message: errorString!, preferredStyle: UIAlertControllerStyle.Alert)
-                    let okAction = UIAlertAction(title: "Try again!", style: UIAlertActionStyle.Default, handler: nil)
+                    var alertController: UIAlertController!
+                    
+                    if error!.code == 0 {
+                        
+                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                    } else {
+                        
+                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                    }
+                    
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                    alertController.addAction(okAction)
+                    
                     self.presentViewController(alertController, animated: true, completion: nil)
                 }
-                
-                println("error in viewDidLoad MapViewController: \(error)")
             }
         }
     }

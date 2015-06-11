@@ -82,7 +82,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func refresh() {
         
-        ParseClient.sharedInstance().getStudentsLocations { students, error, errorString in
+        ParseClient.sharedInstance().getStudentsLocations { students, error in
             
             if let students = students {
                 
@@ -109,7 +109,28 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 }
             } else {
                 
-                println("error in refresh: \(error)")
+                println("error domain: \(error!.domain)")
+                println("error code: \(error!.code)")
+                println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    var alertController: UIAlertController!
+                    
+                    if error!.code == 0 {
+                        
+                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                    } else {
+                        
+                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                    }
+                    
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                    alertController.addAction(okAction)
+                    
+                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                }
             }
         }
     }

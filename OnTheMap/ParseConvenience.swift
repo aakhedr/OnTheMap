@@ -10,30 +10,31 @@ import Foundation
 
 extension ParseClient {
     
-    func getStudentsLocations(completionHandler: (result: [Student]?, error: NSError?, errorString: String?) -> Void) {
+    func getStudentsLocations(completionHandler: (result: [Student]?, error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        // One set of parameters
+        let parameters = [
+            ParseClient.Parameters.Limit : 1000
+        ]
         
         /* 2. Make the request */
-        taskForGETMethod(Methods.BaseURLAndMethod) { JSONResult, error in
+        taskForGETMethod(Methods.BaseURLAndMethod, parameters: parameters) { JSONResult, error in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
-                let errorString = "There is a problem getting students locations from Parse"
-                completionHandler(result: nil, error: error, errorString: errorString)
+                completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
 
             } else {
 
                 if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
 
                     var students = Student.studentsFromResults(results)
-                    completionHandler(result: students, error: nil, errorString: nil)
+                    completionHandler(result: students, error: nil)
                 
                 } else {
                 
-                    completionHandler(result: nil, error: error, errorString: "Could not parse getStudentsLocations")
+                    completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
                 }
             }
         }
@@ -71,9 +72,6 @@ extension ParseClient {
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
-            
-            println()
-            println("parsed result in errorForData ParseClient: \(parsedResult)")
             
             if let errorMessage = parsedResult[ParseClient.JSONResponseKeys.StatusMessage] as? String {
                 

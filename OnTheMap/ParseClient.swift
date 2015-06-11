@@ -13,17 +13,19 @@ class ParseClient: NSObject {
     var session: NSURLSession
     
     override init() {
+        
         session = NSURLSession.sharedSession()
         
         super.init()
     }
     
-    func taskForGETMethod(urlString: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(baseURLAndMethod: String, parameters: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
-        // Added to the request below
+        // In parameters
         
-        /* 2/3. The NSURL and configure the request */
+        /* 2/3. Build the URL and configure the request */
+        let urlString = baseURLAndMethod + ParseClient.escapedParameters(parameters)
         let url = NSURL(string: urlString)!
 
         let request = NSMutableURLRequest(URL: url)
@@ -36,13 +38,9 @@ class ParseClient: NSObject {
             /* 5/6. Parse the data and use the data (happens in completion handler */
             if let error = downloadError {
                 
-                println("error in taskForGETMethod in ParseClient: \(error)")
-                
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
                 
-                println("newError in taskForGETMethod in ParseClient: \(newError)")
-
             } else {
                 
                 ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
@@ -55,13 +53,13 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskForPOSTMethod(urlString: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(baseURLAndMethod: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
-        // Already set
+        // No required parameters as per docs
         
         /* 2. The NSURL */
-        let url = NSURL(string: urlString)!
+        let url = NSURL(string: baseURLAndMethod)!
         
         /* 3. Configure the request */
         var jsonifyError: NSError? = nil
@@ -94,7 +92,26 @@ class ParseClient: NSObject {
         return task
     }
 
-
+    /* Helper function: Given a dictionary of parameters, convert to a string for a url */
+    class func escapedParameters(parameters: [String : AnyObject]) -> String {
+        
+        var urlVars = [String]()
+        
+        for (key, value) in parameters {
+            
+            /* Make sure that it is a string value */
+            let stringValue = "\(value)"
+            
+            /* Escape it */
+            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            
+            /* Append it */
+            urlVars += [key + "=" + "\(escapedValue!)"]
+            
+        }
+        
+        return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+    }
 }
 
 
