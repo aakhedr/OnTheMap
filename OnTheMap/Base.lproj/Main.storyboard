@@ -175,7 +175,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HkF-nE-bOf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="506"/>
+            <point key="canvasLocation" x="1215" y="118"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="u9F-uG-CEh">
+            <objects>
+                <viewController id="ezE-Nj-Abq" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HpB-EQ-QFP"/>
+                        <viewControllerLayoutGuide type="bottom" id="jiJ-jt-oya"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eOG-7f-zmZ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="Szc-Kj-ZVd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wYU-6c-5c1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="859"/>
         </scene>
         <!--Map-->
         <scene sceneID="lBh-ZC-n8G">
@@ -208,7 +227,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T32-eU-IkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="-214"/>
+            <point key="canvasLocation" x="1215" y="-616"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tFe-DH-Xzd">
@@ -240,6 +259,7 @@
                     <connections>
                         <segue destination="B7K-Sn-OEM" kind="relationship" relationship="viewControllers" id="qg9-MS-99k"/>
                         <segue destination="xJ3-T2-LTg" kind="relationship" relationship="viewControllers" id="8lG-7Y-7se"/>
+                        <segue destination="ezE-Nj-Abq" kind="relationship" relationship="viewControllers" id="8NT-Gf-hWP"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDs-iD-OmQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

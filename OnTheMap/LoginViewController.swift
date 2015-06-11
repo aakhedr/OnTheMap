@@ -41,6 +41,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         super.viewWillAppear(animated)
         
         subscribeToKeyboardNotifications()
+        
+        /* In case of logout from the tabbed view */
+        self.email!.text = ""
+        self.password!.text = ""
+        self.debugLabel!.text = "Login to Udacity"
+        self.debugLabel!.backgroundColor = self.view.backgroundColor
     }
     
     override func viewWillDisappear(animated: Bool) {

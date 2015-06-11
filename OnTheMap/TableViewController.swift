@@ -24,7 +24,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         studentsTableView.dataSource = self
         
         /* Load up Student objects from Parse */
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
+        ParseClient.sharedInstance().getStudentsLocations { students, error, errorString in
 
             if let students = students {
                 
@@ -36,6 +36,13 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             } else {
                 
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let alertController = UIAlertController(title: "Error", message: errorString!, preferredStyle: UIAlertControllerStyle.Alert)
+                    let okAction = UIAlertAction(title: "Try again!", style: UIAlertActionStyle.Default, handler: nil)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
+
                 println("error in viewDidLoad TableViewContorller: \(error)")
             }
         }
@@ -73,6 +80,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
         let student = students[indexPath.row]
 
         /* Open Safari at the media url of the selected student */

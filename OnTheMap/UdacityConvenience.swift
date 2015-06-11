@@ -13,6 +13,7 @@ extension UdacityClient {
     func authenticateWithUdacityCredentials(email: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
 
         self.getUserID(email, password: password) {userID, errorString in
+            
             if let userID = userID {
                 
                 self.userID = userID
@@ -101,21 +102,52 @@ extension UdacityClient {
         }
     }
     
+    func logOutFromUdacitySession(completionHandler: ((success: Bool, error: NSError?) -> Void)) {
+        
+        /* Specify the parameters */
+        let method = Methods.Session
+        
+        /* 2. Make the request */
+        let task = self.taskForDELETEMethod(method) { JSONResult, error in
+            
+            /* 3. Send the desited value(s) to completion handler */
+            if let error = error {
+                
+                completionHandler(success: false, error: NSError(domain: "logOutFromUdacitySession", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+
+            } else {
+                
+                if let sessionDictioanry = JSONResult.valueForKey(JSONResponseKeys.Session) as? NSDictionary {
+                    
+                    if let id = sessionDictioanry.valueForKey(JSONResponseKeys.ID) as? String {
+                        
+                        completionHandler(success: true, error: nil)
+
+                    } else {
+                        
+                        completionHandler(success: false, error: NSError(domain: "logoutFromUdacitySession", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse id string"]))
+                    }
+
+                } else {
+                    
+                    completionHandler(success: false, error: NSError(domain: "logoutFromUdacitySession", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse session dictinoary"]))
+                }
+            }
+        }
+    }
+    
     /* Helper: Given a response with error, see if a status_message is returned, otherwise return the previous error */
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
 
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
             
-            println()
-            println("parsed result in errorForData UdacityClient \(parsedResult)")
+            println("parsed result in errorForData: \(parsedResult)")
             
             if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.StatusMessage] as? String {
                 
-                println()
-                println("error in errorForData UdacityClient: \(error)")
-                
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
-                return NSError(domain: "Udacity error", code: 1, userInfo: userInfo)
+                
+                return NSError(domain: "Udacity error", code: 0, userInfo: userInfo)
             }
         }
         

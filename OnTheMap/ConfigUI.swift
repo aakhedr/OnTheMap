@@ -45,12 +45,37 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func logout() {
         
-        println("logout")
+        UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
+            
+            if success {
+                
+                self.targetView.dismissViewControllerAnimated(true, completion: nil)
+                
+            } else {
+                
+                println("error domain: \(error!.domain)")
+                println("error code: \(error!.code)")
+                println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
+
+                // Add interface to let the user retry
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if error!.code == 0 {
+                        
+                        let alertController = UIAlertController(title: "Network error!", message: "Could not connect to Udacity to logout at this time. Please check your network connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                        alertController.addAction(okAction)
+                        
+                        self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
     }
     
     func refresh() {
         
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
+        ParseClient.sharedInstance().getStudentsLocations { students, error, errorString in
             
             if let students = students {
                 
@@ -97,12 +122,13 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     let alertController = UIAlertController(title: "Network Error!", message: "There is a problem connecting to Parse", preferredStyle: UIAlertControllerStyle.Alert)
                     let okAction = UIAlertAction(title: "Try again", style: UIAlertActionStyle.Default, handler: nil)
                     alertController.addAction(okAction)
+                    
+                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
                 }
 
             } else {
                 
                 /* Present the Information Posting View Controller modally */
-                
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
