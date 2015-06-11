@@ -11,7 +11,6 @@ import Foundation
 class UdacityClient: NSObject {
 
     var session: NSURLSession
-    
     var userID: String? = nil
     
     override init() {
@@ -44,12 +43,7 @@ class UdacityClient: NSObject {
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
                 
-                print("error 1 in taskForPOSTMethod UdacityClient: \(error)")
-                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
-                
-                println("error 2 in taskForPOSTMethod UdacityClient: \(newError)")
-                
                 completionHandler(result: nil, error: newError)
                 
             } else {

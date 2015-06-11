@@ -52,14 +52,13 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 self.targetView.dismissViewControllerAnimated(true, completion: nil)
                 
             } else {
-                
+
                 println("error domain: \(error!.domain)")
                 println("error code: \(error!.code)")
                 println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
 
                 // Add interface to let the user retry
                 dispatch_async(dispatch_get_main_queue()) {
-                    
                     if error!.code == 0 {
                         
                         let alertController = UIAlertController(title: "Network error!", message: "Could not connect to Udacity to logout at this time. Please check your network connection!", preferredStyle: UIAlertControllerStyle.Alert)

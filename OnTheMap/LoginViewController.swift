@@ -21,9 +21,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     /* Lifecycle */
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        /* Add and configure Tap Gesture Recognizer */
+        /* Add Tap Gesture Recognizer */
         var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer.numberOfTapsRequired = 1
         tapRecognizer.delegate = self
@@ -38,11 +39,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         
         subscribeToKeyboardNotifications()
         
-        /* In case of logout from the tabbed view */
+        /* In case of logout from the tab bar view */
         self.email!.text = ""
         self.password!.text = ""
         self.debugLabel!.text = "Login to Udacity"
@@ -50,11 +52,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         super.viewWillDisappear(animated)
         
         unsubscribeFromKeyboardNotifications()
     }
     
+    /* Dismiss keyboard on tap */
+    func handleSingleTap(recognizer: UIGestureRecognizer) {
+        
+        view.endEditing(true)
+    }
+
     /* Actions */
 
     @IBAction func loginWithUdacityCredentials(sender: UIButton) {
@@ -67,7 +76,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             return
         }
         
-        UdacityClient.sharedInstance().authenticateWithUdacityCredentials(email!.text, password: password!.text) { (success, errorString) in
+        UdacityClient.sharedInstance().authenticateWithUdacityCredentials(email!.text!, password: password!.text!) { success, error in
         
             if success {
         
@@ -75,7 +84,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             
             } else {
             
-                self.displayError(errorString)
+                self.displayError(error)
             }
         }
     }
@@ -84,7 +93,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         dispatch_async(dispatch_get_main_queue()) {
             
-            self.debugLabel!.text = "Logged in to Udacity"
+            self.debugLabel!.text = "Login successful!"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
             
             /* Segue to the Map and Table Tabbed View */
@@ -92,22 +101,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         }
     }
     
-    func displayError(errorString: String?) {
+    func displayError(error: NSError?) {
 
         dispatch_async(dispatch_get_main_queue()) {
-
-            if let errorString = errorString {
+            
+            if let error = error {
                 
-                self.debugLabel!.text = errorString
+                println("error domain: \(error.domain)")
+                println("error code: \(error.code)")
+                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+                
                 self.debugLabel!.backgroundColor = UIColor.redColor()
+
+                switch error.code {
+                    
+                case 0:
+                    self.debugLabel!.text = "Error. Check your network!"
+                case 1:
+                    self.debugLabel!.text = "Invalid username and/ or password!"
+                default:
+                    self.debugLabel!.text = "Error logging in!"
+                }
             }
         }
-    }
-
-    /* Dismiss keyboard in case of a tap */
-    func handleSingleTap(recognizer: UIGestureRecognizer) {
-        
-        view.endEditing(true)
     }
     
     /* Keyboard notificatinos */
