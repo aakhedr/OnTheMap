@@ -71,6 +71,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         
         /* Set a human readible title for the view */
@@ -111,9 +112,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let annotation = view.annotation as! Annotation
         
         /* Open Safari at the media url of the selected student */
-        UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
+        if ((annotation.subtitle!.lowercaseString.rangeOfString("http") != nil) || (annotation.subtitle!.lowercaseString.rangeOfString("wwww") != nil)) {
+            
+            UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
+
+        } else {
+            
+            let alertController = UIAlertController(title: "No link here!", message: "Student did not share a link!", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            alertController.addAction(okAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
-    
+
     /* Actions in ConfigUI.swift */
 
 }

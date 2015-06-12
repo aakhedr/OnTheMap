@@ -107,7 +107,7 @@ extension UdacityClient {
 
                         } else {
                             
-                            completionHandler(firstName: nil, lastName: userLastName, error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
+                            completionHandler(firstName: nil, lastName: userLastName, error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "C"]))
                         }
 
                     } else {

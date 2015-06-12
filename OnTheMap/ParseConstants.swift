@@ -19,9 +19,10 @@ extension ParseClient {
             "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         static let ParseApplicationID_KEY =
             "X-Parse-Application-Id"
-        static let RESTAPIKey_Key =
+        static let RESTAPIKey_KEY =
             "X-Parse-REST-API-Key"
         static let Limit = "limit"
+        static let Where = "where"
     }
     
     /* Methods */

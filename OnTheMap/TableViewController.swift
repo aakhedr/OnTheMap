@@ -63,6 +63,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         
         /* Configure naviagation bar buttons */
@@ -96,9 +97,21 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         let student = students[indexPath.row]
-
+        
         /* Open Safari at the media url of the selected student */
-        UIApplication.sharedApplication().openURL(NSURL(string: student.mediaURL)!)
+        if ((student.mediaURL.lowercaseString.rangeOfString("http") != nil) || (student.mediaURL.lowercaseString.rangeOfString("wwww") != nil)) {
+            
+            UIApplication.sharedApplication().openURL(NSURL(string: student.mediaURL)!)
+            
+        } else {
+            
+            let alertController = UIAlertController(title: "No link here!", message: "Student did not share a link!", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            alertController.addAction(okAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+
     }
 
 

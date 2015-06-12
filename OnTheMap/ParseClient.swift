@@ -11,6 +11,8 @@ import Foundation
 class ParseClient: NSObject {
     
     var session: NSURLSession
+    var objectID: String!
+    var foundObjectID = [String]()
     
     override init() {
         
@@ -30,7 +32,7 @@ class ParseClient: NSObject {
 
         let request = NSMutableURLRequest(URL: url)
         request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
-        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_Key)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_KEY)
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
@@ -67,11 +69,11 @@ class ParseClient: NSObject {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
-        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_Key)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_KEY)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
         
-        /* Make the request */
+        /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
@@ -80,6 +82,49 @@ class ParseClient: NSObject {
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
                 
+            } else {
+                
+                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            }
+        }
+        
+        /* 7. Start the task */
+        task.resume()
+        
+        return task
+    }
+    
+    func taskForPUTMethod(baseURLAndMethod: String, parameters: [String : AnyObject], jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        /* 1. Set the parameters */
+        // In parameters
+        
+        /* 2. Build the URL */
+        let urlString = baseURLAndMethod + (parameters[JSONResponseKeys.ObjectId] as! String)
+        
+        println("urlString: \(urlString)")
+        
+        let url = NSURL(string: baseURLAndMethod)!
+        
+        /* Configure the request */
+        var jsonifyError: NSError? = nil
+        
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "PUT"
+        request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_KEY)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        
+        /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            /* 5/6. Parse the data and use the data (happens in completion hander) */
+            if let error = error {
+                
+                let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
+
             } else {
                 
                 ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
@@ -105,9 +150,15 @@ class ParseClient: NSObject {
             /* Escape it */
             let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
             
-            /* Append it */
-            urlVars += [key + "=" + "\(escapedValue!)"]
-            
+            /* Append it in case limit param only */
+            if key == "limit" {
+                
+                urlVars += [key + "=" + "\(escapedValue!)"]
+                
+            } else {
+                
+                return ""
+            }
         }
         
         return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)

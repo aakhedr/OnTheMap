@@ -329,7 +329,7 @@
                                 </state>
                                 <connections>
                                     <action selector="findOnTheMapAction:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="9ed-3a-6M6"/>
-                                    <action selector="submit:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="2oI-2x-njf"/>
+                                    <action selector="submit:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="Hve-jq-bJU"/>
                                 </connections>
                             </button>
                         </subviews>

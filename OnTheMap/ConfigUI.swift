@@ -58,9 +58,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
 
                 // Add interface to let the user retry
+                var alertController: UIAlertController!
+                
                 dispatch_async(dispatch_get_main_queue()) {
-                    
-                    var alertController: UIAlertController!
                     
                     if error!.code == 0 {
                         
@@ -113,10 +113,10 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 println("error code: \(error!.code)")
                 println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
 
+                var alertController: UIAlertController!
+                
                 dispatch_async(dispatch_get_main_queue()) {
-                    
-                    var alertController: UIAlertController!
-                    
+
                     if error!.code == 0 {
                         
                         alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
@@ -147,9 +147,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                 
                 // Add interface to let the user retry
+                var alertController: UIAlertController!
+                
                 dispatch_async(dispatch_get_main_queue()) {
-                    
-                    var alertController: UIAlertController!
                     
                     if error.code == 0 {
                         
