@@ -11,8 +11,8 @@ import Foundation
 class ParseClient: NSObject {
     
     var session: NSURLSession
-    var objectID: String!
-    var foundObjectIDs = [String]()
+    var objectID: String! = nil
+    var foundObjectIDs: [String]! = nil
     
     override init() {
         
