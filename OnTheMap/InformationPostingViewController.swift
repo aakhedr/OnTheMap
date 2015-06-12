@@ -99,66 +99,51 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
             
             let userID = UdacityClient.sharedInstance().userID!
-            ParseClient.sharedInstance().userLocationExists(userID) { success, error in
+            ParseClient.sharedInstance().userLocationsExist(userID) { success, error in
                 
                 if success {
                     
                     println("foundObjectIDs in submit success: \(ParseClient.sharedInstance().foundObjectIDs)")
-                    // update user locations here
+
+                    // Update all user locations on the map
+                    self.updateUSerLocations()
                     
 
+                } else if (!success && (error == nil)) {
+                    
+                    // Submit a new location
+                    self.submitNewLoaction()
+                }
+            }
+        } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
+    
+                let alertController = UIAlertController(title: "Share a link!", message: "You must share a link t submit your location.", preferredStyle: UIAlertControllerStyle.Alert)
+                let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                alertController.addAction(okButton)
+    
+                self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+
+    func updateUSerLocations() {
+        
+        if let region = region {
+            ParseClient.sharedInstance().updateUserLocations(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
+                
+                if let error = error {
+                    
+                    println("error domain: \(error.domain)")
+                    println("error code: \(error.code)")
+                    println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+                    
                 } else {
                     
-                    if let error = error {
-                        
-                        println("error domain: \(error.domain)")
-                        println("error code: \(error.code)")
-                        println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-
-                    } else {
-                        
-                        // submit new location here
-//                        self.submitNewLoaction()
-                    }
+                    println("Do something here")
                 }
             }
         }
     }
-    
-//                submitNewLoaction()
-            
-//            } else {
-//                
-//                println("Found userID")
-//                
-//                if let region = region {
-//                    
-//                    ParseClient.sharedInstance().updateUserLocation(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
-//                        
-//                        if let error = error {
-//                            
-//                            println("error domain: \(error.domain)")
-//                            println("error code: \(error.code)")
-//                            println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-//                            
-//                        } else {
-//                            
-//                            println("Do something here")
-//                        }
-//                    }
-//                }
-//            }
-//            
-//        } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
-//            
-//            let alertController = UIAlertController(title: "Share a link!", message: "You must share a link t submit your location.", preferredStyle: UIAlertControllerStyle.Alert)
-//            let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-//            alertController.addAction(okButton)
-//            
-//            self.presentViewController(alertController, animated: true, completion: nil)
-//        }
-//    }
-    
+
     func submitNewLoaction() {
         
         if let region = region {
@@ -179,9 +164,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                         if error.code == 0 {
                             
                             alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
-                            
                         } else {
-                            
                             alertController = UIAlertController(title: "Unkown Error!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
                         }
                         
@@ -259,7 +242,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         userMapView.hidden = false
         nonEditableTextView.backgroundColor = UIColor.blueColor()
         findOnTheMapButton.setTitle("Submit", forState: UIControlState.Normal)
-        
         
         nonEditableTextView.editable = true       // Enable user to type his/ her URL
         nonEditableTextView.textColor = UIColor.whiteColor()

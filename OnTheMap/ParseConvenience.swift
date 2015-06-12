@@ -76,7 +76,7 @@ extension ParseClient {
         }
     }
     
-    func updateUserLocation(userID: String, userFirstName: String, userLastName: String, mapString: String, meidaURL: String, latitude: Double, longitude: Double,  completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func updateUserLocations(userID: String, userFirstName: String, userLastName: String, mapString: String, meidaURL: String, latitude: Double, longitude: Double,  completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Specify the parameters and the JSON body */
         let jsonBody: [String : AnyObject] = [
@@ -117,7 +117,7 @@ extension ParseClient {
         }
     }
     
-    func queryUserLocation(uniqueKey: String, completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func queryUserLocations(uniqueKey: String, completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Set the parameters */
         let parameters = [
@@ -160,9 +160,9 @@ extension ParseClient {
         }
     }
     
-    func userLocationExists(userID: String, completionHandler: (success: Bool, error: NSError?) -> Void) {
+    func userLocationsExist(userID: String, completionHandler: (success: Bool, error: NSError?) -> Void) {
         
-        ParseClient.sharedInstance().queryUserLocation(userID) { result, error in
+        ParseClient.sharedInstance().queryUserLocations(userID) { result, error in
             
             if let error = error {
                 

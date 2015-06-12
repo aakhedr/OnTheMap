@@ -64,17 +64,20 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     
                     if error!.code == 0 {
                         
-                        alertController = UIAlertController(title: "Network error!", message: "Error connecting to Udacity. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
-
+                        let title = "Network error!"
+                        let message = "Error connecting to Udacity. Check your Internet connection!"
+                        let actionTitle = "OK"
+                        
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+                        
                     } else {
                         
-                        alertController = UIAlertController(title: "Error connecting to Udacity!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
-                    }
-
-                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                        alertController.addAction(okAction)
+                        let title = "Error connecting to Udacity!"
+                        let message = "Please contact app administator!"
+                        let actionTitle = "OK"
                         
-                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+                    }
                 }
             }
         }
@@ -119,17 +122,20 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
 
                     if error!.code == 0 {
                         
-                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
                         
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+
                     } else {
                         
-                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                        let title = "Error connecting to Parse!"
+                        let message = "Please contact app administator!"
+                        let actionTitle = "OK"
+                        
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
                     }
-                    
-                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                    alertController.addAction(okAction)
-                    
-                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
                 }
             }
         }
@@ -153,17 +159,20 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     
                     if error.code == 0 {
                         
-                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Udacity. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                        let title = "Network Error!"
+                        let message = "Error connecting to Udacity. Check your Internet connection!"
+                        let actionTitle = "OK"
+                        
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
 
                     } else {
                         
-                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
-                    }
+                        let title = "Error connecting to Parse!"
+                        let message = "Please contact app administator!"
+                        let actionTitle = "OK"
 
-                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                    alertController.addAction(okAction)
-                    
-                    self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+                    }
                 }
 
             } else {
@@ -181,6 +190,15 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 }
             }
         }
+    }
+    
+    func configureAndPresentAlertController(title: String, message: String, actionTitle: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default, handler: nil)
+        alertController.addAction(okAction)
+        
+        self.targetView.presentViewController(alertController, animated: true, completion: nil)
     }
     
     /* Shared Instance */
