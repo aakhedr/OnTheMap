@@ -44,6 +44,7 @@ extension ParseClient {
         static let Latitude = "latitude"
         static let Longitude = "longitude"
         static let Code = "code"
+        static let UpdatedAt = "updatedAt"
         
         static let StatusMessage = "status_message"
         static let Results = "results"

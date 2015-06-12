@@ -99,53 +99,30 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
 
             let userID = UdacityClient.sharedInstance().userID!
-            
-            println(userID)
-            
             if self.userLocationExists(userID) == false {
                 
-//                submitNewLoaction()
-
-                println("Didn't find userID")
+                submitNewLoaction()
                 
             } else {
                 
                 println("Found userID")
                 
-//                ParseClient.sharedInstance().updateUserLocation(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
-//                    
-//                    if let error = error {
-//                        
-//                        println("error domain: \(error.domain)")
-//                        println("error code: \(error.code)")
-//                        println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-//
-//                    } else {
-//                        
-//                        if let parsedData = result as? NSDictionary {
-//                            
-//                            println("parsed data from update: \(parsedData)")
-////                            if let code = parsedData.valueForKey(ParseClient.JSONResponseKeys.Code) as? Int {
-////                                
-////                                if code == 142 {
-////                                    
-////                                    dispatch_async(dispatch_get_main_queue()) {
-////                                        
-////                                        self.nonEditableTextView.text = "You must enter a link here!"
-////                                    }
-////                                }
-////                                
-////                            } else {
-////                                
-////                                dispatch_async(dispatch_get_main_queue()) {
-////                                    
-////                                    self.annotation.subtitle = self.nonEditableTextView.text!
-////                                    self.dismissViewControllerAnimated(true, completion: nil)
-////                                }
-////                            }
-//                        }
-//                    }
-//                }
+                if let region = region {
+                    
+                    ParseClient.sharedInstance().updateUserLocation(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
+                        
+                        if let error = error {
+                            
+                            println("error domain: \(error.domain)")
+                            println("error code: \(error.code)")
+                            println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+                            
+                        } else {
+                            
+                            // Do something here!
+                        }
+                    }
+                }
             }
             
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
@@ -246,7 +223,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             }
         }
         
-        return ParseClient.sharedInstance().foundObjectID.isEmpty
+        return ParseClient.sharedInstance().foundObjectIDs.isEmpty
     }
     
     func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {

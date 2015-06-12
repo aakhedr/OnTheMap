@@ -12,7 +12,7 @@ class ParseClient: NSObject {
     
     var session: NSURLSession
     var objectID: String!
-    var foundObjectID = [String]()
+    var foundObjectIDs = [String]()
     
     override init() {
         
@@ -101,9 +101,6 @@ class ParseClient: NSObject {
         
         /* 2. Build the URL */
         let urlString = baseURLAndMethod + (parameters[JSONResponseKeys.ObjectId] as! String)
-        
-        println("urlString: \(urlString)")
-        
         let url = NSURL(string: baseURLAndMethod)!
         
         /* Configure the request */
