@@ -46,6 +46,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         nonEditableTextView.delegate = self
     }
     
+    func configureAndPresentAlertController(title: String, message: String, actionTitle: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default, handler: nil)
+        alertController.addAction(okAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     /* Actions */
     
     @IBAction func findOnTheMapAction(sender: UIButton) {
@@ -116,12 +125,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 }
             }
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
-    
-                let alertController = UIAlertController(title: "Share a link!", message: "You must share a link t submit your location.", preferredStyle: UIAlertControllerStyle.Alert)
-                let okButton = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                alertController.addAction(okButton)
-    
-                self.presentViewController(alertController, animated: true, completion: nil)
+            
+            let title = "Share a link!"
+            let message = "You must share a link t submit your location."
+            let actionTitle = "OK"
+            
+            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
         }
     }
 
@@ -163,15 +172,20 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                         
                         if error.code == 0 {
                             
-                            alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
+                            let title = "Network Error!"
+                            let message = "Error connecting to Parse. Check your Internet connection!"
+                            let actionTitle = "OK"
+                            
+                            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+
                         } else {
-                            alertController = UIAlertController(title: "Unkown Error!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            let title = "Unkown Error!"
+                            let message = "Please contact app administator!"
+                            let actionTitle = "OK"
+                            
+                            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
                         }
-                        
-                        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                        alertController.addAction(okAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
                     }
                     
                 } else {
@@ -204,11 +218,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             
             println("Problem with getting the region (in submit)")
             
-            let alertController = UIAlertController(title: "Network Error!", message: "Could not find this location on the map!", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-            alertController.addAction(okAction)
+            let title = "Unkown Error!"
+            let message = "Could not find this location on the map!"
+            let actionTitle = "OK"
             
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
         }
     }
 
