@@ -112,10 +112,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 if success {
                     
-                    println("foundObjectIDs in submit success: \(ParseClient.sharedInstance().foundObjectIDs)")
-
                     // Update all user locations on the map
-                    self.updateUSerLocations()
+                    self.updateUserLocations()
                     
 
                 } else if (!success && (error == nil)) {
@@ -124,6 +122,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                     self.submitNewLoaction()
                 }
             }
+            
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
             
             let title = "Share a link!"
@@ -134,7 +133,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         }
     }
 
-    func updateUSerLocations() {
+    func updateUserLocations() {
         
         if let region = region {
             ParseClient.sharedInstance().updateUserLocations(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
@@ -147,7 +146,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                     
                 } else {
                     
-                    println("Do something here")
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
         }
@@ -166,8 +165,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                     println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
 
                     /* Make an alert with the failiure reason */
-                    var alertController: UIAlertController!
-                    
                     dispatch_async(dispatch_get_main_queue()) {
                         
                         if error.code == 0 {

@@ -17,7 +17,19 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     /* Lifecycle */
 
     override func viewDidLoad() {
+
         super.viewDidLoad()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        /* Configure naviagation bar buttons */
+        ConfigUI.sharedInstance().configureNavBarButtons(self)
+        
+        /* Set a human readible title for the view */
+        self.parentViewController!.title = "On The Map"
 
         /* Set the Table View Delegate and Data Source */
         studentsTableView.delegate = self
@@ -25,7 +37,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
-
+            
             if let students = students {
                 
                 self.students = students
@@ -60,18 +72,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         }
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        /* Configure naviagation bar buttons */
-        ConfigUI.sharedInstance().configureNavBarButtons(self)
-        
-        /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
-
     }
     
     /* Table View Delegate and Table View Data Source */

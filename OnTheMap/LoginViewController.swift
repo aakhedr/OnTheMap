@@ -23,25 +23,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        /* Add Tap Gesture Recognizer */
-        var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
-        tapRecognizer.numberOfTapsRequired = 1
-        tapRecognizer.delegate = self
-        view.addGestureRecognizer(tapRecognizer)
-
-        /* Set Text Field Delegate */
-        email!.delegate = self
-        password!.delegate = self
-        
-        /* original origin */
-        origin = view.frame.origin.y
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
         
+        /* Add Tap Gesture Recognizer */
+        var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.delegate = self
+        view.addGestureRecognizer(tapRecognizer)
+        
+        /* Set Text Field Delegate */
+        email!.delegate = self
+        password!.delegate = self
+        
+        /* original origin */
+        origin = view.frame.origin.y
         subscribeToKeyboardNotifications()
         
         /* In case of logout from the tab bar view */

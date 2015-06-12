@@ -90,11 +90,9 @@ extension ParseClient {
         ]
         
         /* 2. Make the request (several request because I submitted many locations */
-        println("self.foundObjectsIDs.count: \(self.foundObjectIDs.count)")
-        
-        for element in self.foundObjectIDs {
+        for foundObjectID in self.foundObjectIDs {
             
-            let task = self.taskForPUTMethod(Methods.BaseURLAndMethod, parameters: [JSONResponseKeys.ObjectId : element], jsonBody: jsonBody) { JSONResult, error in
+            let task = self.taskForPUTMethod(Methods.BaseURLAndMethod, objectID: foundObjectID, jsonBody: jsonBody) { JSONResult, error in
                 
                 /* 3. Send the desired value(s) to completion handler */
                 if let error = error {
@@ -103,14 +101,13 @@ extension ParseClient {
                     
                 } else {
                     
-                    if let updatedAt = JSONResult.valueForKey(JSONResponseKeys.UpdatedAt) as? NSDate {
+                    if let updatedAt = JSONResult.valueForKey(JSONResponseKeys.UpdatedAt)  as? String {
                         
-                        println("updatedAt: \(updatedAt)")
                         completionHandler(data: JSONResult, error: nil)
                         
                     } else {
                         
-                        completionHandler(data: nil, error: NSError(domain: "updateUserLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse updated at as NSDate"]))
+                        completionHandler(data: nil, error: error)
                     }
                 }
             }
@@ -136,7 +133,6 @@ extension ParseClient {
                 if let resultsArray = JSONResult.valueForKey(JSONResponseKeys.Results) as? NSArray {
                     
                     var foundObjectIDs = [String]()
-                    
                     for element in resultsArray {
                         
                         if let foundObjectID = element.valueForKey(JSONResponseKeys.ObjectId) as? String {

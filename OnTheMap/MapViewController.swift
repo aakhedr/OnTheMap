@@ -25,23 +25,31 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Show world map */
         let initialLocation = MKCoordinateRegionForMapRect(MKMapRectWorld)
         studentsMapView.region = initialLocation
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        /* Set a human readible title for the view */
+        self.parentViewController!.title = "On The Map"
         
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)
-
+        
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             
             if let students = students {
-
+                
                 self.students = students
                 dispatch_async(dispatch_get_main_queue()) {
-
+                    
                     /* Add Annotations */
                     let annotations = Annotation.annotationsFromStudents(self.students)
                     self.studentsMapView.addAnnotations(annotations)
                 }
-            
+                
             } else {
                 
                 println("error domain: \(error!.domain)")
@@ -68,14 +76,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             }
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
     }
     
     /* Map View Delegate */

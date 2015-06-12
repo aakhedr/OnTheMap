@@ -94,14 +94,14 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskForPUTMethod(baseURLAndMethod: String, parameters: [String : AnyObject], jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPUTMethod(baseURLAndMethod: String, objectID: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
         // In parameters
         
         /* 2. Build the URL */
-        let urlString = baseURLAndMethod + (parameters[JSONResponseKeys.ObjectId] as! String)
-        let url = NSURL(string: baseURLAndMethod)!
+        let urlString = baseURLAndMethod + "/" + objectID
+        let url = NSURL(string: urlString)!
         
         /* Configure the request */
         var jsonifyError: NSError? = nil
