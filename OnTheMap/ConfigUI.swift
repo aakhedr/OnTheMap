@@ -143,18 +143,52 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func pin() {
         
+        checkForPreviousLocations()
+    }
+    
+    func checkForPreviousLocations() {
+        
         let userID = UdacityClient.sharedInstance().userID!
-        UdacityClient.sharedInstance().getUserPublicData(userID) { userFirstName, userLastName, error in
+        ParseClient.sharedInstance().userLocationsExist(userID) { success, error in
+            
+            if success {
+                
+                // Present an alert
+                let alertController = UIAlertController(title: "", message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?", preferredStyle: UIAlertControllerStyle.Alert)
+                let overwriteButton = UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in self.getUserPublicDataAndPresentInformationPostingViewController(userID) { userFirstName, userLastName, previousLocationsExist, error in
+                    
+                    self.presentInformationPostingViewController(userFirstName, userLastName: userLastName, previousLocationsExist: true)
+                    
+                    }
+                })
+                let cancelButton = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in alertController.dismissViewControllerAnimated(true, completion: nil)})
+                alertController.addAction(overwriteButton)
+                alertController.addAction(cancelButton)
+                
+                self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                
+            } else if (!success && (error == nil)) {
+                
+                // Submit a new location
+                self.getUserPublicDataAndPresentInformationPostingViewController(userID) { userFirstName, userLastName, previousLocationsExist, error in
+                    
+                    self.presentInformationPostingViewController(userFirstName, userLastName: userLastName, previousLocationsExist: false)
+                }
+            }
+        }
+    }
+    
+    func getUserPublicDataAndPresentInformationPostingViewController(userID: String, completionHandler: (userFirstName: String, userLastName: String, previousLocationsExist: Bool, error: NSError?) -> Void) {
+        
+        UdacityClient.sharedInstance().getUserPublicData(userID) { userFirstName, userLastName, previousLocationsExist, error in
             
             if let error = error {
-            
+                
                 println("error domain: \(error.domain)")
                 println("error code: \(error.code)")
                 println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                 
                 // Add interface to let the user retry
-                var alertController: UIAlertController!
-                
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     if error.code == 0 {
@@ -164,31 +198,37 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                         let actionTitle = "OK"
                         
                         self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
-
+                        
                     } else {
                         
                         let title = "Error connecting to Parse!"
                         let message = "Please contact app administator!"
                         let actionTitle = "OK"
-
+                        
                         self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
                     }
                 }
 
             } else {
                 
-                /* Present the Information Posting View Controller modally */
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
-                    
-                    /* Set information posting view controller properties */
-                    informationPostingViewContorller.userFirstName = userFirstName
-                    informationPostingViewContorller.userLastName = userLastName
-                    
-                    self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
-                }
+                self.presentInformationPostingViewController(userFirstName!, userLastName: userLastName!, previousLocationsExist: previousLocationsExist!)
             }
+        }
+    }
+    
+    func presentInformationPostingViewController(userFirstName: String, userLastName: String, previousLocationsExist: Bool) {
+        
+        /* Present the Information Posting View Controller modally */
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
+            
+            /* Set information posting view controller properties */
+            informationPostingViewContorller.userFirstName = userFirstName
+            informationPostingViewContorller.userLastName = userLastName
+            informationPostingViewContorller.previousLocationsExist = previousLocationsExist
+            
+            self.targetView.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
         }
     }
     

@@ -20,6 +20,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     var region: MKCoordinateRegion!
     var userFirstName: String!
     var userLastName: String!
+    var previousLocationsExist: Bool!
     var annotation: Annotation!
     
     override func viewDidLoad() {
@@ -104,23 +105,23 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     @IBAction func submit(sender: UIButton) {
-    
+        
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
-            
-            let userID = UdacityClient.sharedInstance().userID!
-            ParseClient.sharedInstance().userLocationsExist(userID) { success, error in
-                
-                if success {
-                    
-                    // Update all user locations on the map
-                    self.updateUserLocations()
-                    
 
-                } else if (!success && (error == nil)) {
-                    
-                    // Submit a new location
+            if let previousLocationsExist = previousLocationsExist {
+            
+                if previousLocationsExist == true {
+                
                     self.submitNewLoaction()
+                    
+                } else {
+                    
+                    self.updateUserLocations()
                 }
+
+            } else {
+                
+                println("previousLocationsExist is nil")
             }
             
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {

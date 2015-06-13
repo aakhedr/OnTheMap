@@ -82,7 +82,7 @@ extension UdacityClient {
         }
     }
     
-    func getUserPublicData(userID: String, completionHandler: (firstName: String?, lastName: String?, error: NSError?) -> Void) {
+    func getUserPublicData(userID: String, completionHandler: (firstName: String?, lastName: String?, previousLocationsExist: Bool?, error: NSError?) -> Void) {
         
         /* 1. Specify parameters */
         // userID
@@ -93,7 +93,7 @@ extension UdacityClient {
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
-                completionHandler(firstName: nil, lastName: nil, error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+                completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
                 
             } else {
                 
@@ -103,21 +103,21 @@ extension UdacityClient {
                         
                         if let userFirstName = user.valueForKey(JSONResponseKeys.UserFirstName) as? String {
                             
-                            completionHandler(firstName: userFirstName, lastName: userLastName, error: nil)
+                            completionHandler(firstName: userFirstName, lastName: userLastName, previousLocationsExist: true, error: nil)
 
                         } else {
                             
-                            completionHandler(firstName: nil, lastName: userLastName, error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "C"]))
+                            completionHandler(firstName: nil, lastName: userLastName, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "C"]))
                         }
 
                     } else {
                         
-                        completionHandler(firstName: nil, lastName: nil, error: NSError(domain: "getUserPublicData", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
+                        completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
                     }
 
                 } else {
                     
-                    completionHandler(firstName: nil, lastName: nil, error: NSError(domain: "getUserPublicData", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse user dictionary"]))
+                    completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse user dictionary"]))
                 }
             }
         }
