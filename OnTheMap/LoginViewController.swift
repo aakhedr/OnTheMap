@@ -41,6 +41,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         /* original origin */
         origin = view.frame.origin.y
+        newOrigin = nil     // Everytime the view appears newOrigin is nil. Then it get set in the method below upon tapping a text field
+        
         subscribeToKeyboardNotifications()
         
         /* In case of logout from the tab bar view */
