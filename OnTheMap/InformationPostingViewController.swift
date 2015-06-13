@@ -110,13 +110,13 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
             if let previousLocationsExist = previousLocationsExist {
             
-                if previousLocationsExist == true {
+                if previousLocationsExist {
                 
-                    self.submitNewLoaction()
-                    
+                    self.updateUserLocations()
+                
                 } else {
                     
-                    self.updateUserLocations()
+                    self.submitNewLoaction()
                 }
 
             } else {
@@ -145,11 +145,42 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                     println("error code: \(error.code)")
                     println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                     
+                    if error.code == 0 {
+                        
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
+                        
+                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+                    }
+                    
                 } else {
                     
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    if let updatedAt = result.valueForKey(ParseClient.JSONResponseKeys.UpdatedAt) as? String {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        }
+
+                    } else {
+                        
+                        println("error domain: \(error!.domain)")
+                        println("error code: \(error!.code)")
+                        println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
+                    }
                 }
             }
+
+        } else {
+            
+            println("Problem with getting the region (in submit)")
+            
+            let title = "Unkown Error!"
+            let message = "Could not find this location on the map!"
+            let actionTitle = "OK"
+            
+            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
         }
     }
 

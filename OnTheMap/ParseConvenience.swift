@@ -107,7 +107,7 @@ extension ParseClient {
                         
                     } else {
                         
-                        completionHandler(data: nil, error: error)
+                        completionHandler(data: nil, error: NSError(domain: "updateUserLocations", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse updated at as Strong"]))
                     }
                 }
             }
