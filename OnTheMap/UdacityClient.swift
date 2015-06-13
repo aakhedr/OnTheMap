@@ -11,7 +11,6 @@ import Foundation
 class UdacityClient: NSObject {
 
     var session: NSURLSession
-    var userID: String? = nil
     
     override init() {
         session = NSURLSession.sharedSession()

@@ -16,13 +16,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     @IBOutlet weak var findOnTheMapButton: UIButton!
     @IBOutlet weak var userMapView: MKMapView!
     
-    var locationString: String!
-    var region: MKCoordinateRegion!
-    var userFirstName: String!
-    var userLastName: String!
-    var previousLocationsExist: Bool!
-    var annotation: Annotation!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,225 +40,102 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         nonEditableTextView.delegate = self
     }
     
-    func configureAndPresentAlertController(title: String, message: String, actionTitle: String) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default, handler: nil)
-        alertController.addAction(okAction)
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     /* Actions */
     
     @IBAction func findOnTheMapAction(sender: UIButton) {
-        
         if sender.currentTitle! == "Find on the map" {
-            
             let geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(locationString!) { placemarks, error in
-                
+            geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
                 if let error = error {
+                    // Inform the user this location could not be found using Apple Maps
+                    let title = "Unknown location to Apple Maps"
+                    let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
+                    let actionTitle = "OK"
                     
-                    println("error domain: \(error.domain)")
-                    println("error code: \(error.code)")
-                    println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-                    
-                    /* Make an alert with the failiure reason */
-                    var alertController: UIAlertController!
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        if let errorReason = error.userInfo![NSLocalizedFailureReasonErrorKey] as? String {
-                            
-                            alertController = UIAlertController(title: "Network Error!", message: errorReason, preferredStyle: UIAlertControllerStyle.Alert)
-                            
-                        } else {
-                            
-                            alertController = UIAlertController(title: "Network Error!", message: "Could not find this location on the map!", preferredStyle: UIAlertControllerStyle.Alert)
-                        }
-                        
-                        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                        alertController.addAction(okAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                    }
-                    
+                    ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                 } else {
-                    
                     let placemarks = placemarks as! [CLPlacemark]
-                    self.region = self.getTheRegion(placemarks)
+                    Data.sharedInstance().region = self.getTheRegion(placemarks)
                     self.alterTheView()
 
-                    self.annotation = Annotation(latitude: self.region.center.latitude, longitude: self.region.center.longitude, firstName: self.userFirstName, lastName: self.userLastName, mediaURL: nil)
-                    self.userMapView.addAnnotation(self.annotation)
+                    let annotation = Annotation(
+                        latitude: Data.sharedInstance().region.center.latitude,
+                        longitude: Data.sharedInstance().region.center.longitude,
+                        firstName: Data.sharedInstance().userFirstName!,
+                        lastName: Data.sharedInstance().userLastName!,
+                        mediaURL: nil)
+
+                    self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
+                    self.userMapView.addAnnotation(annotation)
                 }
             }
         }
     }
     
     @IBAction func submit(sender: UIButton) {
-        
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
-
-            if let previousLocationsExist = previousLocationsExist {
-            
+            if let previousLocationsExist = Data.sharedInstance().previousLocationsExist {
                 if previousLocationsExist {
-                
                     self.updateUserLocations()
-                
                 } else {
-                    
                     self.submitNewLoaction()
                 }
-
-            } else {
-                
-                println("previousLocationsExist is nil")
             }
-            
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
-            
             let title = "Share a link!"
-            let message = "You must share a link t submit your location."
+            let message = "You must share a link to submit your location."
             let actionTitle = "OK"
             
-            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
         }
     }
 
     func updateUserLocations() {
-        
-        if let region = region {
-            ParseClient.sharedInstance().updateUserLocations(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString!, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
-                
-                if let error = error {
+        ParseClient.sharedInstance().updateUserLocations { result, error in
+            if let error = error {
+                if error.code == 0 {
+                    let title = "Network Error!"
+                    let message = "Error connecting to Parse. Check your Internet connection!"
+                    let actionTitle = "OK"
                     
-                    println("error domain: \(error.domain)")
-                    println("error code: \(error.code)")
-                    println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-                    
-                    if error.code == 0 {
-                        
-                        let title = "Network Error!"
-                        let message = "Error connecting to Parse. Check your Internet connection!"
-                        let actionTitle = "OK"
-                        
-                        self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
-                    }
-                    
-                } else {
-                    
-                    if let updatedAt = result.valueForKey(ParseClient.JSONResponseKeys.UpdatedAt) as? String {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                        }
-
-                    } else {
-                        
-                        println("error domain: \(error!.domain)")
-                        println("error code: \(error!.code)")
-                        println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
-                    }
+                    ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
-
-        } else {
-            
-            println("Problem with getting the region (in submit)")
-            
-            let title = "Unkown Error!"
-            let message = "Could not find this location on the map!"
-            let actionTitle = "OK"
-            
-            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
         }
     }
 
     func submitNewLoaction() {
-        
-        if let region = region {
-        
-            ParseClient.sharedInstance().postUserLocation(UdacityClient.sharedInstance().userID!, userFirstName: userFirstName!, userLastName: userLastName!, mapString: locationString, meidaURL: nonEditableTextView.text!, latitude: region.center.latitude, longitude: region.center.longitude) { result, error in
-                
-                if let error = error {
-                    
-                    println("error domain: \(error.domain)")
-                    println("error code: \(error.code)")
-                    println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-
-                    /* Make an alert with the failiure reason */
-                    dispatch_async(dispatch_get_main_queue()) {
+        ParseClient.sharedInstance().postUserLocation { result, error in
+            if let error = error {
+                dispatch_async(dispatch_get_main_queue()) {
+                    if error.code == 0 {
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
                         
-                        if error.code == 0 {
-                            
-                            let title = "Network Error!"
-                            let message = "Error connecting to Parse. Check your Internet connection!"
-                            let actionTitle = "OK"
-                            
-                            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
-
-                        } else {
-                            
-                            let title = "Unkown Error!"
-                            let message = "Please contact app administator!"
-                            let actionTitle = "OK"
-                            
-                            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
-                        }
-                    }
-                    
-                } else {
-                    
-                    if let parsedData = result as? NSDictionary {
-                        
-                        if let code = parsedData.valueForKey(ParseClient.JSONResponseKeys.Code) as? Int {
-                            
-                            if code == 142 {
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    
-                                    self.nonEditableTextView.text = "You must enter a link here!"
-                                }
-                            }
-                            
-                        } else {
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                
-                                self.annotation.subtitle = self.nonEditableTextView.text!
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                            }
-                        }
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
             }
-
-        } else {
-            
-            println("Problem with getting the region (in submit)")
-            
-            let title = "Unkown Error!"
-            let message = "Could not find this location on the map!"
-            let actionTitle = "OK"
-            
-            self.configureAndPresentAlertController(title, message: message, actionTitle: actionTitle)
         }
     }
 
     @IBAction func cancel(sender: UIButton) {
-        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {
-        
         var regions = [MKCoordinateRegion]()
         
         for placemark in placemarks {
-            
             let coordinate: CLLocationCoordinate2D = placemark.location.coordinate
             let latitude: CLLocationDegrees = placemark.location.coordinate.latitude
             let longitude: CLLocationDegrees = placemark.location.coordinate.longitude
@@ -274,13 +144,10 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             regions.append(MKCoordinateRegion(center: coordinate, span: span))
         }
         
-        userMapView.setRegion(regions[0], animated: true)
-        
         return regions[0]
     }
     
     func alterTheView() {
-        
         locationTextField.hidden = true
         userMapView.hidden = false
         nonEditableTextView.backgroundColor = UIColor.blueColor()
@@ -293,27 +160,23 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     /* Dismiss keyboard in case of a tap! */
     func handleSingleTap(recognizer: UIGestureRecognizer) {
-        
         view.endEditing(true)
     }
     
     /* Text Field Delegate */
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
         textField.resignFirstResponder()
         
         return true
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        
-        locationString = locationTextField!.text!
+        Data.sharedInstance().mapString = locationTextField!.text!
     }
     
     /* Tap Gesture Recognizer Delegate */
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        
         return locationTextField!.isFirstResponder()
     }
     
@@ -321,9 +184,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     // Dismisses the keyboard when done editing user media URL
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
         if text == "\n" {
-            
             textView.resignFirstResponder()
 
             return false
@@ -333,10 +194,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        
         textView.text = ""
         
         return true
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        // TODO: Validate the URL here
+        
+        Data.sharedInstance().mediaURL = textView.text!
     }
         
 }

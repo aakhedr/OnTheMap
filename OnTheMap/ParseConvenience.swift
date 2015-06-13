@@ -40,17 +40,17 @@ extension ParseClient {
         }
     }
     
-    func postUserLocation(userID: String, userFirstName: String, userLastName: String, mapString: String, meidaURL: String, latitude: Double, longitude: Double,  completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func postUserLocation(completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Specify the JSON body */
         let jsonBody: [String : AnyObject] = [
-            JSONResponseKeys.UniqueKey: userID,
-            JSONResponseKeys.FirstName: userFirstName,
-            JSONResponseKeys.LastName: userLastName,
-            JSONResponseKeys.MapString: mapString,
-            JSONResponseKeys.MediaURL: meidaURL,
-            JSONResponseKeys.Latitude: latitude,
-            JSONResponseKeys.Longitude: longitude
+            JSONResponseKeys.UniqueKey: Data.sharedInstance().userID,
+            JSONResponseKeys.FirstName: Data.sharedInstance().userFirstName,
+            JSONResponseKeys.LastName: Data.sharedInstance().userLastName,
+            JSONResponseKeys.MapString: Data.sharedInstance().mapString,
+            JSONResponseKeys.MediaURL: Data.sharedInstance().mediaURL,
+            JSONResponseKeys.Latitude: Data.sharedInstance().region.center.latitude,
+            JSONResponseKeys.Longitude: Data.sharedInstance().region.center.longitude
         ]
         
         /* 2. Make the request */
@@ -76,21 +76,21 @@ extension ParseClient {
         }
     }
     
-    func updateUserLocations(userID: String, userFirstName: String, userLastName: String, mapString: String, meidaURL: String, latitude: Double, longitude: Double,  completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func updateUserLocations(completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Specify the parameters and the JSON body */
         let jsonBody: [String : AnyObject] = [
-            JSONResponseKeys.UniqueKey: userID,
-            JSONResponseKeys.FirstName: userFirstName,
-            JSONResponseKeys.LastName: userLastName,
-            JSONResponseKeys.MapString: mapString,
-            JSONResponseKeys.MediaURL: meidaURL,
-            JSONResponseKeys.Latitude: latitude,
-            JSONResponseKeys.Longitude: longitude
+            JSONResponseKeys.UniqueKey: Data.sharedInstance().userID,
+            JSONResponseKeys.FirstName: Data.sharedInstance().userFirstName,
+            JSONResponseKeys.LastName: Data.sharedInstance().userLastName,
+            JSONResponseKeys.MapString: Data.sharedInstance().mapString,
+            JSONResponseKeys.MediaURL: Data.sharedInstance().mediaURL,
+            JSONResponseKeys.Latitude: Data.sharedInstance().region.center.latitude,
+            JSONResponseKeys.Longitude: Data.sharedInstance().region.center.longitude
         ]
         
         /* 2. Make the request (several request because I submitted many locations */
-        for foundObjectID in self.foundObjectIDs {
+        for foundObjectID in Data.sharedInstance().foundObjectIDs {
             
             let task = self.taskForPUTMethod(Methods.BaseURLAndMethod, objectID: foundObjectID, jsonBody: jsonBody) { JSONResult, error in
                 
@@ -114,7 +114,7 @@ extension ParseClient {
         }
     }
     
-    func queryUserLocations(uniqueKey: String, completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
+    func queryUserLocations(completionHandler: (data: AnyObject!, error: NSError?) -> Void) {
         
         /* 1. Set the parameters */
         let parameters = [
@@ -145,8 +145,16 @@ extension ParseClient {
                         }
                     }
                     
-                    self.foundObjectIDs = foundObjectIDs
-                    completionHandler(data: JSONResult, error: nil)
+                    if foundObjectIDs.isEmpty {
+
+                        Data.sharedInstance().previousLocationsExist = false
+
+                    } else {
+                        
+                        Data.sharedInstance().previousLocationsExist = true
+                        Data.sharedInstance().foundObjectIDs = foundObjectIDs
+                        completionHandler(data: JSONResult, error: nil)
+                    }
                     
                 } else {
                     
@@ -156,9 +164,9 @@ extension ParseClient {
         }
     }
     
-    func userLocationsExist(userID: String, completionHandler: (success: Bool, error: NSError?) -> Void) {
+    func userLocationsExist(completionHandler: (success: Bool, error: NSError?) -> Void) {
         
-        ParseClient.sharedInstance().queryUserLocations(userID) { result, error in
+        ParseClient.sharedInstance().queryUserLocations { result, error in
             
             if let error = error {
                 

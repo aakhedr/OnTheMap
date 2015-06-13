@@ -10,14 +10,13 @@ import Foundation
 
 extension UdacityClient {
     
-    func authenticateWithUdacityCredentials(email: String, password: String, completionHandler: (success: Bool, error: NSError?) -> Void) {
+    func authenticateWithUdacityCredentials(completionHandler: (success: Bool, error: NSError?) -> Void) {
 
-        self.getUserID(email, password: password) {userID, error in
+        self.getUserID {userID, error in
             
             if let userID = userID {
                 
-                self.userID = userID
-                
+                Data.sharedInstance().userID = userID
                 completionHandler(success: true, error: nil)
                 
             } else {
@@ -28,17 +27,15 @@ extension UdacityClient {
         }
     }
 
-    func getUserID(email: String, password: String, completionHandler: (userID: String?, error: NSError?) -> Void) {
+    func getUserID(completionHandler: (userID: String?, error: NSError?) -> Void) {
         
-        /* 1. JSON body for the post method */
-        // No parameters needed! Only the json body is needed according to the docs!
-        
+        /* 1. JSON body for the post method */        
         let jsonBody =
         [
             UdacityClient.JSONBodyKeys.Udacity:
                 [
-                    UdacityClient.JSONBodyKeys.Username: "\(email)",
-                    UdacityClient.JSONBodyKeys.Password: "\(password)"
+                    UdacityClient.JSONBodyKeys.Username: "\(Data.sharedInstance().username!)",
+                    UdacityClient.JSONBodyKeys.Password: "\(Data.sharedInstance().password!)"
                 ]
         ]
         
@@ -82,18 +79,18 @@ extension UdacityClient {
         }
     }
     
-    func getUserPublicData(userID: String, completionHandler: (firstName: String?, lastName: String?, previousLocationsExist: Bool?, error: NSError?) -> Void) {
+    func getUserPublicData(completionHandler: (error: NSError?) -> Void) {
         
         /* 1. Specify parameters */
         // userID
         
         /* 2. Make the request */
-        let task = self.taskForGETMethod(UdacityClient.Methods.PublicData, userID: userID) { JSONResult, error in
+        let task = self.taskForGETMethod(UdacityClient.Methods.PublicData, userID: Data.sharedInstance().userID!) { JSONResult, error in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 
-                completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+                completionHandler(error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
                 
             } else {
                 
@@ -101,23 +98,26 @@ extension UdacityClient {
                     
                     if let userLastName = user.valueForKey(JSONResponseKeys.UserLastName) as? String {
                         
+                        Data.sharedInstance().userLastName = userLastName
                         if let userFirstName = user.valueForKey(JSONResponseKeys.UserFirstName) as? String {
                             
-                            completionHandler(firstName: userFirstName, lastName: userLastName, previousLocationsExist: true, error: nil)
+                            Data.sharedInstance().userFirstName = userFirstName
+                            Data.sharedInstance().previousLocationsExist = true
+                            completionHandler(error: nil)
 
                         } else {
                             
-                            completionHandler(firstName: nil, lastName: userLastName, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "C"]))
+                            completionHandler(error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
                         }
 
                     } else {
                         
-                        completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
+                        completionHandler(error: NSError(domain: "getUserPublicData", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse userLastName as String"]))
                     }
 
                 } else {
                     
-                    completionHandler(firstName: nil, lastName: nil, previousLocationsExist: nil, error: NSError(domain: "getUserPublicData", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse user dictionary"]))
+                    completionHandler(error: NSError(domain: "getUserPublicData", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse user dictionary"]))
                 }
             }
         }

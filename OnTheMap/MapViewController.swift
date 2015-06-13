@@ -12,7 +12,6 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var studentsMapView: MKMapView!
-    var students = [Student]()
     
     /* View lifecycle */
     
@@ -22,13 +21,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Set Map View Delegate */
         studentsMapView.delegate = self
         
-        /* Show world map */
+        /* Show world map initially */
         let initialLocation = MKCoordinateRegionForMapRect(MKMapRectWorld)
         studentsMapView.region = initialLocation
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         /* Set a human readible title for the view */
@@ -39,40 +37,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         /* Load up Student objects from Parse */
         ParseClient.sharedInstance().getStudentsLocations { students, error in
-            
             if let students = students {
-                
-                self.students = students
+                Data.sharedInstance().studentsInformation = students
                 dispatch_async(dispatch_get_main_queue()) {
-                    
-                    /* Add Annotations */
-                    let annotations = Annotation.annotationsFromStudents(self.students)
+                    let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
                     self.studentsMapView.addAnnotations(annotations)
                 }
-                
             } else {
-                
-                println("error domain: \(error!.domain)")
-                println("error code: \(error!.code)")
-                println("error info: \(error!.userInfo![NSLocalizedDescriptionKey]!)")
-                
                 dispatch_async(dispatch_get_main_queue()) {
-                    
-                    var alertController: UIAlertController!
-                    
                     if error!.code == 0 {
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
                         
-                        alertController = UIAlertController(title: "Network Error!", message: "Error connecting to Parse. Check your Internet connection!", preferredStyle: UIAlertControllerStyle.Alert)
-                        
-                    } else {
-                        
-                        alertController = UIAlertController(title: "Error connecting to Parse!", message: "Please contact app administator!", preferredStyle: UIAlertControllerStyle.Alert)
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
-                    
-                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                    alertController.addAction(okAction)
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
                 }
             }
         }
@@ -81,7 +60,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     /* Map View Delegate */
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-
         if let annotation = annotation as? Annotation {
             
             let identifier = "pin"
@@ -89,12 +67,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
                 as? MKPinAnnotationView {
-                    
                     dequeuedView.annotation = annotation
                     view = dequeuedView
 
             } else {
-                
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
@@ -108,24 +84,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
-        
         let annotation = view.annotation as! Annotation
         
         /* Open Safari at the media url of the selected student */
         if ((annotation.subtitle!.lowercaseString.rangeOfString("http") != nil) || (annotation.subtitle!.lowercaseString.rangeOfString("wwww") != nil)) {
-            
             UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
-
         } else {
+            let title = "No link here!"
+            let message = "Sorry, this student did not share a link!"
+            let actionTitle = "OK"
             
-            let alertController = UIAlertController(title: "No link here!", message: "Student did not share a link!", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-            alertController.addAction(okAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
         }
     }
-
+    
     /* Actions in ConfigUI.swift */
 
 }
