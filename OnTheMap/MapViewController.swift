@@ -41,6 +41,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 Data.sharedInstance().studentsInformation = students
                 dispatch_async(dispatch_get_main_queue()) {
                     let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
+                    
+                    // Remove existing (if any) first and then add the new! ---- for Refresh()
+                    if (self.studentsMapView.annotations != nil) {
+                        self.studentsMapView.removeAnnotations(self.studentsMapView.annotations)
+                    }
                     self.studentsMapView.addAnnotations(annotations)
                 }
             } else {
