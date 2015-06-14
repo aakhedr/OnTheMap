@@ -11,11 +11,8 @@ import Foundation
 class ParseClient: NSObject {
     
     var session: NSURLSession
-    var objectID: String! = nil
-    var foundObjectIDs: [String]! = nil
     
     override init() {
-        
         session = NSURLSession.sharedSession()
         
         super.init()
@@ -39,12 +36,9 @@ class ParseClient: NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler */
             if let error = downloadError {
-                
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
-                
             } else {
-                
                 ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }

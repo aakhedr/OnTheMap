@@ -62,37 +62,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     }
     
     func refresh() {
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
-            if let students = students {
-                let newStudents = students
-                dispatch_async(dispatch_get_main_queue()) {
-                    Data.sharedInstance().studentsInformation = newStudents
-                }
-                
-                if self.targetView is MapViewController {
-                    let mapViewController = self.targetView as! MapViewController
-
-                    /* Update Annotations */
-                    let annotations = Annotation.annotationsFromStudents(newStudents)
-                    mapViewController.studentsMapView.addAnnotations(annotations)
-                } else {
-                    let tableViewController = self.targetView as! TableViewController
-
-                    /* Reload table data */
-                    tableViewController.studentsTableView.reloadData()
-                }
-            } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    if error!.code == 0 {
-                        let title = "Network Error!"
-                        let message = "Error connecting to Parse. Check your Internet connection!"
-                        let actionTitle = "OK"
-                        
-                        ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
-                    }
-                }
-            }
-        }
+        
+        // Add Activity Indicator View here
+        self.targetView!.viewWillAppear(true)
     }
     
     func pin() {
@@ -172,6 +144,18 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         alertController.addAction(okAction)
         
         viewController.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    class func verifyURL(urlString: String) -> Bool {
+        
+        if let url = NSURL(string: urlString) {
+            
+            if UIApplication.sharedApplication().canOpenURL(url) {
+                return true
+            }
+        }
+        
+        return false
     }
     
     /* Shared Instance */

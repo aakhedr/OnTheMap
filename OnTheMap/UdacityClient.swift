@@ -41,12 +41,9 @@ class UdacityClient: NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
-                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
-                
             } else {
-                                
                 UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
@@ -74,12 +71,9 @@ class UdacityClient: NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
-                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
-                
             } else {
-                
                 UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
@@ -106,15 +100,12 @@ class UdacityClient: NSObject {
         let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         
         for cookie in sharedCookieStorage.cookies as! [NSHTTPCookie] {
-
             if cookie.name == "XSRF-TOKEN" {
-
                 xsrfCookie = cookie
             }
         }
         
         if let xsrfCookie = xsrfCookie {
-
             request.addValue(xsrfCookie.value!, forHTTPHeaderField: "X-XSRF-Token")
         }
         
@@ -122,12 +113,9 @@ class UdacityClient: NSObject {
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             
             if let error = downloadError {
-                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
-                
             } else {
-                
                 UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }

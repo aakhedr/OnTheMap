@@ -22,18 +22,13 @@ extension ParseClient {
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
-                
                 completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
-
             } else {
-
                 if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
 
                     var students = Student.studentsFromResults(results)
                     completionHandler(result: students, error: nil)
-                
                 } else {
-                
                     completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
                 }
             }
@@ -58,18 +53,12 @@ extension ParseClient {
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
-                
                 completionHandler(data: nil, error: NSError(domain: "postUserLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
-
             } else {
-                
                 if let objectID = JSONResult.valueForKey(JSONResponseKeys.ObjectId) as? String {
-                    
-                    self.objectID = objectID
+                    Data.sharedInstance().objectID = objectID
                     completionHandler(data: JSONResult, error: nil)
-
                 } else {
-                    
                     completionHandler(data: nil, error: NSError(domain: "postUserLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse object id as String"]))
                 }
             }
@@ -96,17 +85,11 @@ extension ParseClient {
                 
                 /* 3. Send the desired value(s) to completion handler */
                 if let error = error {
-                    
                     completionHandler(data: nil, error: NSError(domain: "updateUserLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
-                    
                 } else {
-                    
                     if let updatedAt = JSONResult.valueForKey(JSONResponseKeys.UpdatedAt)  as? String {
-                        
                         completionHandler(data: JSONResult, error: nil)
-                        
                     } else {
-                        
                         completionHandler(data: nil, error: NSError(domain: "updateUserLocations", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse updated at as Strong"]))
                     }
                 }
@@ -125,39 +108,28 @@ extension ParseClient {
         let task = self.taskForGETMethod("https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22726279495%22%7D", parameters: parameters) { JSONResult, error in
             
             if let error = error {
-                
                 completionHandler(data: nil, error: NSError(domain: "queyUserLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
-
             } else {
-                
                 if let resultsArray = JSONResult.valueForKey(JSONResponseKeys.Results) as? NSArray {
                     
                     var foundObjectIDs = [String]()
                     for element in resultsArray {
-                        
                         if let foundObjectID = element.valueForKey(JSONResponseKeys.ObjectId) as? String {
                             
                             foundObjectIDs.append(foundObjectID)
-                        
                         } else {
-                            
                             completionHandler(data: nil, error: NSError(domain: "queryUserLocation", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse 1 found object ID to String"]))
                         }
                     }
                     
                     if foundObjectIDs.isEmpty {
-
                         Data.sharedInstance().previousLocationsExist = false
-
                     } else {
-                        
                         Data.sharedInstance().previousLocationsExist = true
                         Data.sharedInstance().foundObjectIDs = foundObjectIDs
                         completionHandler(data: JSONResult, error: nil)
                     }
-                    
                 } else {
-                    
                     completionHandler(data: nil, error: NSError(domain: "queyUserLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
                 }
             }
@@ -167,17 +139,9 @@ extension ParseClient {
     func userLocationsExist(completionHandler: (success: Bool, error: NSError?) -> Void) {
         
         ParseClient.sharedInstance().queryUserLocations { result, error in
-            
             if let error = error {
-                
-                println("error domain: \(error.domain)")
-                println("error code: \(error.code)")
-                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-                
                 completionHandler(success: false, error: error)
-                
             } else {
-                
                 completionHandler(success: true, error: nil)
             }
         }
@@ -207,11 +171,8 @@ extension ParseClient {
         let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
 
         if let error = parsingError {
-            
             completionHandler(result: nil, error: error)
-
         } else {
-
             completionHandler(result: parsedResult, error: nil)
         }
     }

@@ -86,12 +86,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         let annotation = view.annotation as! Annotation
         
-        /* Open Safari at the media url of the selected student */
-        if ((annotation.subtitle!.lowercaseString.rangeOfString("http") != nil) || (annotation.subtitle!.lowercaseString.rangeOfString("wwww") != nil)) {
+        /* Open Safari at the media url of the selected student if valid! */
+
+        if ConfigUI.verifyURL(annotation.subtitle!) {
             UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
         } else {
             let title = "No link here!"
-            let message = "Sorry, this student did not share a link!"
+            let message = "Sorry, This link cannot be opened."
             let actionTitle = "OK"
             
             ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)

@@ -74,12 +74,10 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     @IBAction func submit(sender: UIButton) {
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
-            if let previousLocationsExist = Data.sharedInstance().previousLocationsExist {
-                if previousLocationsExist {
-                    self.updateUserLocations()
-                } else {
-                    self.submitNewLoaction()
-                }
+            if Data.sharedInstance().previousLocationsExist! {
+                self.updateUserLocations()
+            } else {
+                self.submitNewLoaction()
             }
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
             let title = "Share a link!"
@@ -200,9 +198,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-        // TODO: Validate the URL here
-        
-        Data.sharedInstance().mediaURL = textView.text!
-    }
-        
+
+        // Validate the URL first
+        if ConfigUI.verifyURL(textView.text!) {
+            
+            Data.sharedInstance().mediaURL = textView.text!
+        } else {
+            let title = "Error!"
+            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
+            let actionTitle = "OK"
+            
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+            
+        }
+    }        
 }

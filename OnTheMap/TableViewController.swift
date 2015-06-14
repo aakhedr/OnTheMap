@@ -55,12 +55,12 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let student = Data.sharedInstance().studentsInformation[indexPath.row]
         
-        /* Open Safari at the media url of the selected student */
-        if ((student.mediaURL.lowercaseString.rangeOfString("http") != nil) || (student.mediaURL.lowercaseString.rangeOfString("wwww") != nil)) {
+        /* Open Safari at the media url of the selected student if valid */
+        if ConfigUI.verifyURL(student.mediaURL) {
             UIApplication.sharedApplication().openURL(NSURL(string: student.mediaURL)!)
         } else {
             let title = "No link here!"
-            let message = "Sorry, this student did not share a link!"
+            let message = "Sorry, This link cannot be opened."
             let actionTitle = "OK"
             
             ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
