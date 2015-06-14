@@ -77,6 +77,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         let actionTitle = "OK"
                         
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+
+                    } else {
+                        
+                        let title = "Error!"
+                        let message = "Error getting students information from Parse!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
             }

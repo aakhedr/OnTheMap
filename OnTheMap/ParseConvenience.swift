@@ -22,13 +22,18 @@ extension ParseClient {
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
+                
                 completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+                
             } else {
+                
                 if let results = JSONResult.valueForKey(ParseClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
 
                     var students = Student.studentsFromResults(results)
                     completionHandler(result: students, error: nil)
+                
                 } else {
+                    
                     completionHandler(result: nil, error: NSError(domain: "getStudentsLocations", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
                 }
             }
