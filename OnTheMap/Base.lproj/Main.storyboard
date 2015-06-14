@@ -211,6 +211,9 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5NR-W6-m4B">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hi7-xT-cRK">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -218,10 +221,13 @@
                             <constraint firstItem="5NR-W6-m4B" firstAttribute="bottom" secondItem="faV-K8-hYI" secondAttribute="top" id="Ylo-bM-mcH"/>
                             <constraint firstAttribute="trailing" secondItem="5NR-W6-m4B" secondAttribute="trailing" id="c0j-1B-Vly"/>
                             <constraint firstItem="5NR-W6-m4B" firstAttribute="leading" secondItem="6lA-tJ-d1Z" secondAttribute="leading" id="cop-Jq-ZOW"/>
+                            <constraint firstItem="hi7-xT-cRK" firstAttribute="centerY" secondItem="6lA-tJ-d1Z" secondAttribute="centerY" id="g15-dl-Krl"/>
+                            <constraint firstItem="hi7-xT-cRK" firstAttribute="centerX" secondItem="5NR-W6-m4B" secondAttribute="centerX" id="lUH-6R-8r4"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Ghs-R9-ikv"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="hi7-xT-cRK" id="Iro-yW-Szs"/>
                         <outlet property="studentsMapView" destination="5NR-W6-m4B" id="vn4-va-Xqk"/>
                     </connections>
                 </viewController>
@@ -332,6 +338,9 @@
                                     <action selector="submit:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="Hve-jq-bJU"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="XuY-bs-dt1">
+                                <rect key="frame" x="290" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -340,10 +349,12 @@
                             <constraint firstItem="nsn-Si-fPj" firstAttribute="leading" secondItem="dI6-om-67L" secondAttribute="leading" id="IFp-2L-vFq"/>
                             <constraint firstItem="AUj-kN-lj0" firstAttribute="top" secondItem="k0d-Wg-0jH" secondAttribute="bottom" constant="33" id="IQf-DT-U5o"/>
                             <constraint firstItem="nsn-Si-fPj" firstAttribute="bottom" secondItem="gwy-y8-GF4" secondAttribute="top" id="MBZ-yd-Ocp"/>
+                            <constraint firstItem="XuY-bs-dt1" firstAttribute="centerX" secondItem="AUj-kN-lj0" secondAttribute="centerX" id="PYt-Kt-MM5"/>
                             <constraint firstItem="nsn-Si-fPj" firstAttribute="leading" secondItem="k0d-Wg-0jH" secondAttribute="leading" id="Sng-hN-5Pe"/>
                             <constraint firstItem="k0d-Wg-0jH" firstAttribute="leading" secondItem="69f-9a-WNF" secondAttribute="leading" id="b2B-Hp-AHf"/>
                             <constraint firstItem="k0d-Wg-0jH" firstAttribute="trailing" secondItem="69f-9a-WNF" secondAttribute="trailing" id="eSA-3B-f8E"/>
                             <constraint firstItem="69f-9a-WNF" firstAttribute="top" secondItem="X3P-Au-Mmk" secondAttribute="bottom" id="grB-mq-cqz"/>
+                            <constraint firstItem="XuY-bs-dt1" firstAttribute="centerY" secondItem="k0d-Wg-0jH" secondAttribute="centerY" id="grX-nW-h4o"/>
                             <constraint firstItem="nsn-Si-fPj" firstAttribute="trailing" secondItem="k0d-Wg-0jH" secondAttribute="trailing" id="ih0-tt-Pyo"/>
                             <constraint firstItem="X3P-Au-Mmk" firstAttribute="top" secondItem="NP4-Sw-EZ5" secondAttribute="bottom" constant="8" symbolic="YES" id="j3P-ak-778"/>
                             <constraint firstItem="AUj-kN-lj0" firstAttribute="centerX" secondItem="k0d-Wg-0jH" secondAttribute="centerX" id="kVf-vs-1bQ"/>
@@ -353,6 +364,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="XuY-bs-dt1" id="TwB-rH-X5e"/>
                         <outlet property="findOnTheMapButton" destination="AUj-kN-lj0" id="8df-Zi-b69"/>
                         <outlet property="locationTextField" destination="k0d-Wg-0jH" id="DWZ-EQ-d4i"/>
                         <outlet property="nonEditableTextView" destination="69f-9a-WNF" id="QnD-Vx-M5z"/>

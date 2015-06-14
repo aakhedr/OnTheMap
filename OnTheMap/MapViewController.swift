@@ -12,6 +12,7 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var studentsMapView: MKMapView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     /* View lifecycle */
     
@@ -24,6 +25,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Show world map initially */
         let initialLocation = MKCoordinateRegionForMapRect(MKMapRectWorld)
         studentsMapView.region = initialLocation
+        
+        /* Activity Indicator */
+        activityIndicator!.hidesWhenStopped = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -36,6 +40,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Load up Student objects from Parse */
+        self.activityIndicator.startAnimating()
+        view.alpha = 0.9
+
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             if let students = students {
                 Data.sharedInstance().studentsInformation = students
@@ -47,6 +54,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         self.studentsMapView.removeAnnotations(self.studentsMapView.annotations)
                     }
                     self.studentsMapView.addAnnotations(annotations)
+
+                    self.view.alpha = 1.0
+                    self.activityIndicator.stopAnimating()
                 }
             } else {
                 dispatch_async(dispatch_get_main_queue()) {

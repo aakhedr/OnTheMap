@@ -15,6 +15,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var findOnTheMapButton: UIButton!
     @IBOutlet weak var userMapView: MKMapView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +39,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         
         /* Set text view delegate */
         nonEditableTextView.delegate = self
+        
+        /* Activity Indicator */
+        activityIndicator.hidesWhenStopped = true
     }
     
     /* Actions */
     
     @IBAction func findOnTheMapAction(sender: UIButton) {
+        
         if sender.currentTitle! == "Find on the map" {
+            activityIndicator.startAnimating()
+            
             let geocoder = CLGeocoder()
             geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
                 if let error = error {
@@ -67,6 +74,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
                     self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
                     self.userMapView.addAnnotation(annotation)
+                    
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }
