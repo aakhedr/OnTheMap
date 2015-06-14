@@ -169,6 +169,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         return true
     }
     
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        textField.text = ""
+        
+        return true
+    }
     func textFieldDidEndEditing(textField: UITextField) {
         Data.sharedInstance().mapString = locationTextField!.text!
     }
