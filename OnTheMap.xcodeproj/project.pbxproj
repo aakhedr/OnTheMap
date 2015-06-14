@@ -27,6 +27,7 @@
 		36C3836F1B2DD66700915EE1 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C3836E1B2DD66700915EE1 /* WebViewController.swift */; };
 		36C383711B2DF33000915EE1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C383701B2DF33000915EE1 /* DetailViewController.swift */; };
 		36C383731B2DFECD00915EE1 /* CellDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C383721B2DFECD00915EE1 /* CellDetailViewController.swift */; };
+		36C383771B2E31F300915EE1 /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 36C383761B2E31F300915EE1 /* LaunchImage.png */; };
 		36CB33A71B2CDE7D00388720 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CB33A61B2CDE7D00388720 /* Data.swift */; };
 		36DAEAFA1B1FAC11000CD8A5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */; };
 		36F295561B2327DB0028D536 /* ConfigUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F295551B2327DB0028D536 /* ConfigUI.swift */; };
@@ -69,6 +70,7 @@
 		36C3836E1B2DD66700915EE1 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		36C383701B2DF33000915EE1 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		36C383721B2DFECD00915EE1 /* CellDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDetailViewController.swift; sourceTree = "<group>"; };
+		36C383761B2E31F300915EE1 /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
 		36CB33A61B2CDE7D00388720 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Data.swift; path = ../Data.swift; sourceTree = "<group>"; };
 		36DAEAF91B1FAC11000CD8A5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		36F295551B2327DB0028D536 /* ConfigUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigUI.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		3637115B1B1EB39700407E8C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				36C383761B2E31F300915EE1 /* LaunchImage.png */,
 				3637115C1B1EB39700407E8C /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -316,6 +319,7 @@
 				3666C1361B1EBE1400C27CD0 /* Roboto-Medium.ttf in Resources */,
 				363711631B1EB39700407E8C /* Main.storyboard in Resources */,
 				3666C1381B1EBE1400C27CD0 /* Roboto-Thin.ttf in Resources */,
+				36C383771B2E31F300915EE1 /* LaunchImage.png in Resources */,
 				3666C1371B1EBE1400C27CD0 /* Roboto-Regular.ttf in Resources */,
 				363711681B1EB39700407E8C /* LaunchScreen.xib in Resources */,
 				363711651B1EB39700407E8C /* Images.xcassets in Resources */,
