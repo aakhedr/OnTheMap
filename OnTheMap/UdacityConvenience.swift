@@ -70,21 +70,33 @@ extension UdacityClient {
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
+                
                 completionHandler(error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
             } else {
+                
                 if let user = JSONResult.valueForKey(JSONResponseKeys.User) as? NSDictionary {
+                    
                     if let userLastName = user.valueForKey(JSONResponseKeys.UserLastName) as? String {
+                        
                         Data.sharedInstance().userLastName = userLastName
+                        
                         if let userFirstName = user.valueForKey(JSONResponseKeys.UserFirstName) as? String {
+                            
                             Data.sharedInstance().userFirstName = userFirstName
                             Data.sharedInstance().previousLocationsExist = true
+                            
                             completionHandler(error: nil)
+                            
                         } else {
+                            
                             completionHandler(error: NSError(domain: "getUserPublicData", code: 3, userInfo: [NSLocalizedDescriptionKey: "could not parse userFirstName as String"]))
                         }
+
                     } else {
+
                         completionHandler(error: NSError(domain: "getUserPublicData", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse userLastName as String"]))
                     }
+
                 } else {
                     completionHandler(error: NSError(domain: "getUserPublicData", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse user dictionary"]))
                 }

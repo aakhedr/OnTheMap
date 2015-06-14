@@ -63,17 +63,53 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func refresh() {
         
-        // Add Activity Indicator View here
-        self.targetView!.viewWillAppear(true)
+        if self.targetView is MapViewController {
+            
+            self.targetView!.viewWillAppear(true)
+
+        } else {
+            
+            ParseClient.sharedInstance().getStudentsLocations { students, error in
+
+                if let students = students {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        Data.sharedInstance().studentsInformation = students
+                        
+                        /* Relaod the table data */
+                        self.targetView!.viewWillAppear(true)
+                    }
+                    
+                } else {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        if error!.code == 0 {
+                            
+                            let title = "Network Error!"
+                            let message = "Error connecting to Parse. Check your Internet connection!"
+                            let actionTitle = "OK"
+                            
+                            ConfigUI.configureAndPresentAlertController(self.targetView, title: title, message: message, actionTitle: actionTitle)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func pin() {
+        
         checkForPreviousLocations()
     }
     
     func checkForPreviousLocations() {
+        
         let userID = Data.sharedInstance().userID!
+        
         ParseClient.sharedInstance().userLocationsExist { success, error in
+            
             if success {
                 
                 // Present an alert
@@ -84,20 +120,25 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                         println("error domain: \(error.domain)")
                         println("error code: \(error.code)")
                         println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+
                     } else {
+                        
                         Data.sharedInstance().previousLocationsExist = true
                         self.presentInformationPostingViewController()
                     }}
                 })
+                
                 let cancelButton = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in alertController.dismissViewControllerAnimated(true, completion: nil)})
                 alertController.addAction(overwriteButton)
                 alertController.addAction(cancelButton)
                 
                 self.targetView.presentViewController(alertController, animated: true, completion: nil)
+                
             } else if (!success && (error == nil)) {
                 
-                // Submit a new location
+                // Proceed to submit a new location
                 self.getUserPublicDataAndPresentInformationPostingViewController { error in
+                    
                     if let error = error {
                         println("error domain: \(error.domain)")
                         println("error code: \(error.code)")
@@ -109,12 +150,16 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     }
     
     func getUserPublicDataAndPresentInformationPostingViewController(completionHandler: (error: NSError?) -> Void) {
+        
         UdacityClient.sharedInstance().getUserPublicData { error in
+            
             if let error = error {
                 
                 // Add interface to let the user retry
                 dispatch_async(dispatch_get_main_queue()) {
+                    
                     if error.code == 0 {
+                        
                         let title = "Network Error!"
                         let message = "Error connecting to Udacity. Check your Internet connection!"
                         let actionTitle = "OK"
@@ -123,6 +168,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     }
                 }
             } else {
+                
                 self.presentInformationPostingViewController()
             }
         }
@@ -132,6 +178,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
 
         /* Present the Information Posting View Controller modally */
         dispatch_async(dispatch_get_main_queue()) {
+            
             let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
             
             self.targetView!.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
@@ -139,6 +186,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     }
     
     class func configureAndPresentAlertController(viewController: UIViewController, title: String, message: String, actionTitle: String) {
+        
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default, handler: nil)
         alertController.addAction(okAction)
@@ -151,6 +199,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         if let url = NSURL(string: urlString) {
             
             if UIApplication.sharedApplication().canOpenURL(url) {
+                
                 return true
             }
         }
@@ -160,7 +209,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     /* Shared Instance */
     class func sharedInstance() -> ConfigUI {
+        
         struct Singleton {
+
             static var sharedInstance = ConfigUI()
         }
         

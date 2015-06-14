@@ -40,27 +40,38 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Load up Student objects from Parse */
+        
         self.activityIndicator.startAnimating()
-        view.alpha = 0.9
+        view.alpha = 0.8
 
         ParseClient.sharedInstance().getStudentsLocations { students, error in
+            
             if let students = students {
-                Data.sharedInstance().studentsInformation = students
+                
                 dispatch_async(dispatch_get_main_queue()) {
+
+                    Data.sharedInstance().studentsInformation = students
+                    
                     let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
                     
-                    // Remove existing (if any) first and then add the new! ---- for Refresh()
+                    // Remove existing (if any) and then add the new! ---- for Refresh()
                     if (self.studentsMapView.annotations != nil) {
+                        
                         self.studentsMapView.removeAnnotations(self.studentsMapView.annotations)
                     }
+                    
                     self.studentsMapView.addAnnotations(annotations)
 
                     self.view.alpha = 1.0
                     self.activityIndicator.stopAnimating()
                 }
+                
             } else {
+                
                 dispatch_async(dispatch_get_main_queue()) {
+
                     if error!.code == 0 {
+                        
                         let title = "Network Error!"
                         let message = "Error connecting to Parse. Check your Internet connection!"
                         let actionTitle = "OK"
@@ -75,6 +86,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     /* Map View Delegate */
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        
         if let annotation = annotation as? Annotation {
             
             let identifier = "pin"
@@ -82,10 +94,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
                 as? MKPinAnnotationView {
+                    
                     dequeuedView.annotation = annotation
                     view = dequeuedView
 
             } else {
+                
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
@@ -105,8 +119,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
         if ConfigUI.verifyURL(annotation.subtitle!) {
             UIApplication.sharedApplication().openURL(NSURL(string: annotation.subtitle!)!)
+
         } else {
-            let title = "No link here!"
+            
+            let title = ""
             let message = "Sorry, This link cannot be opened."
             let actionTitle = "OK"
             
@@ -115,5 +131,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     /* Actions in ConfigUI.swift */
-
 }

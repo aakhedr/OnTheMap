@@ -1,27 +1,24 @@
 //
-//  TableViewController.swift
+//  DetailViewController.swift
 //  OnTheMap
 //
-//  Created by Ahmed Khedr on 6/5/15.
+//  Created by Ahmed Khedr on 6/14/15.
 //  Copyright (c) 2015 Ahmed Khedr. All rights reserved.
 //
 
 import UIKit
 
-class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    @IBOutlet weak var studentsTableView: UITableView!
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    /* Lifecycle */
-
+    @IBOutlet weak var detailTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /* Set the Table View Delegate and Data Source */
-        studentsTableView.delegate = self
-        studentsTableView.dataSource = self
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -32,27 +29,29 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.parentViewController!.title = "On The Map"
         
         /* reload table data (For refresh) */
-        studentsTableView.reloadData()
+        detailTableView.reloadData()
     }
+
+    /* Table View Data Source and Table View Delegate */
     
-    /* Table View Delegate and Table View Data Source */
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection seciont: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return Data.sharedInstance().studentsInformation.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        /* Get the cell */
-        let cellReuseIdentifier = "StudentCell"
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as! UITableViewCell
+        
+        let cellReuseIdentifier = "DetailCell"
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as! CellDetailViewController
         let student = Data.sharedInstance().studentsInformation[indexPath.row]
         
-        /* Set the cell properties */
-        cell.textLabel!.text = student.firstName + " " + student.lastName
-        cell.imageView!.image = UIImage(named: "pin")
-
+        cell.studentFullName.text = student.firstName + " " + student.lastName
+        cell.studentURL.text = student.mediaURL
+        cell.studentLocationString.text = student.mapString
+        
+        // Modify this to include udacity or facebook image
+        cell.studentImage.image = UIImage(named: "detail")
+        
         return cell
     }
     
@@ -60,11 +59,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         let student = Data.sharedInstance().studentsInformation[indexPath.row]
         
-        /* Open Safari at the media url of the selected student if valid */
         if ConfigUI.verifyURL(student.mediaURL) {
             
             UIApplication.sharedApplication().openURL(NSURL(string: student.mediaURL)!)
-
+            
         } else {
             
             let title = ""

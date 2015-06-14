@@ -49,18 +49,23 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     @IBAction func findOnTheMapAction(sender: UIButton) {
         
         if sender.currentTitle! == "Find on the map" {
+            
             activityIndicator.startAnimating()
             
             let geocoder = CLGeocoder()
             geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
+                
                 if let error = error {
+                    
                     // Inform the user this location could not be found using Apple Maps
                     let title = "Unknown location to Apple Maps"
                     let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
                     let actionTitle = "OK"
                     
                     ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    
                 } else {
+                    
                     let placemarks = placemarks as! [CLPlacemark]
                     Data.sharedInstance().region = self.getTheRegion(placemarks)
                     self.alterTheView()
@@ -82,13 +87,20 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     @IBAction func submit(sender: UIButton) {
+        
         if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
+            
             if Data.sharedInstance().previousLocationsExist! {
+                
                 self.updateUserLocations()
+                
             } else {
+                
                 self.submitNewLoaction()
             }
+            
         } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
+
             let title = "Share a link!"
             let message = "You must share a link to submit your location."
             let actionTitle = "OK"
@@ -99,16 +111,22 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     func updateUserLocations() {
         ParseClient.sharedInstance().updateUserLocations { result, error in
+            
             if let error = error {
+                
                 if error.code == 0 {
+                    
                     let title = "Network Error!"
                     let message = "Error connecting to Parse. Check your Internet connection!"
                     let actionTitle = "OK"
                     
                     ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                 }
+                
             } else {
+                
                 dispatch_async(dispatch_get_main_queue()) {
+                    
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -118,8 +136,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     func submitNewLoaction() {
         ParseClient.sharedInstance().postUserLocation { result, error in
             if let error = error {
+                
                 dispatch_async(dispatch_get_main_queue()) {
+                    
                     if error.code == 0 {
+                        
                         let title = "Network Error!"
                         let message = "Error connecting to Parse. Check your Internet connection!"
                         let actionTitle = "OK"
@@ -127,8 +148,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
+                
             } else {
+                
                 dispatch_async(dispatch_get_main_queue()) {
+                    
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -136,10 +160,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
 
     @IBAction func cancel(sender: UIButton) {
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {
+        
         var regions = [MKCoordinateRegion]()
         
         for placemark in placemarks {
@@ -155,6 +181,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     func alterTheView() {
+        
         locationTextField.hidden = true
         userMapView.hidden = false
         nonEditableTextView.backgroundColor = UIColor.blueColor()
@@ -167,28 +194,33 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     /* Dismiss keyboard in case of a tap! */
     func handleSingleTap(recognizer: UIGestureRecognizer) {
+        
         view.endEditing(true)
     }
     
     /* Text Field Delegate */
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
         textField.resignFirstResponder()
         
         return true
     }
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        
         textField.text = ""
         
         return true
     }
     func textFieldDidEndEditing(textField: UITextField) {
+        
         Data.sharedInstance().mapString = locationTextField!.text!
     }
     
     /* Tap Gesture Recognizer Delegate */
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        
         return locationTextField!.isFirstResponder()
     }
     
@@ -196,6 +228,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     // Dismisses the keyboard when done editing user media URL
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
         if text == "\n" {
             textView.resignFirstResponder()
 
