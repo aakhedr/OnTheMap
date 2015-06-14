@@ -162,7 +162,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         
         nonEditableTextView.editable = true       // Enable user to type his/ her URL
         nonEditableTextView.textColor = UIColor.whiteColor()
-        nonEditableTextView.text = "Enter a link to share!"
+        nonEditableTextView.text = "Enter a link and verify it!"
     }
     
     /* Dismiss keyboard in case of a tap! */
@@ -213,11 +213,23 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     func textViewDidEndEditing(textView: UITextView) {
 
-        // Validate the URL first
+        // Let user verify the url entered
         if ConfigUI.verifyURL(textView.text!) {
             
-            Data.sharedInstance().mediaURL = textView.text!
+            let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
+            
+            /* Build the URL */
+            let url = NSURL(string: textView.text)!
+            let request = NSURLRequest(URL: url)
+            
+            /* set the request */
+            webViewController.request = request
+            webViewController.urlString = textView.text!
+            
+            presentViewController(webViewController, animated: true, completion: nil)
+
         } else {
+            
             let title = "Error!"
             let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
             let actionTitle = "OK"
@@ -225,5 +237,5 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
             
         }
-    }        
+    }
 }

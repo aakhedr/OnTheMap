@@ -338,7 +338,7 @@
                                     <action selector="submit:" destination="Yhe-Xt-Ep6" eventType="touchUpInside" id="Hve-jq-bJU"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="XuY-bs-dt1">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="XuY-bs-dt1">
                                 <rect key="frame" x="290" y="323" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -374,6 +374,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WJd-xE-0wd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1992" y="-27"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="POw-Bu-FKW">
+            <objects>
+                <viewController storyboardIdentifier="WebView" id="l1d-Ed-ztY" customClass="WebViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZAj-fe-KNa"/>
+                        <viewControllerLayoutGuide type="bottom" id="r4I-QS-bxp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lIn-OA-txz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DPt-OH-0qE">
+                                <rect key="frame" x="0.0" y="28" width="600" height="528"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tkm-Xt-Xht">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Proceed to submit!" id="mQA-Rj-A8j">
+                                        <connections>
+                                            <action selector="saveURL:" destination="l1d-Ed-ztY" id="MvQ-yi-GH9"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="uQR-c4-IJb"/>
+                                    <barButtonItem title="Another link?" id="oLf-HM-gpg">
+                                        <connections>
+                                            <action selector="ModifyURL:" destination="l1d-Ed-ztY" id="szX-Zo-pQR"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DPt-OH-0qE" secondAttribute="trailing" id="0QY-MJ-sHZ"/>
+                            <constraint firstItem="DPt-OH-0qE" firstAttribute="top" secondItem="ZAj-fe-KNa" secondAttribute="bottom" constant="8" symbolic="YES" id="5FA-62-TWh"/>
+                            <constraint firstItem="Tkm-Xt-Xht" firstAttribute="bottom" secondItem="r4I-QS-bxp" secondAttribute="top" id="NGS-Tl-Wsv"/>
+                            <constraint firstItem="DPt-OH-0qE" firstAttribute="bottom" secondItem="Tkm-Xt-Xht" secondAttribute="top" id="gAb-zw-un8"/>
+                            <constraint firstItem="DPt-OH-0qE" firstAttribute="leading" secondItem="lIn-OA-txz" secondAttribute="leading" id="mjD-Xn-Y0e"/>
+                            <constraint firstItem="DPt-OH-0qE" firstAttribute="leading" secondItem="Tkm-Xt-Xht" secondAttribute="leading" id="p6U-Gz-WAX"/>
+                            <constraint firstItem="DPt-OH-0qE" firstAttribute="trailing" secondItem="Tkm-Xt-Xht" secondAttribute="trailing" id="vCj-C7-hvI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="urlWebView" destination="DPt-OH-0qE" id="ZOr-fA-N93"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="srZ-Oc-7fL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2725" y="-27"/>
         </scene>
     </scenes>
     <resources>
