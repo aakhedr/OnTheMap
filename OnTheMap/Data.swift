@@ -23,8 +23,8 @@ class Data: NSObject {
     var previousLocationsExist: Bool!
     var objectID: String!
     var foundObjectIDs: [String]!
-
-    var studentsInformation: [Student]!    
+    
+    var studentsInformation: [Student]!
     
     class func sharedInstance() -> Data {
         struct Singleton {
