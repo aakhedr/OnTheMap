@@ -26,6 +26,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         /* Set Text Field Delegate */
         email!.delegate = self
         password!.delegate = self
+        
+        /* original origin */
+        origin = view.frame.origin.y
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -37,8 +40,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         tapRecognizer.delegate = self
         view.addGestureRecognizer(tapRecognizer)
         
-        /* original origin */
-        origin = view.frame.origin.y
         newOrigin = nil     // Everytime the view appears newOrigin is nil. Then it gets set in the method getKeyboardHeight
     
         /* In case of logout from the tab bar view */
@@ -60,14 +61,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     func handleSingleTap(recognizer: UIGestureRecognizer) {
     
         view.endEditing(true)
+
+        // Set the origin back to original origin
+        if view.frame.origin.y != origin {
+            
+            view.frame.origin.y = origin
+        }
     }
 
     /* Actions */
 
     @IBAction func loginWithUdacityCredentials(sender: UIButton) {
         if email!.text.isEmpty || password!.text.isEmpty {
+            
             self.debugLabel!.text = "You must enter username and password!"
             self.debugLabel!.backgroundColor = UIColor.redColor()
+            
+            /* Fix the view */
+            if self.view.frame.origin.y != origin {
+                
+                self.view.frame.origin.y = origin
+            }
             
             return
         }
@@ -76,18 +90,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         Data.sharedInstance().password = password!.text!
         
         UdacityClient.sharedInstance().authenticateWithUdacityCredentials { success, error in
+
             if success {
-                self.completeLogin(sender)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.completeLogin(sender)
+                }
+                
             } else {
-                self.displayError(error)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.displayError(error)
+                }
             }
         }
     }
     
     func completeLogin(sender: UIButton) {
+        
         dispatch_async(dispatch_get_main_queue()) {
+            
             self.debugLabel!.text = "Login successful!"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
+            
+            /* Fix the view */
+            if self.view.frame.origin.y != self.origin {
+                
+                self.view.frame.origin.y = self.origin
+            }
             
             /* Segue to the Map and Table Tabbed View */
             self.performSegueWithIdentifier("TabbedViewSegue", sender: sender)
@@ -95,11 +127,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     }
     
     func displayError(error: NSError?) {
+        
         dispatch_async(dispatch_get_main_queue()) {
+            
             if let error = error {
-                println("error domain: \(error.domain)")
-                println("error code: \(error.code)")
-                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                 
                 self.debugLabel!.backgroundColor = UIColor.redColor()
 
@@ -111,6 +142,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
                 default:
                     self.debugLabel!.text = "Error logging in!"
                 }
+                
+                /* Fix the view */
+                if self.view.frame.origin.y != self.origin {
+                    
+                    self.view.frame.origin.y = self.origin
+                }
             }
         }
     }
@@ -118,25 +155,31 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     /* Keyboard notificatinos */
     
     func subscribeToKeyboardNotifications() {
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
+        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func keyboardWillShow(notification: NSNotification) {
+        
         view.frame.origin.y -= getKeyboardHeight(notification)
     }
     
     func keyboardWillHide(notification: NSNotification) {
+        
         self.view.frame.origin.y += getKeyboardHeight(notification)
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        if newOrigin == nil {
+
+        if self.view.frame.origin.y == origin {
+
             let userInfo = notification.userInfo
             let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
             
@@ -150,11 +193,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
 
     /* Text Field Delegate */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
         if textField == password! {
+            
             textField.resignFirstResponder()
             self.view.frame.origin.y = origin
             self.loginWithUdacityCredentials(loginButton)
+
         } else {
+
             password!.becomeFirstResponder()
         }
         
@@ -163,6 +210,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     
     /* Tap Gesture Recognizer Delegate */
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        
         return email!.isFirstResponder() || password!.isFirstResponder()
     }
 }
