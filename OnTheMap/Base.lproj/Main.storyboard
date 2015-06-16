@@ -9,9 +9,9 @@
             <string>Roboto-Medium</string>
             <string>Roboto-Medium</string>
             <string>Roboto-Medium</string>
-            <string>Roboto-Medium</string>
         </mutableArray>
         <mutableArray key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
@@ -36,10 +36,14 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="200" verticalCompressionResistancePriority="700" image="udacity" translatesAutoresizingMaskIntoConstraints="NO" id="fGv-gk-xCe">
                                 <rect key="frame" x="16" y="20" width="568" height="217"/>
+                                <variation key="heightClass=compact-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="20" width="368" height="136"/>
+                                </variation>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dlk-J7-w8g">
                                 <rect key="frame" x="16" y="273" width="568" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="AuO-c6-3QA"/>
                                     <constraint firstAttribute="height" constant="30" id="Cdx-S7-QSB"/>
                                     <constraint firstAttribute="height" constant="30" id="Rah-8S-jiA"/>
                                 </constraints>
@@ -52,11 +56,13 @@
                                 </userDefinedRuntimeAttributes>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="AuO-c6-3QA"/>
                                         <exclude reference="Cdx-S7-QSB"/>
                                         <exclude reference="Rah-8S-jiA"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="heightClass=compact-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="193" width="368" height="30"/>
                                     <mask key="constraints">
                                         <include reference="Cdx-S7-QSB"/>
                                     </mask>
@@ -65,6 +71,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eni-h1-Bbt">
                                 <rect key="frame" x="16" y="311" width="568" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8fk-PG-83U"/>
                                     <constraint firstAttribute="height" constant="30" id="Noi-Eg-po3"/>
                                     <constraint firstAttribute="height" constant="30" id="kuR-Wh-VBT"/>
                                 </constraints>
@@ -77,11 +84,13 @@
                                 </userDefinedRuntimeAttributes>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="8fk-PG-83U"/>
                                         <exclude reference="Noi-Eg-po3"/>
                                         <exclude reference="kuR-Wh-VBT"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="heightClass=compact-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="231" width="368" height="30"/>
                                     <mask key="constraints">
                                         <include reference="kuR-Wh-VBT"/>
                                     </mask>
@@ -101,7 +110,8 @@
                                         <exclude reference="EK8-zY-ZFx"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="heightClass=compact-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="269" width="368" height="30"/>
                                     <mask key="constraints">
                                         <exclude reference="EK8-zY-ZFx"/>
                                     </mask>
@@ -110,27 +120,6 @@
                                     <action selector="loginWithUdacityCredentials:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q0T-lE-ogT"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account? Signup!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Rg-Qu-O1h">
-                                <rect key="frame" x="16" y="387" width="568" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Dfv-ke-yGb"/>
-                                    <constraint firstAttribute="height" constant="30" id="Yct-Sl-AsT"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Dfv-ke-yGb"/>
-                                        <exclude reference="Yct-Sl-AsT"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Dfv-ke-yGb"/>
-                                        <exclude reference="Yct-Sl-AsT"/>
-                                    </mask>
-                                </variation>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Udacity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSb-gk-GHH">
                                 <rect key="frame" x="16" y="245" width="568" height="20"/>
                                 <constraints>
@@ -145,70 +134,55 @@
                                         <exclude reference="tIu-Vi-KIR"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=compact-widthClass=compact">
+                                <variation key="heightClass=compact-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="16" y="164" width="368" height="21"/>
                                     <mask key="constraints">
                                         <include reference="igB-MP-8Sm"/>
                                         <exclude reference="tIu-Vi-KIR"/>
                                     </mask>
                                 </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edp-X7-YjJ">
+                                <rect key="frame" x="16" y="387" width="568" height="30"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
+                                <state key="normal" title="Don't have an account? Signup!">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rZ2-IJ-zRj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="0Rg-Qu-O1h" firstAttribute="top" secondItem="Tw5-UQ-Ukf" secondAttribute="bottom" constant="8" symbolic="YES" id="95b-nm-yMT"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="height" secondItem="eni-h1-Bbt" secondAttribute="height" id="CYu-oA-KhM"/>
-                            <constraint firstItem="fGv-gk-xCe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="GX5-TV-R6C"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="0Rg-Qu-O1h" secondAttribute="leading" id="I0b-3D-JJ3"/>
-                            <constraint firstItem="BSb-gk-GHH" firstAttribute="height" secondItem="0Rg-Qu-O1h" secondAttribute="height" id="I7x-0b-h90"/>
-                            <constraint firstItem="fGv-gk-xCe" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="Lyo-95-M59"/>
-                            <constraint firstItem="eni-h1-Bbt" firstAttribute="top" secondItem="dlk-J7-w8g" secondAttribute="bottom" constant="8" symbolic="YES" id="Mc6-vd-xag"/>
-                            <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="NBB-CS-YQv"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="QhS-UA-APh"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0Rg-Qu-O1h" secondAttribute="bottom" constant="193" id="SgC-JG-FT8"/>
-                            <constraint firstItem="fGv-gk-xCe" firstAttribute="leading" secondItem="BSb-gk-GHH" secondAttribute="leading" id="Unr-9W-Qgn"/>
-                            <constraint firstItem="dlk-J7-w8g" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="WcJ-NK-ogQ"/>
-                            <constraint firstItem="eni-h1-Bbt" firstAttribute="height" secondItem="dlk-J7-w8g" secondAttribute="height" id="Z4u-e3-BWN"/>
-                            <constraint firstItem="0Rg-Qu-O1h" firstAttribute="trailing" secondItem="Tw5-UQ-Ukf" secondAttribute="trailing" id="Zxz-YQ-j9g"/>
-                            <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="BSb-gk-GHH" secondAttribute="leading" id="bAb-EU-DZg"/>
-                            <constraint firstItem="dlk-J7-w8g" firstAttribute="top" secondItem="BSb-gk-GHH" secondAttribute="bottom" constant="8" symbolic="YES" id="d6l-UN-egS"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="top" secondItem="eni-h1-Bbt" secondAttribute="bottom" constant="8" symbolic="YES" id="icl-iJ-Fq7"/>
-                            <constraint firstItem="eni-h1-Bbt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="lfB-ZJ-74J"/>
-                            <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="mTK-qz-gti"/>
-                            <constraint firstItem="dlk-J7-w8g" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="nic-eh-fMd"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="y6e-0t-HRg"/>
-                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="zry-kV-CdF"/>
+                            <constraint firstItem="eni-h1-Bbt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="042-BM-qKb"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="edp-X7-YjJ" secondAttribute="bottom" constant="183" id="1kB-ko-zER"/>
+                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="top" secondItem="eni-h1-Bbt" secondAttribute="bottom" constant="8" symbolic="YES" id="C16-9X-dk2"/>
+                            <constraint firstItem="eni-h1-Bbt" firstAttribute="height" secondItem="dlk-J7-w8g" secondAttribute="height" id="Cpk-7s-84N"/>
+                            <constraint firstItem="eni-h1-Bbt" firstAttribute="top" secondItem="dlk-J7-w8g" secondAttribute="bottom" constant="8" symbolic="YES" id="FvD-Vp-m3e"/>
+                            <constraint firstItem="eni-h1-Bbt" firstAttribute="trailing" secondItem="dlk-J7-w8g" secondAttribute="trailing" id="IFa-fa-fMt"/>
+                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="height" secondItem="eni-h1-Bbt" secondAttribute="height" id="JeW-h6-pfF"/>
+                            <constraint firstItem="fGv-gk-xCe" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="O8b-vn-FkV"/>
+                            <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="RoP-Dl-qqu"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="top" secondItem="Tw5-UQ-Ukf" secondAttribute="bottom" constant="8" symbolic="YES" id="XjA-Wq-bD8"/>
+                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="edp-X7-YjJ" secondAttribute="leading" id="ZBE-Vk-9dA"/>
+                            <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="dlk-J7-w8g" secondAttribute="leading" id="ZGN-62-NO5"/>
+                            <constraint firstItem="fGv-gk-xCe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="a9T-wD-L2k"/>
+                            <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="bkR-4B-4ep"/>
+                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="fuH-zd-yN6"/>
+                            <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="h8V-aJ-5IM"/>
+                            <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="fGv-gk-xCe" secondAttribute="leading" id="hPb-h3-DaA"/>
+                            <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="l7G-QJ-0q1"/>
+                            <constraint firstItem="dlk-J7-w8g" firstAttribute="top" secondItem="BSb-gk-GHH" secondAttribute="bottom" constant="8" symbolic="YES" id="neu-nj-yds"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="trailing" secondItem="Tw5-UQ-Ukf" secondAttribute="trailing" id="rhI-tU-pgM"/>
+                            <constraint firstItem="BSb-gk-GHH" firstAttribute="trailing" secondItem="dlk-J7-w8g" secondAttribute="trailing" id="wof-pe-6Nw"/>
                         </constraints>
-                        <variation key="heightClass=compact-widthClass=compact">
-                            <mask key="constraints">
-                                <exclude reference="GX5-TV-R6C"/>
-                                <exclude reference="Lyo-95-M59"/>
-                                <exclude reference="Unr-9W-Qgn"/>
-                                <exclude reference="NBB-CS-YQv"/>
-                                <exclude reference="WcJ-NK-ogQ"/>
-                                <exclude reference="bAb-EU-DZg"/>
-                                <exclude reference="d6l-UN-egS"/>
-                                <exclude reference="mTK-qz-gti"/>
-                                <exclude reference="nic-eh-fMd"/>
-                                <exclude reference="Mc6-vd-xag"/>
-                                <exclude reference="Z4u-e3-BWN"/>
-                                <exclude reference="lfB-ZJ-74J"/>
-                                <exclude reference="CYu-oA-KhM"/>
-                                <exclude reference="I0b-3D-JJ3"/>
-                                <exclude reference="QhS-UA-APh"/>
-                                <exclude reference="icl-iJ-Fq7"/>
-                                <exclude reference="y6e-0t-HRg"/>
-                                <exclude reference="zry-kV-CdF"/>
-                                <exclude reference="95b-nm-yMT"/>
-                                <exclude reference="Zxz-YQ-j9g"/>
-                                <exclude reference="SgC-JG-FT8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="debugLabel" destination="BSb-gk-GHH" id="oAX-t8-6aN"/>
                         <outlet property="email" destination="dlk-J7-w8g" id="VRO-7t-BnY"/>
                         <outlet property="loginButton" destination="Tw5-UQ-Ukf" id="E9e-8A-3ho"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
-                        <outlet property="signupLabel" destination="0Rg-Qu-O1h" id="duo-uM-o1X"/>
+                        <outlet property="signupButton" destination="edp-X7-YjJ" id="yaM-dL-tTs"/>
                         <segue destination="F8H-U2-ymw" kind="showDetail" identifier="TabbedViewSegue" id="osC-Oh-pBm"/>
                     </connections>
                 </viewController>

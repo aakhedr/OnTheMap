@@ -14,7 +14,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var signupLabel: UILabel!
+    @IBOutlet weak var signupButton: UIButton!
     
     var origin: CGFloat!
     var newOrigin: CGFloat!
@@ -163,6 +163,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         }
     }
     
+    @IBAction func signup(sender: UIButton) {
+        
+        let url = NSURL(string: "https://www.udacity.com/account/auth#!/signin")!
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+    
     /* Keyboard notificatinos */
     
     func subscribeToKeyboardNotifications() {
@@ -260,7 +267,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         self.password!.backgroundColor = wheat
         
         self.debugLabel!.textColor = UIColor.whiteColor()
-        self.signupLabel!.textColor = UIColor.whiteColor()
+        self.signupButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
 }
