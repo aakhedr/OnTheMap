@@ -10,7 +10,6 @@ import UIKit
 
 class CellDetailViewController: UITableViewCell {
 
-    @IBOutlet weak var studentImage: UIImageView!
     @IBOutlet weak var studentFullName: UILabel!
     @IBOutlet weak var studentURL: UILabel!
     @IBOutlet weak var studentLocationString: UILabel!

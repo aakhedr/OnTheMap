@@ -49,9 +49,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         cell.studentURL.text = student.mediaURL
         cell.studentLocationString.text = student.mapString
         
-        // Modify this to include udacity or facebook image
-        cell.studentImage.image = UIImage(named: "detail")
-        
         return cell
     }
     

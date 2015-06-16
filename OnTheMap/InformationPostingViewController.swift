@@ -110,6 +110,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
 
     func updateUserLocations() {
+        
         ParseClient.sharedInstance().updateUserLocations { result, error in
             
             if let error = error {
@@ -134,7 +135,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
 
     func submitNewLoaction() {
+        
         ParseClient.sharedInstance().postUserLocation { result, error in
+            
             if let error = error {
                 
                 dispatch_async(dispatch_get_main_queue()) {

@@ -14,6 +14,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signupLabel: UILabel!
     
     var origin: CGFloat!
     var newOrigin: CGFloat!
@@ -75,10 +76,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     /* Actions */
 
     @IBAction func loginWithUdacityCredentials(sender: UIButton) {
+        
         if email!.text.isEmpty || password!.text.isEmpty {
             
             self.debugLabel!.text = "You must enter username and password!"
             self.debugLabel!.backgroundColor = UIColor.redColor()
+            
+            self.view.endEditing(true)
             
             /* Fix the view */
             if self.view.frame.origin.y != origin {
@@ -118,6 +122,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             self.debugLabel!.text = "Login successful!"
             self.debugLabel!.backgroundColor = UIColor.greenColor()
             
+            self.view.endEditing(true)
+            
             /* Fix the view */
             if self.view.frame.origin.y != self.origin {
                 
@@ -145,6 +151,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
                 default:
                     self.debugLabel!.text = "Error logging in!"
                 }
+                
+                self.view.endEditing(true)
                 
                 /* Fix the view */
                 if self.view.frame.origin.y != self.origin {
@@ -187,7 +195,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
             
             newOrigin = keyboardSize.CGRectValue().height / 2.0
-            
+
             return newOrigin
         }
         
@@ -250,6 +258,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         self.password!.textColor = orangeRed
         self.password!.backgroundColor = wheat
+        
+        self.debugLabel!.textColor = UIColor.whiteColor()
+        self.signupLabel!.textColor = UIColor.whiteColor()
     }
     
 }
