@@ -29,6 +29,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         /* original origin */
         origin = view.frame.origin.y
+        
+        /* Gradient color */
+        self.configureUI()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -213,5 +216,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         return email!.isFirstResponder() || password!.isFirstResponder()
     }
+    
+    func configureUI() {
+        
+        // color RGBs from http://www.rapidtables.com/web/color/RGB_Color.htm
+        
+        self.view.backgroundColor = UIColor.clearColor()
+        
+        // dark orange
+        let darkOrange = UIColor(red: 255/255.0, green: 0.539, blue: 0.0, alpha: 1.0).CGColor
+
+        // coral
+        let coral = UIColor(red: 255/255.0, green: 0.498, blue: 0.278, alpha: 1.0).CGColor
+        
+        var backgroundGradient = CAGradientLayer()
+        backgroundGradient.colors = [darkOrange, coral]
+        backgroundGradient.locations = [0.0, 1.0]
+        backgroundGradient.frame = self.view.frame
+        
+        self.view.layer.insertSublayer(backgroundGradient, atIndex: 0)
+        
+        // Orange red
+        let orangeRed = UIColor(red: 255/255.0, green: 69/255.0, blue: 0/255.0, alpha: 1.0)
+
+        // wheat
+        let wheat = UIColor(red: 245/255.0, green: 222/255.0, blue: 179/255.0, alpha: 1.0)
+
+        self.loginButton.backgroundColor = orangeRed
+        self.loginButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+
+        self.email!.textColor = orangeRed
+        self.email!.backgroundColor = wheat
+        
+        self.password!.textColor = orangeRed
+        self.password!.backgroundColor = wheat
+    }
+    
 }
 
