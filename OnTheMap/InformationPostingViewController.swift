@@ -57,30 +57,38 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 if let error = error {
                     
-                    // Inform the user this location could not be found using Apple Maps
-                    let title = "Unknown location to Apple Maps"
-                    let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
-                    let actionTitle = "OK"
-                    
-                    ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        // Inform the user this location could not be found using Apple Maps
+                        let title = "Unknown location to Apple Maps"
+                        let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                        
+                        self.activityIndicator.stopAnimating()
+                    }
                     
                 } else {
                     
-                    let placemarks = placemarks as! [CLPlacemark]
-                    Data.sharedInstance().region = self.getTheRegion(placemarks)
-                    self.alterTheView()
-
-                    let annotation = Annotation(
-                        latitude: Data.sharedInstance().region.center.latitude,
-                        longitude: Data.sharedInstance().region.center.longitude,
-                        firstName: Data.sharedInstance().userFirstName!,
-                        lastName: Data.sharedInstance().userLastName!,
-                        mediaURL: nil)
-
-                    self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
-                    self.userMapView.addAnnotation(annotation)
-                    
-                    self.activityIndicator.stopAnimating()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let placemarks = placemarks as! [CLPlacemark]
+                        Data.sharedInstance().region = self.getTheRegion(placemarks)
+                        self.alterTheView()
+                        
+                        let annotation = Annotation(
+                            latitude: Data.sharedInstance().region.center.latitude,
+                            longitude: Data.sharedInstance().region.center.longitude,
+                            firstName: Data.sharedInstance().userFirstName!,
+                            lastName: Data.sharedInstance().userLastName!,
+                            mediaURL: nil)
+                        
+                        self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
+                        self.userMapView.addAnnotation(annotation)
+                        
+                        self.activityIndicator.stopAnimating()
+                    }
                 }
             }
         }
