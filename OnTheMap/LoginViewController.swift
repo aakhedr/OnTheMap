@@ -18,6 +18,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     
     var origin: CGFloat!
     var newOrigin: CGFloat!
+    var backgroundGradient = CAGradientLayer()
     
     /* Lifecycle */
     
@@ -59,6 +60,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         super.viewWillDisappear(animated)
         
         unsubscribeFromKeyboardNotifications()
+    }
+    
+    /* Background gradient color in case of lanscape orienation */
+    override func viewDidLayoutSubviews() {
+        
+        self.backgroundGradient.frame = self.view.bounds
     }
     
     /* Dismiss keyboard on tap */
@@ -244,7 +251,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         // coral
         let coral = UIColor(red: 255/255.0, green: 0.498, blue: 0.278, alpha: 1.0).CGColor
         
-        var backgroundGradient = CAGradientLayer()
         backgroundGradient.colors = [darkOrange, coral]
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = self.view.frame
@@ -269,6 +275,5 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         self.debugLabel!.textColor = UIColor.whiteColor()
         self.signupButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
-    
 }
 
