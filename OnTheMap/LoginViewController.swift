@@ -15,6 +15,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var dontHaveAnAccountLabel: UILabel!
     
     var origin: CGFloat!
     var newOrigin: CGFloat!
@@ -274,6 +275,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         self.debugLabel!.textColor = UIColor.whiteColor()
         self.signupButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        self.dontHaveAnAccountLabel!.textColor = UIColor.whiteColor()
     }
 }
 

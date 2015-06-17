@@ -19,6 +19,7 @@
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -143,9 +144,9 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edp-X7-YjJ">
-                                <rect key="frame" x="16" y="524" width="568" height="30"/>
+                                <rect key="frame" x="355.5" y="524" width="51" height="30"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
-                                <state key="normal" title="Don't have an account? Signup!">
+                                <state key="normal" title="Signup!">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -156,37 +157,73 @@
                                 <rect key="frame" x="16" y="562" width="568" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account? " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XyY-Ew-nHt">
+                                <rect key="frame" x="193.5" y="524" width="161" height="30"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pJO-be-8f6">
+                                <rect key="frame" x="414.5" y="524" width="169.5" height="30"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5u5-gn-ttJ">
+                                <rect key="frame" x="16" y="524" width="169.5" height="30"/>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="042-BM-qKb"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="bottom" secondItem="edp-X7-YjJ" secondAttribute="bottom" id="4Z9-JH-JWk"/>
+                            <constraint firstItem="5u5-gn-ttJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="5W1-E6-eRs"/>
+                            <constraint firstItem="pbK-xH-y1F" firstAttribute="top" secondItem="XyY-Ew-nHt" secondAttribute="bottom" constant="8" symbolic="YES" id="6tu-QC-upk"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="top" secondItem="eni-h1-Bbt" secondAttribute="bottom" constant="8" symbolic="YES" id="C16-9X-dk2"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="height" secondItem="dlk-J7-w8g" secondAttribute="height" id="Cpk-7s-84N"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="top" secondItem="Tw5-UQ-Ukf" secondAttribute="bottom" constant="8" symbolic="YES" id="Ddq-P7-E1p"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="top" secondItem="dlk-J7-w8g" secondAttribute="bottom" constant="8" symbolic="YES" id="FvD-Vp-m3e"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="bottom" secondItem="pJO-be-8f6" secondAttribute="bottom" id="GOf-wb-v9h"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pbK-xH-y1F" secondAttribute="bottom" constant="8" symbolic="YES" id="Hmo-Qs-ct3"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="trailing" secondItem="dlk-J7-w8g" secondAttribute="trailing" id="IFa-fa-fMt"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="height" secondItem="eni-h1-Bbt" secondAttribute="height" id="JeW-h6-pfF"/>
                             <constraint firstItem="fGv-gk-xCe" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="O8b-vn-FkV"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="leading" secondItem="5u5-gn-ttJ" secondAttribute="trailing" constant="8" symbolic="YES" id="Pbj-p5-8lc"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="RoP-Dl-qqu"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="top" secondItem="edp-X7-YjJ" secondAttribute="top" id="RtK-7D-VTg"/>
                             <constraint firstItem="pbK-xH-y1F" firstAttribute="height" secondItem="eni-h1-Bbt" secondAttribute="height" id="ULa-wM-icM"/>
+                            <constraint firstItem="5u5-gn-ttJ" firstAttribute="width" secondItem="pJO-be-8f6" secondAttribute="width" id="Vlb-j7-hoq"/>
                             <constraint firstItem="edp-X7-YjJ" firstAttribute="top" secondItem="Tw5-UQ-Ukf" secondAttribute="bottom" constant="8" symbolic="YES" id="XjA-Wq-bD8"/>
                             <constraint firstItem="pbK-xH-y1F" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="YA8-dP-Kos"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="edp-X7-YjJ" secondAttribute="leading" id="ZBE-Vk-9dA"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="dlk-J7-w8g" secondAttribute="leading" id="ZGN-62-NO5"/>
                             <constraint firstItem="fGv-gk-xCe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="a9T-wD-L2k"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="bkR-4B-4ep"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="baseline" secondItem="edp-X7-YjJ" secondAttribute="baseline" id="brz-hz-UpL"/>
                             <constraint firstItem="pbK-xH-y1F" firstAttribute="top" secondItem="edp-X7-YjJ" secondAttribute="bottom" constant="8" symbolic="YES" id="cRH-eZ-3kY"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="leading" secondItem="eni-h1-Bbt" secondAttribute="leading" id="fuH-zd-yN6"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="top" secondItem="5u5-gn-ttJ" secondAttribute="top" id="grt-ST-fGu"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="trailing" secondItem="eni-h1-Bbt" secondAttribute="trailing" id="h8V-aJ-5IM"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="leading" secondItem="XyY-Ew-nHt" secondAttribute="trailing" constant="1" id="hDT-44-fkc"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="fGv-gk-xCe" secondAttribute="leading" id="hPb-h3-DaA"/>
                             <constraint firstItem="pbK-xH-y1F" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="iIP-jJ-VrX"/>
+                            <constraint firstItem="pJO-be-8f6" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="iay-bq-2xp"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="l7G-QJ-0q1"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="top" secondItem="BSb-gk-GHH" secondAttribute="bottom" constant="8" symbolic="YES" id="neu-nj-yds"/>
+                            <constraint firstItem="XyY-Ew-nHt" firstAttribute="bottom" secondItem="5u5-gn-ttJ" secondAttribute="bottom" id="nqX-Sv-tiD"/>
+                            <constraint firstItem="edp-X7-YjJ" firstAttribute="top" secondItem="pJO-be-8f6" secondAttribute="top" id="rKn-1G-rjE"/>
                             <constraint firstItem="edp-X7-YjJ" firstAttribute="trailing" secondItem="Tw5-UQ-Ukf" secondAttribute="trailing" id="rhI-tU-pgM"/>
+                            <constraint firstItem="pJO-be-8f6" firstAttribute="leading" secondItem="edp-X7-YjJ" secondAttribute="trailing" constant="8" symbolic="YES" id="sfP-PL-boY"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="trailing" secondItem="dlk-J7-w8g" secondAttribute="trailing" id="wof-pe-6Nw"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ZBE-Vk-9dA"/>
+                                <exclude reference="cRH-eZ-3kY"/>
+                                <exclude reference="XjA-Wq-bD8"/>
+                                <exclude reference="rhI-tU-pgM"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="debugLabel" destination="BSb-gk-GHH" id="oAX-t8-6aN"/>
+                        <outlet property="dontHaveAnAccountLabel" destination="XyY-Ew-nHt" id="oZ2-Kq-IZn"/>
                         <outlet property="email" destination="dlk-J7-w8g" id="VRO-7t-BnY"/>
                         <outlet property="loginButton" destination="Tw5-UQ-Ukf" id="E9e-8A-3ho"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
