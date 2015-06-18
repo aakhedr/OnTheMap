@@ -26,6 +26,8 @@ class Data: NSObject {
     
     var studentsInformation: [Student]!
     
+    var accessToken: String!
+    
     class func sharedInstance() -> Data {
         
         struct Singleton {

@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var debugLabel: UILabel!
     @IBOutlet weak var email: UITextField!
@@ -16,6 +18,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var dontHaveAnAccountLabel: UILabel!
+    
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     
     var origin: CGFloat!
     var newOrigin: CGFloat!
@@ -35,6 +39,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         /* Gradient color */
         self.configureUI()
+        
+        fbLoginButton.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -80,6 +86,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             view.frame.origin.y = origin
         }
     }
+    
+    /* FBSDKLoginButtonDelegate */
+
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        
+        if let error = error {
+            
+            println("error code: \(error.code)")
+            println("error domain: \(error.domain)")
+        }
+            
+        else {
+            
+            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+            UdacityClient.sharedInstance().authenticateWithFacebook { success, error in
+                
+                if success {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.completeLogin()
+                    }
+                    
+                } else {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.displayError(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        println("loginButtonDidLogOut is called!")
+    }
 
     /* Actions */
 
@@ -110,7 +154,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    self.completeLogin(sender)
+                    self.completeLogin()
                 }
                 
             } else {
@@ -123,7 +167,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         }
     }
     
-    func completeLogin(sender: UIButton) {
+    func completeLogin() {
         
         dispatch_async(dispatch_get_main_queue()) {
             
@@ -139,7 +183,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             }
             
             /* Segue to the Map and Table Tabbed View */
-            self.performSegueWithIdentifier("TabbedViewSegue", sender: sender)
+            self.performSegueWithIdentifier("TabbedViewSegue", sender: self)
         }
     }
     

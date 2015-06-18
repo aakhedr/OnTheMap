@@ -12,6 +12,8 @@ extension UdacityClient {
     struct Parameters {
         
         static let BaseURL = "https://www.udacity.com/"
+        static let FacebookMobile = "facebook_mobile"
+        static let AccessToken = "access_token"
     }
     
     /* Methods */

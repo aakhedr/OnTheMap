@@ -10,6 +10,31 @@ import Foundation
 
 extension UdacityClient {
     
+    func authenticateWithFacebook(completionHandler: (success: Bool, error: NSError?) -> Void) {
+        
+        // Set the json body
+        let jsonBody = [
+            
+            UdacityClient.Parameters.FacebookMobile: [
+                
+                UdacityClient.Parameters.AccessToken: Data.sharedInstance().accessToken
+            ]
+        ]
+        
+        UdacityClient.sharedInstance().getUserID(jsonBody) { userID, error in
+            
+            if let userID = userID {
+                
+                Data.sharedInstance().userID = userID
+                completionHandler(success: true, error: nil)
+                
+            } else {
+                
+                completionHandler(success: false, error: NSError(domain: "getUserID", code: error!.code, userInfo: [NSLocalizedDescriptionKey: error!.userInfo![NSLocalizedDescriptionKey]!]))
+            }
+        }
+    }
+    
     func authenticateWithUdacityCredentials(completionHandler: (success: Bool, error: NSError?) -> Void) {
         
         let jsonBody =
