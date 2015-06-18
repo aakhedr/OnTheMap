@@ -125,11 +125,14 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 if error.code == 0 {
                     
-                    let title = "Network Error!"
-                    let message = "Error connecting to Parse. Check your Internet connection!"
-                    let actionTitle = "OK"
-                    
-                    ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    }
                 }
                 
             } else {
@@ -260,6 +263,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         // Let user verify the url entered
         if ConfigUI.verifyURL(textView.text!) {
             
+            Data.sharedInstance().mediaURL = textView.text!
             let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
             
             /* Build the URL */
@@ -275,7 +279,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         } else {
             
             let title = "Error!"
-            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
+            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http://'"
             let actionTitle = "OK"
             
             ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)

@@ -18,12 +18,8 @@ class WebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
-        urlWebView.loadRequest(request)
+        urlWebView.loadRequest(self.request)
     }
 
     @IBAction func saveURL(sender: UIBarButtonItem) {
