@@ -11,48 +11,67 @@ import Foundation
 extension UdacityClient {
     
     func authenticateWithUdacityCredentials(completionHandler: (success: Bool, error: NSError?) -> Void) {
-        self.getUserID {userID, error in
-            if let userID = userID {
-                Data.sharedInstance().userID = userID
-                completionHandler(success: true, error: nil)
-            } else {
-                completionHandler(success: false, error: NSError(domain: "getUserID", code: error!.code, userInfo: [NSLocalizedDescriptionKey: error!.userInfo![NSLocalizedDescriptionKey]!]))
-            }
-        }
-    }
-
-    func getUserID(completionHandler: (userID: String?, error: NSError?) -> Void) {
         
-        /* 1. JSON body for the post method */        
         let jsonBody =
         [
             UdacityClient.JSONBodyKeys.Udacity:
                 [
                     UdacityClient.JSONBodyKeys.Username: "\(Data.sharedInstance().username!)",
                     UdacityClient.JSONBodyKeys.Password: "\(Data.sharedInstance().password!)"
-                ]
+            ]
         ]
+        self.getUserID(jsonBody) {userID, error in
+            
+            if let userID = userID {
+                
+                Data.sharedInstance().userID = userID
+                completionHandler(success: true, error: nil)
+                
+            } else {
+                
+                completionHandler(success: false, error: NSError(domain: "getUserID", code: error!.code, userInfo: [NSLocalizedDescriptionKey: error!.userInfo![NSLocalizedDescriptionKey]!]))
+            }
+        }
+    }
+
+    func getUserID(jsonBody: [String : AnyObject], completionHandler: (userID: String?, error: NSError?) -> Void) {
+        
+        /* 1. JSON body for the post method */        
+        // jsonBody
         
         /* 2. Make the request */
         let task = self.taskForPOSTMethod(UdacityClient.Methods.Session, jsonBody: jsonBody) { JSONResult, error in
 
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
+                
                 completionHandler(userID: nil, error: NSError(domain: "getUserID", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+            
             } else {
+                
                 if let statusCode = JSONResult.valueForKey(JSONResponseKeys.StatusCode) as? Int {
+                    
                     if statusCode == 403 {
+                        
                         let udacityErrorString = JSONResult.valueForKey(JSONResponseKeys.Error) as! String
                         completionHandler(userID: nil, error: NSError(domain: "getUserID", code: 1, userInfo: [NSLocalizedDescriptionKey: udacityErrorString]))
                     }
+                
                 } else {
+                    
                     if let account = JSONResult.valueForKey(JSONResponseKeys.Account) as? NSDictionary {
+                        
                         if let userID = account.valueForKey(JSONResponseKeys.Key) as? String {
+                            
                             completionHandler(userID: userID, error: nil)
+                        
                         } else {
+                            
                             completionHandler(userID: nil, error: NSError(domain: "getUserID", code: 3, userInfo: [NSLocalizedDescriptionKey: "could not parse userID as String"]))
                         }
+                        
                     } else {
+
                         completionHandler(userID: nil, error: NSError(domain: "getUserID", code: 2, userInfo: [NSLocalizedDescriptionKey: " could not parse account dictinaory"]))
                     }
                 }
@@ -163,7 +182,9 @@ extension UdacityClient {
     // MARK: - Shared Instance
     
     class func sharedInstance() -> UdacityClient {
+
         struct Singleton {
+            
             static var sharedInstance = UdacityClient()
         }
 

@@ -41,9 +41,12 @@ class UdacityClient: NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             if let error = downloadError {
+                
                 let newError = UdacityClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
+
             } else {
+                
                 UdacityClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
