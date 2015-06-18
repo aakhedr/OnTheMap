@@ -96,7 +96,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     @IBAction func submit(sender: UIButton) {
         
-        if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link to share!" {
+        if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link and verify it!" {
             
             if Data.sharedInstance().previousLocationsExist! {
                 
@@ -107,7 +107,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 self.submitNewLoaction()
             }
             
-        } else if sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link to share!" {
+        } else if (sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link and verify it!") {
 
             let title = "Share a link!"
             let message = "You must share a link to submit your location."

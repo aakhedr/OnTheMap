@@ -43,13 +43,20 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     /* Actions */
     
     func logout() {
+        
         UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
+            
             if success {
+                
                 self.targetView!.dismissViewControllerAnimated(true, completion: nil)
+            
             } else {
+                
                 // Add interface to let the user know of the error
                 dispatch_async(dispatch_get_main_queue()) {
+                    
                     if error!.code == 0 {
+                        
                         let title = "Network error!"
                         let message = "Error connecting to Udacity. Check your Internet connection!"
                         let actionTitle = "OK"
