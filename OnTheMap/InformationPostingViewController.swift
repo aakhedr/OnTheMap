@@ -20,6 +20,16 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Configure the view and colors
+        
+        // gainsboro
+        self.view.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
+        
+        // royla blue
+        self.locationTextField.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
+        self.nonEditableTextView.textColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
+        self.findOnTheMapButton.setTitleColor(UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0), forState: UIControlState.Normal)
+        
         /* Center text horizontally and vertically */
         nonEditableTextView.textAlignment = NSTextAlignment.Center
         nonEditableTextView.editable = false        // Initially
@@ -119,8 +129,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     func updateUserLocations() {
         
-        // Delete all here! Keep only 1 object
-        ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs)
+//        // Delete all here! Keep only 1 object
+//        ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs)
         
         ParseClient.sharedInstance().updateUserLocations { result, error in
             
@@ -201,7 +211,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         
         locationTextField.hidden = true
         userMapView.hidden = false
-        nonEditableTextView.backgroundColor = UIColor.blueColor()
+        nonEditableTextView.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
         findOnTheMapButton.setTitle("Submit", forState: UIControlState.Normal)
         
         nonEditableTextView.editable = true       // Enable user to type his/ her URL
