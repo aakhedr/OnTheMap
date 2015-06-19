@@ -97,7 +97,7 @@ class ParseClient: NSObject {
         let urlString = baseURLAndMethod + "/" + objectID
         let url = NSURL(string: urlString)!
         
-        /* Configure the request */
+        /* 3. Configure the request */
         var jsonifyError: NSError? = nil
         
         let request = NSMutableURLRequest(URL: url)
@@ -128,6 +128,43 @@ class ParseClient: NSObject {
         return task
     }
 
+    func taskForDELETEMethod(baseURLAndMethod: String, objectID: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        /* 1. Set the parameters */
+        // In parameters
+        
+        /* 2. Build the URL */
+        let urlString = baseURLAndMethod + "/" + objectID
+        let url = NSURL(string: urlString)!
+        
+        /* 3. Configure the request */
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "DELETE"
+        request.addValue(Parameters.ParseApplicationID, forHTTPHeaderField: Parameters.ParseApplicationID_KEY)
+        request.addValue(Parameters.RESTAPIKey, forHTTPHeaderField: Parameters.RESTAPIKey_KEY)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            /* 5/6. Parse the data and use the data (happens in completion hander) */
+            if let error = error {
+                
+                let newError = ParseClient.errorForData(data, response: response, error: error)
+                completionHandler(result: nil, error: error)
+                
+            } else {
+                
+                ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            }
+        }
+        
+        /* 7. Start the task */
+        task.resume()
+        
+        return task
+    }
+    
     /* Helper function: Given a dictionary of parameters, convert to a string for a url */
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
         

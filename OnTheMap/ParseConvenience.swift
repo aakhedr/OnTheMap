@@ -115,12 +115,17 @@ extension ParseClient {
             "": ""
         ]
         
+        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22726279495%22%7D"
+        
         /* 2. Make the request */
-        let task = self.taskForGETMethod("https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22726279495%22%7D", parameters: parameters) { JSONResult, error in
+        let task = self.taskForGETMethod(method, parameters: parameters) { JSONResult, error in
             
             if let error = error {
+                
                 completionHandler(data: nil, error: NSError(domain: "queyUserLocation", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+
             } else {
+                
                 if let resultsArray = JSONResult.valueForKey(JSONResponseKeys.Results) as? NSArray {
                     
                     var foundObjectIDs = [String]()
@@ -158,10 +163,40 @@ extension ParseClient {
     func userLocationsExist(completionHandler: (success: Bool, error: NSError?) -> Void) {
         
         ParseClient.sharedInstance().queryUserLocations { result, error in
+            
             if let error = error {
+                
                 completionHandler(success: false, error: error)
+                
             } else {
+                
                 completionHandler(success: true, error: nil)
+            }
+        }
+    }
+    
+    func deleteUserLocations(objectIDs: [String]) {
+        
+        if objectIDs.count > 1 {
+            
+            println("deleteUserLocations is called")
+            
+            // Delete all except one!
+            for i in 1...(objectIDs.count - 1) {
+                
+                self.taskForDELETEMethod(Methods.BaseURLAndMethod, objectID: objectIDs[i]) { result, error in
+                    
+                    if let error = error {
+                        
+                        println("error code: \(error.code)")
+                        println("error domain: \(error.domain)")
+                        println("erorr description: \(error.localizedDescription)")
+                        
+                    } else {
+                    
+                        println("result: \(result)")
+                    }
+                }
             }
         }
     }
