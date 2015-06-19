@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class ConfigUI: NSObject, UIAlertViewDelegate {
     
     var targetView: UIViewController!
+    let loginManager = FBSDKLoginManager()
     
     /* Add Buttons and actions */
     func configureNavBarButtons(viewController: UIViewController) {
@@ -43,6 +45,14 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     /* Actions */
     
     func logout() {
+        
+        if Data.sharedInstance().accessToken != nil {
+            
+            loginManager.logOut()
+            self.targetView!.dismissViewControllerAnimated(true, completion: nil)
+
+            return
+        }
         
         UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
             
