@@ -167,16 +167,25 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5u5-gn-ttJ">
                                 <rect key="frame" x="16" y="393" width="169" height="30"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gwa-25-NAm" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="16" y="562" width="568" height="30"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="fGv-gk-xCe" secondAttribute="leading" id="6DI-gx-Nv8"/>
+                            <constraint firstItem="Gwa-25-NAm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="7mo-vT-m9a"/>
                             <constraint firstItem="dlk-J7-w8g" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="80S-nY-gon"/>
+                            <constraint firstItem="Gwa-25-NAm" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="BYy-Be-XpO"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="leading" secondItem="dlk-J7-w8g" secondAttribute="leading" id="G8t-SR-od0"/>
                             <constraint firstItem="edp-X7-YjJ" firstAttribute="leading" secondItem="XyY-Ew-nHt" secondAttribute="trailing" constant="1" id="I8C-rv-V3G"/>
                             <constraint firstItem="Tw5-UQ-Ukf" firstAttribute="top" secondItem="eni-h1-Bbt" secondAttribute="bottom" constant="8" symbolic="YES" id="Igf-TL-4EG"/>
                             <constraint firstItem="fGv-gk-xCe" firstAttribute="trailing" secondItem="BSb-gk-GHH" secondAttribute="trailing" id="Ku3-Vg-Gam"/>
                             <constraint firstItem="XyY-Ew-nHt" firstAttribute="leading" secondItem="5u5-gn-ttJ" secondAttribute="trailing" constant="8" symbolic="YES" id="LO8-6L-egW"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="leading" secondItem="Tw5-UQ-Ukf" secondAttribute="leading" id="Lp8-O4-uMY"/>
+                            <constraint firstItem="Gwa-25-NAm" firstAttribute="height" secondItem="eni-h1-Bbt" secondAttribute="height" id="PrB-RN-VpZ"/>
                             <constraint firstItem="XyY-Ew-nHt" firstAttribute="bottom" secondItem="edp-X7-YjJ" secondAttribute="bottom" id="Rv7-Gr-MfR"/>
                             <constraint firstItem="edp-X7-YjJ" firstAttribute="top" secondItem="XyY-Ew-nHt" secondAttribute="top" id="SlJ-Em-TOI"/>
                             <constraint firstItem="eni-h1-Bbt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="TtM-Ul-Dks"/>
@@ -199,6 +208,7 @@
                             <constraint firstItem="5u5-gn-ttJ" firstAttribute="width" secondItem="pJO-be-8f6" secondAttribute="width" id="qbl-7H-ojx"/>
                             <constraint firstItem="fGv-gk-xCe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tzk-ni-zRv"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="top" secondItem="fGv-gk-xCe" secondAttribute="bottom" constant="8" symbolic="YES" id="uve-C0-SeV"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gwa-25-NAm" secondAttribute="bottom" constant="8" symbolic="YES" id="wQg-3e-OXM"/>
                             <constraint firstItem="BSb-gk-GHH" firstAttribute="trailing" secondItem="dlk-J7-w8g" secondAttribute="trailing" id="xOM-lV-OTl"/>
                         </constraints>
                         <variation key="default">
@@ -212,6 +222,7 @@
                         <outlet property="debugLabel" destination="BSb-gk-GHH" id="oAX-t8-6aN"/>
                         <outlet property="dontHaveAnAccountLabel" destination="XyY-Ew-nHt" id="oZ2-Kq-IZn"/>
                         <outlet property="email" destination="dlk-J7-w8g" id="VRO-7t-BnY"/>
+                        <outlet property="fbLoginButton" destination="Gwa-25-NAm" id="kid-me-5Gz"/>
                         <outlet property="loginButton" destination="Tw5-UQ-Ukf" id="E9e-8A-3ho"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
                         <outlet property="signupButton" destination="edp-X7-YjJ" id="yaM-dL-tTs"/>
