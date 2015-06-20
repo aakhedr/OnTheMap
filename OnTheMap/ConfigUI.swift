@@ -50,8 +50,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             
             loginManager.logOut()
             self.targetView!.dismissViewControllerAnimated(true, completion: nil)
-
-            return
         }
         
         UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
@@ -129,8 +127,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             
             if success {
                 
-                println("success")
-                
                 // Present an alert
                 let alertController = UIAlertController(title: "", message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?", preferredStyle: UIAlertControllerStyle.Alert)
                 let overwriteButton = UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in self.getUserPublicDataAndPresentInformationPostingViewController { error in
@@ -153,8 +149,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 self.targetView.presentViewController(alertController, animated: true, completion: nil)
                 
             } else if (!success && (error == nil)) {
-                
-                println("no success")
                 
                 // Proceed to submit a new location
                 self.getUserPublicDataAndPresentInformationPostingViewController { error in

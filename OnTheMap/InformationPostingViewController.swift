@@ -58,7 +58,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     @IBAction func findOnTheMapAction(sender: UIButton) {
         
-        if sender.currentTitle! == "Find on the map" {
+        if (sender.currentTitle! == "Find on the map") && (locationTextField.text != "Enter your location here!") {
             
             activityIndicator.startAnimating()
             
@@ -101,6 +101,14 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                     }
                 }
             }
+        
+        } else if (sender.currentTitle! == "Find on the map") && (locationTextField.text == "Enter your location here!") {
+            
+            let title = ""
+            let message = "Enter your location in the form: City, (State), Country"
+            let actionTitle = "OK"
+            
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
         }
     }
     
@@ -111,11 +119,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             if Data.sharedInstance().previousLocationsExist! {
                 
                 self.updateUserLocations()
-                println("previousLocationsExist: \(Data.sharedInstance().previousLocationsExist)")
                 
             } else {
                 
-                println("previousLocationsExist: \(Data.sharedInstance().previousLocationsExist)")
                 self.submitNewLoaction()
             }
             
@@ -247,9 +253,18 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     func textFieldDidEndEditing(textField: UITextField) {
         
-        Data.sharedInstance().mapString = textField.text!
+        if !textField.text.isEmpty {
+            
+            Data.sharedInstance().mapString = textField.text!
         
-        println(Data.sharedInstance().mapString)
+        } else {
+            
+            let title = ""
+            let message = "Enter your location in the form: City, (State), Country"
+            let actionTitle = "OK"
+            
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+        }
     }
     
     /* Tap Gesture Recognizer Delegate */

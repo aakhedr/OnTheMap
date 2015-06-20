@@ -157,15 +157,24 @@ extension UdacityClient {
             
             /* 3. Send the desited value(s) to completion handler */
             if let error = error {
+                
+                
                 completionHandler(success: false, error: NSError(domain: "logOutFromUdacitySession", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+            
             } else {
+                
                 if let sessionDictioanry = JSONResult.valueForKey(JSONResponseKeys.Session) as? NSDictionary {
+                    
                     if let id = sessionDictioanry.valueForKey(JSONResponseKeys.ID) as? String {
                         completionHandler(success: true, error: nil)
+                    
                     } else {
+                        
                         completionHandler(success: false, error: NSError(domain: "logoutFromUdacitySession", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse id string"]))
                     }
+                
                 } else {
+                    
                     completionHandler(success: false, error: NSError(domain: "logoutFromUdacitySession", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse session dictinoary"]))
                 }
             }
@@ -176,7 +185,9 @@ extension UdacityClient {
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
         
         if let parsedResult = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
+            
             if let errorMessage = parsedResult[UdacityClient.JSONResponseKeys.StatusMessage] as? String {
+                
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
                 
                 return NSError(domain: "Udacity error", code: 0, userInfo: userInfo)

@@ -10,24 +10,42 @@ import MapKit
 
 class Data: NSObject {
     
+    // Set in loginWithUdacityCredentials (LoginViewController.swift)
     var username: String!
     var password: String!
     
-    var userID: String!
-    var userFirstName: String!
-    var userLastName: String!
-    var mapString: String!
-    var mediaURL: String!
-    var region: MKCoordinateRegion!
+    // Set in authenticateWithUdacityCredentials (UdacityConvenience.swift)
+    var userID: String!     // checked
     
+    // Set in getUserPublicData (UdacityConvenience.swift)
+    var userFirstName: String!  // checked
+    var userLastName: String!   // checked
+
+    // Set in textFieldDidEndEditing (InformationPostingViewController.swift)
+    var mapString: String!      // checked
+
+    // Set in saveURL (WebViewController.swift)
+    var mediaURL: String!       // checked
+    
+    // Set in findOnTheMapAction (InformationPostingViewController.swift)
+    var region: MKCoordinateRegion!     // checked
+    
+    // Set in queryUserLocations (ParseConvenience.swift)
     var previousLocationsExist: Bool!
-    var objectID: String!
-    var foundObjectIDs: [String]!
     
-    var studentsInformation: [Student]!
+    // Set in postUserLocation (ParseConvenience.swift)
+    var objectID: String!       // checked
     
-    var accessToken: String!
+    // Set in queryUserLocations (ParseConvenience.swift)
+    var foundObjectIDs: [String]!   // checked
     
+    // Set twice: 1) viewWillAppear (MapViewController.swift). 2) refresh (ConfigUI.swift).
+    var studentsInformation: [Student]!     // checked
+    
+    // Set in loginButton (LoginViewController.swift)
+    var accessToken: String!    // checked
+    
+    /* Shared Instance */
     class func sharedInstance() -> Data {
         
         struct Singleton {

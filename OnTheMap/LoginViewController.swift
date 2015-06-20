@@ -41,6 +41,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         self.configureUI()
         
         fbLoginButton.delegate = self
+        
+        // Check to see if user is logged in via facebook?
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            
+            // Authenticate to udacity with facebook access token in order to set Data.sharedInstance().userID
+            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+            UdacityClient.sharedInstance().authenticateWithFacebook { success, error in
+                
+                if success {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.completeLogin()
+                    }
+                    
+                } else {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.displayError(error)
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

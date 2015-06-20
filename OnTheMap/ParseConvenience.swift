@@ -122,7 +122,7 @@ extension ParseClient {
         ]
         
         // Fix this ******************************
-        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22726279495%22%7D"
+        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22" + Data.sharedInstance().userID! + "%22%7D"
         
         /* 2. Make the request */
         let task = self.taskForGETMethod(method, parameters: parameters) { JSONResult, error in
@@ -152,14 +152,10 @@ extension ParseClient {
                     
                     if foundObjectIDs.isEmpty {
                         
-                        println("foundObjectIDs is empty")
-
                         Data.sharedInstance().previousLocationsExist = false
                         completionHandler(data: JSONResult, success: false, error: nil)
                         
                     } else {
-                        
-                        println("foundObjectIDs is not empty")
                         
                         Data.sharedInstance().previousLocationsExist = true
                         completionHandler(data: JSONResult, success: true, error: nil)
