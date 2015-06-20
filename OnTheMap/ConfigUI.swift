@@ -188,8 +188,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 }
             } else {
                 
-                println("presenting information posting view controller")
-                
                 self.presentInformationPostingViewController()
             }
         }

@@ -39,7 +39,7 @@ class Data: NSObject {
     // Set in queryUserLocations (ParseConvenience.swift)
     var foundObjectIDs: [String]!   // checked
     
-    // Set twice: 1) viewWillAppear (MapViewController.swift). 2) refresh (ConfigUI.swift).
+    // Set twice: 1) viewWillAppear (MapViewController.swift). 2) refresh [table views] (ConfigUI.swift).
     var studentsInformation: [Student]!     // checked
     
     // Set in loginButton (LoginViewController.swift)

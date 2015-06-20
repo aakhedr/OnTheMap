@@ -142,7 +142,6 @@ extension ParseClient {
                         if let foundObjectID = element.valueForKey(JSONResponseKeys.ObjectId) as? String {
                             
                             foundObjectIDs.append(foundObjectID)
-                            println(foundObjectIDs)
                         
                         } else {
 
