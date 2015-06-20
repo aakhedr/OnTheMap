@@ -127,7 +127,6 @@ extension UdacityClient {
                         if let userFirstName = user.valueForKey(JSONResponseKeys.UserFirstName) as? String {
                             
                             Data.sharedInstance().userFirstName = userFirstName
-                            Data.sharedInstance().previousLocationsExist = true
                             
                             completionHandler(error: nil)
                             

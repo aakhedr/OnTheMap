@@ -111,9 +111,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             if Data.sharedInstance().previousLocationsExist! {
                 
                 self.updateUserLocations()
+                println("previousLocationsExist: \(Data.sharedInstance().previousLocationsExist)")
                 
             } else {
                 
+                println("previousLocationsExist: \(Data.sharedInstance().previousLocationsExist)")
                 self.submitNewLoaction()
             }
             
@@ -160,6 +162,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     func submitNewLoaction() {
         
+        println("submitNewLocation")
+        
         ParseClient.sharedInstance().postUserLocation { result, error in
             
             if let error = error {
@@ -178,6 +182,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
             } else {
                 
+                println("submit result is ok")
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
@@ -242,7 +247,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     func textFieldDidEndEditing(textField: UITextField) {
         
-        Data.sharedInstance().mapString = locationTextField!.text!
+        Data.sharedInstance().mapString = textField.text!
+        
+        println(Data.sharedInstance().mapString)
     }
     
     /* Tap Gesture Recognizer Delegate */

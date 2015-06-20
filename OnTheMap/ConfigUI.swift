@@ -129,6 +129,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             
             if success {
                 
+                println("success")
+                
                 // Present an alert
                 let alertController = UIAlertController(title: "", message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?", preferredStyle: UIAlertControllerStyle.Alert)
                 let overwriteButton = UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in self.getUserPublicDataAndPresentInformationPostingViewController { error in
@@ -140,7 +142,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
 
                     } else {
                         
-                        Data.sharedInstance().previousLocationsExist = true
                         self.presentInformationPostingViewController()
                     }}
                 })
@@ -153,6 +154,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
             } else if (!success && (error == nil)) {
                 
+                println("no success")
+                
                 // Proceed to submit a new location
                 self.getUserPublicDataAndPresentInformationPostingViewController { error in
                     
@@ -162,6 +165,11 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                         println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                     }
                 }
+            
+            } else if let error = error {
+                
+                println("error code: \(error.code)")
+                println("error domain: \(error.domain)")
             }
         }
     }
@@ -185,6 +193,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     }
                 }
             } else {
+                
+                println("presenting information posting view controller")
                 
                 self.presentInformationPostingViewController()
             }
