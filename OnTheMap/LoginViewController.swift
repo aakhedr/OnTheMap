@@ -41,6 +41,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         self.configureUI()
         
         fbLoginButton.delegate = self
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /* Add Tap Gesture Recognizer */
+        var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.delegate = self
+        view.addGestureRecognizer(tapRecognizer)
+        
+        newOrigin = nil     // Everytime the view appears newOrigin is nil. Then it gets set in the method getKeyboardHeight
+    
+        /* In case of logout from the tab bar view */
+        self.email!.text = ""
+        self.password!.text = ""
+        self.debugLabel!.text = "Login to Udacity"
+        self.debugLabel!.backgroundColor = self.view.backgroundColor
+        
+        subscribeToKeyboardNotifications()
         
         // Check to see if user is logged in via facebook?
         if FBSDKAccessToken.currentAccessToken() != nil {
@@ -65,26 +85,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
                 }
             }
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Add Tap Gesture Recognizer */
-        var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
-        tapRecognizer.numberOfTapsRequired = 1
-        tapRecognizer.delegate = self
-        view.addGestureRecognizer(tapRecognizer)
-        
-        newOrigin = nil     // Everytime the view appears newOrigin is nil. Then it gets set in the method getKeyboardHeight
-    
-        /* In case of logout from the tab bar view */
-        self.email!.text = ""
-        self.password!.text = ""
-        self.debugLabel!.text = "Login to Udacity"
-        self.debugLabel!.backgroundColor = self.view.backgroundColor
-        
-        subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {

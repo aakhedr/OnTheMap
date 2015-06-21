@@ -58,80 +58,86 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     @IBAction func findOnTheMapAction(sender: UIButton) {
         
-        if (sender.currentTitle! == "Find on the map") && (locationTextField.text != "Enter your location here!") {
+        if sender.currentTitle! == "Find on the map" {
             
-            activityIndicator.startAnimating()
-            
-            let geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
+            if locationTextField.text == "Enter your location here!" || locationTextField.text.isEmpty {
                 
-                if let error = error {
+                let title = ""
+                let message = "Enter your location in the form: City, (State), Country"
+                let actionTitle = "OK"
+                
+                ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                
+            } else if locationTextField.text != "Enter your location here!" && !locationTextField.text.isEmpty {
+                
+                let geocoder = CLGeocoder()
+                activityIndicator.startAnimating()
+                
+                geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    if let error = error {
                         
-                        // Inform the user this location could not be found using Apple Maps
-                        let title = "Unknown location to Apple Maps"
-                        let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
-                        let actionTitle = "OK"
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            // Inform the user this location could not be found using Apple Maps
+                            let title = "Unknown location to Apple Maps"
+                            let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
+                            let actionTitle = "OK"
+                            
+                            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                            
+                            self.activityIndicator.stopAnimating()
+                        }
                         
-                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    } else {
                         
-                        self.activityIndicator.stopAnimating()
-                    }
-                    
-                } else {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        let placemarks = placemarks as! [CLPlacemark]
-                        Data.sharedInstance().region = self.getTheRegion(placemarks)
-                        self.alterTheView()
-                        
-                        let annotation = Annotation(
-                            latitude: Data.sharedInstance().region.center.latitude,
-                            longitude: Data.sharedInstance().region.center.longitude,
-                            firstName: Data.sharedInstance().userFirstName!,
-                            lastName: Data.sharedInstance().userLastName!,
-                            mediaURL: nil)
-                        
-                        self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
-                        self.userMapView.addAnnotation(annotation)
-                        
-                        self.activityIndicator.stopAnimating()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            let placemarks = placemarks as! [CLPlacemark]
+                            Data.sharedInstance().region = self.getTheRegion(placemarks)
+                            self.alterTheView()
+                            
+                            let annotation = Annotation(
+                                latitude: Data.sharedInstance().region.center.latitude,
+                                longitude: Data.sharedInstance().region.center.longitude,
+                                firstName: Data.sharedInstance().userFirstName!,
+                                lastName: Data.sharedInstance().userLastName!,
+                                mediaURL: nil)
+                            
+                            self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
+                            self.userMapView.addAnnotation(annotation)
+                            
+                            self.activityIndicator.stopAnimating()
+                        }
                     }
                 }
             }
-        
-        } else if (sender.currentTitle! == "Find on the map") && (locationTextField.text == "Enter your location here!") {
-            
-            let title = ""
-            let message = "Enter your location in the form: City, (State), Country"
-            let actionTitle = "OK"
-            
-            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
         }
     }
     
     @IBAction func submit(sender: UIButton) {
         
-        if sender.currentTitle! == "Submit" && nonEditableTextView.text! != "Enter a link and verify it!" {
+        if sender.currentTitle! == "Submit" {
             
-            if Data.sharedInstance().previousLocationsExist! {
+            if nonEditableTextView.text! == "Enter a link and verify it!" || nonEditableTextView.text.isEmpty {
                 
-                self.updateUserLocations()
+                let title = "Share a link!"
+                let message = "You must share a link to submit your location."
+                let actionTitle = "OK"
                 
-            } else {
+                ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+            
+            } else if nonEditableTextView.text! != "Enter a link and verify it!" && !nonEditableTextView.text.isEmpty {
                 
-                self.submitNewLoaction()
+                if Data.sharedInstance().previousLocationsExist! {
+                    
+                    self.updateUserLocations()
+                    
+                } else {
+                    
+                    self.submitNewLoaction()
+                }
             }
-            
-        } else if (sender.currentTitle! == "Submit" && nonEditableTextView.text! == "Enter a link and verify it!") {
-
-            let title = "Share a link!"
-            let message = "You must share a link to submit your location."
-            let actionTitle = "OK"
-            
-            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
         }
     }
 
@@ -168,8 +174,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     func submitNewLoaction() {
         
-        println("submitNewLocation")
-        
         ParseClient.sharedInstance().postUserLocation { result, error in
             
             if let error = error {
@@ -188,7 +192,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
             } else {
                 
-                println("submit result is ok")
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
@@ -253,24 +256,13 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     func textFieldDidEndEditing(textField: UITextField) {
         
-        if !textField.text.isEmpty {
-            
-            Data.sharedInstance().mapString = textField.text!
-        
-        } else {
-            
-            let title = ""
-            let message = "Enter your location in the form: City, (State), Country"
-            let actionTitle = "OK"
-            
-            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-        }
+        Data.sharedInstance().mapString = textField.text!
     }
     
     /* Tap Gesture Recognizer Delegate */
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         
-        return locationTextField!.isFirstResponder()
+        return locationTextField!.isFirstResponder() || nonEditableTextView.isFirstResponder()
     }
     
     /* Text View Delegate */
@@ -279,6 +271,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
         if text == "\n" {
+            
             textView.resignFirstResponder()
 
             return false
@@ -288,17 +281,19 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        
         textView.text = ""
         
         return true
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-
+        
+        Data.sharedInstance().mediaURL = textView.text!
+        
         // Let user verify the url entered
         if ConfigUI.verifyURL(textView.text!) {
             
-            Data.sharedInstance().mediaURL = textView.text!
             let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
             
             /* Build the URL */
@@ -314,7 +309,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         } else {
             
             let title = "Error!"
-            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http://'"
+            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
             let actionTitle = "OK"
             
             ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
