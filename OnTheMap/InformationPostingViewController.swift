@@ -70,49 +70,86 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
             } else if locationTextField.text != "Enter your location here!" && !locationTextField.text.isEmpty {
                 
-                let geocoder = CLGeocoder()
-                activityIndicator.startAnimating()
+                self.appleMapsUserLocation()
+            }
+        }
+    }
+    
+    func appleMapsUserLocation() {
+        
+        let geocoder = CLGeocoder()
+        activityIndicator.startAnimating()
+        
+        geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
+            
+            if let error = error {
                 
-                geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
+                dispatch_async(dispatch_get_main_queue()) {
                     
-                    if let error = error {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            // Inform the user this location could not be found using Apple Maps
-                            let title = "Unknown location to Apple Maps"
-                            let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
-                            let actionTitle = "OK"
-                            
-                            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                            
-                            self.activityIndicator.stopAnimating()
-                        }
-                        
-                    } else {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            let placemarks = placemarks as! [CLPlacemark]
-                            Data.sharedInstance().region = self.getTheRegion(placemarks)
-                            self.alterTheView()
-                            
-                            let annotation = Annotation(
-                                latitude: Data.sharedInstance().region.center.latitude,
-                                longitude: Data.sharedInstance().region.center.longitude,
-                                firstName: Data.sharedInstance().userFirstName!,
-                                lastName: Data.sharedInstance().userLastName!,
-                                mediaURL: nil)
-                            
-                            self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
-                            self.userMapView.addAnnotation(annotation)
-                            
-                            self.activityIndicator.stopAnimating()
-                        }
-                    }
+                    // Inform the user this location could not be found using Apple Maps
+                    let title = "Unknown location to Apple Maps"
+                    let message = "The location you entered is unkown to Apple Maps. Enter your location in the form: City, (State), Country"
+                    let actionTitle = "OK"
+                    
+                    ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    self.activityIndicator.stopAnimating()
+                }
+                
+            } else {
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.addUserLocation(placemarks)
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }
+    }
+    
+    func addUserLocation(placemarks: [AnyObject]) {
+        
+        let placemarks = placemarks as! [CLPlacemark]
+        Data.sharedInstance().region = self.getTheRegion(placemarks)
+        self.alterTheView()
+        
+        let annotation = Annotation(
+            latitude: Data.sharedInstance().region.center.latitude,
+            longitude: Data.sharedInstance().region.center.longitude,
+            firstName: Data.sharedInstance().userFirstName!,
+            lastName: Data.sharedInstance().userLastName!,
+            mediaURL: nil)
+        
+        self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
+        self.userMapView.addAnnotation(annotation)
+    }
+
+    func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {
+        
+        var regions = [MKCoordinateRegion]()
+        
+        for placemark in placemarks {
+            
+            let coordinate: CLLocationCoordinate2D = placemark.location.coordinate
+            let latitude: CLLocationDegrees = placemark.location.coordinate.latitude
+            let longitude: CLLocationDegrees = placemark.location.coordinate.longitude
+            let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            
+            regions.append(MKCoordinateRegion(center: coordinate, span: span))
+        }
+        
+        return regions[0]
+    }
+    
+    func alterTheView() {
+        
+        locationTextField.hidden = true
+        userMapView.hidden = false
+        nonEditableTextView.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
+        findOnTheMapButton.setTitle("Submit", forState: UIControlState.Normal)
+        
+        nonEditableTextView.editable = true       // Enable user to type his/ her URL
+        nonEditableTextView.textColor = UIColor.whiteColor()
+        nonEditableTextView.text = "Enter a link and verify it!"
     }
     
     @IBAction func submit(sender: UIButton) {
@@ -166,6 +203,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
+                    // Do something here to update Data.studentsInformation
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -194,6 +232,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
+                    // Do something here to update Data.studentsInformation
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -203,34 +242,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     @IBAction func cancel(sender: UIButton) {
         
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {
-        
-        var regions = [MKCoordinateRegion]()
-        
-        for placemark in placemarks {
-            let coordinate: CLLocationCoordinate2D = placemark.location.coordinate
-            let latitude: CLLocationDegrees = placemark.location.coordinate.latitude
-            let longitude: CLLocationDegrees = placemark.location.coordinate.longitude
-            let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-            
-            regions.append(MKCoordinateRegion(center: coordinate, span: span))
-        }
-        
-        return regions[0]
-    }
-    
-    func alterTheView() {
-        
-        locationTextField.hidden = true
-        userMapView.hidden = false
-        nonEditableTextView.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
-        findOnTheMapButton.setTitle("Submit", forState: UIControlState.Normal)
-        
-        nonEditableTextView.editable = true       // Enable user to type his/ her URL
-        nonEditableTextView.textColor = UIColor.whiteColor()
-        nonEditableTextView.text = "Enter a link and verify it!"
     }
     
     /* Dismiss keyboard in case of a tap! */

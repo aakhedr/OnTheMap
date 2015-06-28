@@ -19,6 +19,9 @@ class Annotation: NSObject, MKAnnotation {
         
         self.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
         self.title = firstName + " " + lastName
+        
+        // Check this refactor!
+//        self.subtitle = mediaURL
 
         if let mediaURL = mediaURL {
             
