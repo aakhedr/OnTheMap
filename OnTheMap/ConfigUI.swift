@@ -35,11 +35,14 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             target: self,
             action: "pin")
         
-        viewController.parentViewController!.navigationItem.leftBarButtonItem = logoutButton
-        viewController.parentViewController!.navigationItem.rightBarButtonItems = [
-            refreshButton,
-            pinButton
-        ]
+        let deleteButton = UIBarButtonItem(
+            image: UIImage(named: "delete"),
+            style: UIBarButtonItemStyle.Plain,
+            target: self,
+            action: "delete")
+        
+        viewController.parentViewController!.navigationItem.leftBarButtonItems = [logoutButton, deleteButton]
+        viewController.parentViewController!.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
     }
     
     /* Actions */
@@ -128,21 +131,38 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             if success {
                 
                 // Present an alert
-                let alertController = UIAlertController(title: "", message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?", preferredStyle: UIAlertControllerStyle.Alert)
-                let overwriteButton = UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in self.getUserPublicDataAndPresentInformationPostingViewController { error in
-                    
-                    if let error = error {
-                        println("error domain: \(error.domain)")
-                        println("error code: \(error.code)")
-                        println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
-
-                    } else {
-                        
-                        self.presentInformationPostingViewController()
-                    }}
-                })
+                let alertController = UIAlertController(
+                    title: "",
+                    message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?",
+                    preferredStyle: UIAlertControllerStyle.Alert)
                 
-                let cancelButton = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: {(alert: UIAlertAction!) in alertController.dismissViewControllerAnimated(true, completion: nil)})
+                let overwriteButton = UIAlertAction(
+                    title: "Overwrite",
+                    style: UIAlertActionStyle.Default,
+                    handler: { alert in
+
+                        self.getUserPublicDataAndPresentInformationPostingViewController { error in
+                        
+                            if let error = error {
+                                
+                                println("error domain: \(error.domain)")
+                                println("error code: \(error.code)")
+                                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+
+                            } else {
+                                
+                                self.presentInformationPostingViewController()
+                            }
+                        }
+                    }
+                )
+                
+                let cancelButton = UIAlertAction(
+                    title: "Cancel",
+                    style: UIAlertActionStyle.Default,
+                    handler: { alert in alertController.dismissViewControllerAnimated(true, completion: nil) }
+                )
+                
                 alertController.addAction(overwriteButton)
                 alertController.addAction(cancelButton)
                 
@@ -156,7 +176,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                     if let error = error {
                         println("error domain: \(error.domain)")
                         println("error code: \(error.code)")
-                        println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
                     }
                 }
             
@@ -201,6 +220,94 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             let informationPostingViewContorller = self.targetView.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as! InformationPostingViewController
             
             self.targetView!.presentViewController(informationPostingViewContorller, animated: true, completion: nil)
+        }
+    }
+    
+    func delete() {
+        
+        let title = "Delete?"
+        let message = "Are you sure you want to delete all your previous locations?"
+
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let yesActionTitle = "Yes"
+        let yesAction = UIAlertAction(
+            title: yesActionTitle,
+            style: UIAlertActionStyle.Default,
+            handler: { alert in self.continueDelete() }
+        )
+        
+        let cancelActionTitle = "Cancel"
+        let cancelAction = UIAlertAction(
+            title: cancelActionTitle,
+            style: UIAlertActionStyle.Default,
+            handler: { alert in alertController.dismissViewControllerAnimated(true, completion: nil) }
+        )
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(cancelAction)
+        
+        self.targetView!.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func continueDelete() {
+        
+        ParseClient.sharedInstance().userLocationsExist { success, error in
+            
+            if let error = error {
+                
+                println("error domain: \(error.domain)")
+                println("error code: \(error.code)")
+            
+            } else {
+                
+                if success {
+                    
+                    if let foundObjectIDs = Data.sharedInstance().foundObjectIDs {
+                        
+                        ParseClient.sharedInstance().deleteUserLocations(foundObjectIDs)
+                    
+                    } else {
+                        
+                        println("Querying previous user locations")
+                        
+                        ParseClient.sharedInstance().queryUserLocations { data, success, error in
+                            
+                            if let error = error {
+                                
+                                println("error domain: \(error.domain)")
+                                println("error code: \(error.code)")
+                            
+                            } else {
+                                
+                                if success {
+                                    
+                                    ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs!)
+                                    
+                                } else {
+                                    
+                                    let title = ""
+                                    let message = "There are no previous locations stored to delete"
+                                    let actionTitle = "OK"
+                                    
+                                    ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                                }
+                            }
+                        }
+                    }
+                    
+                } else {
+                    
+                    let title = ""
+                    let message = "There are no previous locations stored to delete"
+                    let actionTitle = "OK"
+                    
+                    ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                }
+            }
         }
     }
     

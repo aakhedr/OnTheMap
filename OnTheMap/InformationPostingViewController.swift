@@ -180,9 +180,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     func updateUserLocations() {
         
-//        // Delete all here! Keep only 1 object
-//        ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs)
-        
         ParseClient.sharedInstance().updateUserLocations { result, error in
             
             if let error = error {

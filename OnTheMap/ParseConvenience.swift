@@ -152,7 +152,7 @@ extension ParseClient {
                     if foundObjectIDs.isEmpty {
                         
                         Data.sharedInstance().previousLocationsExist = false
-                        completionHandler(data: JSONResult, success: false, error: nil)
+                        completionHandler(data: nil, success: false, error: nil)
                         
                     } else {
                         
@@ -192,27 +192,24 @@ extension ParseClient {
         }
     }
     
-    func deleteUserLocations(objectIDs: [String]) {
+    func deleteUserLocations(foundObjectIDs: [String]) {
         
-        if objectIDs.count > 1 {
+        println("deleteUserLocations is called")
+        println("foundObjectIDs.count: \(foundObjectIDs.count)")
+        
+        for i in 0...(foundObjectIDs.count) {
             
-            println("deleteUserLocations is called")
-            
-            // Delete all except one!
-            for i in 1...(objectIDs.count - 1) {
+            self.taskForDELETEMethod(Methods.BaseURLAndMethod, objectID: foundObjectIDs[i]) { result, error in
                 
-                self.taskForDELETEMethod(Methods.BaseURLAndMethod, objectID: objectIDs[i]) { result, error in
+                if let error = error {
                     
-                    if let error = error {
-                        
-                        println("error code: \(error.code)")
-                        println("error domain: \(error.domain)")
-                        println("erorr description: \(error.localizedDescription)")
-                        
-                    } else {
+                    println("error code: \(error.code)")
+                    println("error domain: \(error.domain)")
+                    println("erorr description: \(error.localizedDescription)")
                     
-                        println("result: \(result)")
-                    }
+                } else {
+                
+                    println("Deleted this objectID: \(result)")
                 }
             }
         }

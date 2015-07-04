@@ -116,6 +116,7 @@ extension UdacityClient {
             if let error = error {
                 
                 completionHandler(error: NSError(domain: "getUserPublicData", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
+                
             } else {
                 
                 if let user = JSONResult.valueForKey(JSONResponseKeys.User) as? NSDictionary {
