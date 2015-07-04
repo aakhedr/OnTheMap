@@ -268,15 +268,36 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
                 if success {
                     
-                    ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs) { success, error in
+                            
+                            if let error = error {
+                                
+                                println("error domain: \(error.domain)")
+                                println("error code: \(error.code)")
+                            
+                            } else {
+                                
+                                let title = ""
+                                let message = "Previous location(s) deleted..."
+                                let actionTitle = "OK"
+                                
+                                ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                            }
+                        }
+                    }
                     
                 } else {
                     
-                    let title = ""
-                    let message = "There are no previous locations stored to delete.\nPlease submit a location!"
-                    let actionTitle = "OK"
-                    
-                    ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let title = ""
+                        let message = "There are no previous locations stored to delete.\nPlease submit a location!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                    }
                 }
             }
         }

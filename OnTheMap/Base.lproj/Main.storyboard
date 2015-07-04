@@ -236,7 +236,7 @@
         <!--List-->
         <scene sceneID="8lH-Fk-Jol">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="xJ3-T2-LTg" customClass="TableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="xJ3-T2-LTg" customClass="TableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MbZ-vZ-RDC"/>
                         <viewControllerLayoutGuide type="bottom" id="UxZ-Nr-wrB"/>
@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4s6-HO-97v">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="StudentCell" id="6Zd-aa-SOk">
@@ -260,10 +260,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4s6-HO-97v" firstAttribute="top" secondItem="MbZ-vZ-RDC" secondAttribute="bottom" id="PUL-fq-6eN"/>
-                            <constraint firstAttribute="trailing" secondItem="4s6-HO-97v" secondAttribute="trailing" id="UTZ-Fw-yBV"/>
-                            <constraint firstItem="4s6-HO-97v" firstAttribute="bottom" secondItem="UxZ-Nr-wrB" secondAttribute="top" id="cou-lG-a87"/>
-                            <constraint firstItem="4s6-HO-97v" firstAttribute="leading" secondItem="beB-CM-aOC" secondAttribute="leading" id="lpb-RK-Lu1"/>
+                            <constraint firstItem="4s6-HO-97v" firstAttribute="leading" secondItem="beB-CM-aOC" secondAttribute="leading" id="0TL-oZ-p4f"/>
+                            <constraint firstItem="4s6-HO-97v" firstAttribute="top" secondItem="beB-CM-aOC" secondAttribute="top" id="EqY-Q3-BYR"/>
+                            <constraint firstAttribute="bottom" secondItem="4s6-HO-97v" secondAttribute="bottom" id="bSw-pq-A52"/>
+                            <constraint firstAttribute="trailing" secondItem="4s6-HO-97v" secondAttribute="trailing" id="hYJ-BQ-LxM"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="list" id="0QT-Ba-TR3"/>
@@ -278,7 +278,7 @@
         <!--Detail-->
         <scene sceneID="u9F-uG-CEh">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ezE-Nj-Abq" customClass="DetailViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ezE-Nj-Abq" customClass="DetailViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HpB-EQ-QFP"/>
                         <viewControllerLayoutGuide type="bottom" id="jiJ-jt-oya"/>
@@ -288,7 +288,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8sk-4a-sS5">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell" rowHeight="70" id="Ivl-1e-nDs" customClass="CellDetailViewController" customModule="OnTheMap" customModuleProvider="target">
@@ -343,10 +343,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8sk-4a-sS5" firstAttribute="leading" secondItem="eOG-7f-zmZ" secondAttribute="leading" id="DBB-rX-sJV"/>
-                            <constraint firstItem="8sk-4a-sS5" firstAttribute="bottom" secondItem="jiJ-jt-oya" secondAttribute="top" id="S2c-nr-Om2"/>
-                            <constraint firstAttribute="trailing" secondItem="8sk-4a-sS5" secondAttribute="trailing" id="cWP-6P-X5o"/>
-                            <constraint firstItem="8sk-4a-sS5" firstAttribute="top" secondItem="HpB-EQ-QFP" secondAttribute="bottom" id="dfX-CM-bnR"/>
+                            <constraint firstItem="8sk-4a-sS5" firstAttribute="top" secondItem="eOG-7f-zmZ" secondAttribute="top" id="1An-EL-uKW"/>
+                            <constraint firstAttribute="bottom" secondItem="8sk-4a-sS5" secondAttribute="bottom" id="3IG-M3-jmr"/>
+                            <constraint firstItem="8sk-4a-sS5" firstAttribute="leading" secondItem="eOG-7f-zmZ" secondAttribute="leading" id="GFb-em-YDv"/>
+                            <constraint firstAttribute="trailing" secondItem="8sk-4a-sS5" secondAttribute="trailing" id="j5d-TQ-faQ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Detail" image="detail" id="Szc-Kj-ZVd"/>
@@ -371,7 +371,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5NR-W6-m4B">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hi7-xT-cRK">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
@@ -379,12 +379,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5NR-W6-m4B" firstAttribute="top" secondItem="dGJ-ca-9zU" secondAttribute="bottom" id="Gwt-U2-0sv"/>
-                            <constraint firstItem="5NR-W6-m4B" firstAttribute="bottom" secondItem="faV-K8-hYI" secondAttribute="top" id="Ylo-bM-mcH"/>
-                            <constraint firstAttribute="trailing" secondItem="5NR-W6-m4B" secondAttribute="trailing" id="c0j-1B-Vly"/>
-                            <constraint firstItem="5NR-W6-m4B" firstAttribute="leading" secondItem="6lA-tJ-d1Z" secondAttribute="leading" id="cop-Jq-ZOW"/>
+                            <constraint firstAttribute="trailing" secondItem="5NR-W6-m4B" secondAttribute="trailing" id="8aF-A7-1eE"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="leading" secondItem="6lA-tJ-d1Z" secondAttribute="leading" id="U1n-gk-UIC"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="centerY" secondItem="hi7-xT-cRK" secondAttribute="centerY" id="ZAX-JJ-00w"/>
                             <constraint firstItem="hi7-xT-cRK" firstAttribute="centerY" secondItem="6lA-tJ-d1Z" secondAttribute="centerY" id="g15-dl-Krl"/>
-                            <constraint firstItem="hi7-xT-cRK" firstAttribute="centerX" secondItem="5NR-W6-m4B" secondAttribute="centerX" id="lUH-6R-8r4"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="top" secondItem="6lA-tJ-d1Z" secondAttribute="top" id="seD-Tc-KMd"/>
+                            <constraint firstItem="5NR-W6-m4B" firstAttribute="centerX" secondItem="hi7-xT-cRK" secondAttribute="centerX" id="vZc-5S-ceI"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Ghs-R9-ikv"/>

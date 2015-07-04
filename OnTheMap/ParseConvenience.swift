@@ -192,7 +192,7 @@ extension ParseClient {
         }
     }
     
-    func deleteUserLocations(foundObjectIDs: [String]) {
+    func deleteUserLocations(foundObjectIDs: [String], completionHandler: (success: Bool, error: NSError?) -> Void) {
         
         for i in 0...foundObjectIDs.count - 1 {
             
@@ -200,13 +200,11 @@ extension ParseClient {
                 
                 if let error = error {
                     
-                    println("error code: \(error.code)")
-                    println("error domain: \(error.domain)")
-                    println("erorr description: \(error.localizedDescription)")
-                    
-                } else {
+                    completionHandler(success: false, error: NSError(domain: "deleteUserLocations", code: 0, userInfo: [NSLocalizedDescriptionKey: "Network error"]))
                 
-                    println("Deleted this objectID: \(result)")
+                } else {
+                    
+                    completionHandler(success: true, error: nil)
                 }
             }
         }

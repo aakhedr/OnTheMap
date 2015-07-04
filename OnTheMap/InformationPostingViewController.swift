@@ -80,7 +80,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         let geocoder = CLGeocoder()
         activityIndicator.startAnimating()
         
-        geocoder.geocodeAddressString(Data.sharedInstance().mapString!) { placemarks, error in
+        geocoder.geocodeAddressString(locationTextField.text!) { placemarks, error in
             
             if let error = error {
                 
