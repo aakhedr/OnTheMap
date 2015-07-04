@@ -134,7 +134,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 let alertController = UIAlertController(
                     title: "",
                     message: "You have already posted either one or more locations. Would you like to overwrite the previous location(s)?",
-                    preferredStyle: UIAlertControllerStyle.Alert)
+                    preferredStyle: UIAlertControllerStyle.Alert
+                )
                 
                 let overwriteButton = UIAlertAction(
                     title: "Overwrite",
@@ -231,7 +232,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         let alertController = UIAlertController(
             title: title,
             message: message,
-            preferredStyle: UIAlertControllerStyle.Alert)
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
         
         let yesActionTitle = "Yes"
         let yesAction = UIAlertAction(
@@ -266,43 +268,12 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
                 if success {
                     
-                    if let foundObjectIDs = Data.sharedInstance().foundObjectIDs {
-                        
-                        ParseClient.sharedInstance().deleteUserLocations(foundObjectIDs)
-                    
-                    } else {
-                        
-                        println("Querying previous user locations")
-                        
-                        ParseClient.sharedInstance().queryUserLocations { data, success, error in
-                            
-                            if let error = error {
-                                
-                                println("error domain: \(error.domain)")
-                                println("error code: \(error.code)")
-                            
-                            } else {
-                                
-                                if success {
-                                    
-                                    ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs!)
-                                    
-                                } else {
-                                    
-                                    let title = ""
-                                    let message = "There are no previous locations stored to delete"
-                                    let actionTitle = "OK"
-                                    
-                                    ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
-                                }
-                            }
-                        }
-                    }
+                    ParseClient.sharedInstance().deleteUserLocations(Data.sharedInstance().foundObjectIDs)
                     
                 } else {
                     
                     let title = ""
-                    let message = "There are no previous locations stored to delete"
+                    let message = "There are no previous locations stored to delete.\nPlease submit a location!"
                     let actionTitle = "OK"
                     
                     ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
@@ -313,10 +284,19 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     class func configureAndPresentAlertController(viewController: UIViewController, title: String, message: String, actionTitle: String) {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default, handler: nil)
-        alertController.addAction(okAction)
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
         
+        let okAction = UIAlertAction(
+            title: actionTitle,
+            style: UIAlertActionStyle.Default,
+            handler: nil
+        )
+        
+        alertController.addAction(okAction)
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
     

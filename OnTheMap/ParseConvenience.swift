@@ -148,7 +148,9 @@ extension ParseClient {
                             completionHandler(data: nil, success: false, error: NSError(domain: "queryUserLocation", code: 2, userInfo: [NSLocalizedDescriptionKey: "could not parse 1 found object ID to String"]))
                         }
                     }
-                    
+
+                    Data.sharedInstance().foundObjectIDs = foundObjectIDs
+
                     if foundObjectIDs.isEmpty {
                         
                         Data.sharedInstance().previousLocationsExist = false
@@ -160,8 +162,6 @@ extension ParseClient {
                         completionHandler(data: JSONResult, success: true, error: nil)
                     }
                     
-                    Data.sharedInstance().foundObjectIDs = foundObjectIDs
-                
                 } else {
                     
                     completionHandler(data: nil, success: false, error: NSError(domain: "queyUserLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
@@ -194,10 +194,7 @@ extension ParseClient {
     
     func deleteUserLocations(foundObjectIDs: [String]) {
         
-        println("deleteUserLocations is called")
-        println("foundObjectIDs.count: \(foundObjectIDs.count)")
-        
-        for i in 0...(foundObjectIDs.count) {
+        for i in 0...foundObjectIDs.count - 1 {
             
             self.taskForDELETEMethod(Methods.BaseURLAndMethod, objectID: foundObjectIDs[i]) { result, error in
                 
