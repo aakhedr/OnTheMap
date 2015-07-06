@@ -155,6 +155,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         isBeingSearched = false
         searchBar.resignFirstResponder()
         detailTableView.reloadData()
+        studentSearchBar.showsScopeBar = false
     }
 
     /* Actions in ConfigUI.swift */
