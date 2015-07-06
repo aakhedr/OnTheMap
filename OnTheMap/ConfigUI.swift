@@ -128,8 +128,6 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func checkForPreviousLocations() {
         
-        let userID = Data.sharedInstance().userID!
-        
         ParseClient.sharedInstance().userLocationsExist { success, error in
             
             if success {
@@ -288,6 +286,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                                 let actionTitle = "OK"
                                 
                                 ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
+                                
+                                // And refresh
+                                self.refresh()
                             }
                         }
                     }

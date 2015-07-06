@@ -44,7 +44,7 @@ extension ParseClient {
         
         /* 1. Specify the JSON body */
         let jsonBody: [String : AnyObject] = [
-            JSONResponseKeys.UniqueKey: Data.sharedInstance().userID,
+            JSONResponseKeys.UniqueKey: NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")!,
             JSONResponseKeys.FirstName: Data.sharedInstance().userFirstName,
             JSONResponseKeys.LastName: Data.sharedInstance().userLastName,
             JSONResponseKeys.MapString: Data.sharedInstance().mapString,
@@ -80,7 +80,7 @@ extension ParseClient {
         
         /* 1. Specify the parameters and the JSON body */
         let jsonBody: [String : AnyObject] = [
-            JSONResponseKeys.UniqueKey: Data.sharedInstance().userID,
+            JSONResponseKeys.UniqueKey: NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")!,
             JSONResponseKeys.FirstName: Data.sharedInstance().userFirstName,
             JSONResponseKeys.LastName: Data.sharedInstance().userLastName,
             JSONResponseKeys.MapString: Data.sharedInstance().mapString,
@@ -122,7 +122,7 @@ extension ParseClient {
         ]
         
         // Fix this ******************************
-        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22" + Data.sharedInstance().userID! + "%22%7D"
+        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22" + NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")! + "%22%7D"
         
         /* 2. Make the request */
         let task = self.taskForGETMethod(method, parameters: parameters) { JSONResult, error in

@@ -110,7 +110,7 @@ extension UdacityClient {
         // userID
         
         /* 2. Make the request */
-        let task = self.taskForGETMethod(UdacityClient.Methods.PublicData, userID: Data.sharedInstance().userID!) { JSONResult, error in
+        let task = self.taskForGETMethod(UdacityClient.Methods.PublicData, userID: NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")!) { JSONResult, error in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {

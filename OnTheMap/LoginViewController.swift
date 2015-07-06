@@ -103,6 +103,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
 
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
+        // DONT FORGET TO HANDLE "CANCEL" BUTTON FROM FACEBOOK API
         if let error = error {
             
             println("error code: \(error.code)")

@@ -14,9 +14,6 @@ class Data: NSObject {
     var username: String!
     var password: String!
     
-    // Set in authenticateWithUdacityCredentials (UdacityConvenience.swift)
-    var userID: String!     // checked
-    
     // Set in getUserPublicData (UdacityConvenience.swift)
     var userFirstName: String!  // checked
     var userLastName: String!   // checked
@@ -41,9 +38,6 @@ class Data: NSObject {
     
     // Set twice: 1) viewWillAppear (MapViewController.swift). 2) refresh [table views] (ConfigUI.swift).
     var studentsInformation: [Student]!     // checked
-    
-    // Set in loginButton (LoginViewController.swift)
-    var accessToken: String!    // checked
     
     /* Shared Instance */
     class func sharedInstance() -> Data {
