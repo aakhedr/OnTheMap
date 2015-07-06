@@ -17,7 +17,7 @@ extension UdacityClient {
             
             UdacityClient.Parameters.FacebookMobile: [
                 
-                UdacityClient.Parameters.AccessToken: Data.sharedInstance().accessToken
+                UdacityClient.Parameters.AccessToken: NSUserDefaults.standardUserDefaults().stringForKey("FBAccessToken")!
             ]
         ]
         
@@ -25,7 +25,7 @@ extension UdacityClient {
             
             if let userID = userID {
                 
-                Data.sharedInstance().userID = userID
+                NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "UdacityUserID")
                 completionHandler(success: true, error: nil)
                 
             } else {
@@ -49,7 +49,7 @@ extension UdacityClient {
             
             if let userID = userID {
                 
-                Data.sharedInstance().userID = userID
+                NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "UdacityUserID")
                 completionHandler(success: true, error: nil)
                 
             } else {

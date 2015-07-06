@@ -62,28 +62,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         subscribeToKeyboardNotifications()
         
-        // Check to see if user is logged in via facebook?
-        if FBSDKAccessToken.currentAccessToken() != nil {
+        // Check if user is already logged in?
+        if NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID") != nil {
             
-            // Authenticate to udacity with facebook access token in order to set Data.sharedInstance().userID
-            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-            UdacityClient.sharedInstance().authenticateWithFacebook { success, error in
-                
-                if success {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        self.completeLogin()
-                    }
-                    
-                } else {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        self.displayError(error)
-                    }
-                }
-            }
+            completeLogin()
         }
     }
     
@@ -123,7 +105,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             
         else {
             
-            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+            NSUserDefaults.standardUserDefaults().setObject(FBSDKAccessToken.currentAccessToken().tokenString! , forKey: "FBAccessToken")
+//            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
             UdacityClient.sharedInstance().authenticateWithFacebook { success, error in
                 
                 if success {
