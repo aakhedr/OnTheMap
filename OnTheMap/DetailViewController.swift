@@ -8,15 +8,29 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var detailTableView: UITableView!
+    @IBOutlet weak var studentSearchBar: UISearchBar!
+    
+    var filteredStudents = [Student]()
+    let searchController = UISearchController(searchResultsController: nil)
+    var isBeingSearched: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         detailTableView.delegate = self
         detailTableView.dataSource = self
+        studentSearchBar.delegate = self
+        
+        let scopes = [
+            "First Name",
+            "Last Name",
+            "Location"
+        ]
+        
+        studentSearchBar.scopeButtonTitles = scopes
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,20 +44,38 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         /* reload table data (For refresh) */
         detailTableView.reloadData()
-    }
+
+        studentSearchBar.showsScopeBar = false
+}
 
     /* Table View Data Source and Table View Delegate */
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return Data.sharedInstance().studentsInformation.count
+        if isBeingSearched {
+            
+            return self.filteredStudents.count
+        
+        } else {
+            
+            return Data.sharedInstance().studentsInformation.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellReuseIdentifier = "DetailCell"
         var cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as! CellDetailViewController
-        let student = Data.sharedInstance().studentsInformation[indexPath.row]
+        
+        var student: Student
+        if isBeingSearched {
+
+            student = filteredStudents[indexPath.row]
+        
+        } else {
+            
+            student = Data.sharedInstance().studentsInformation[indexPath.row]
+        }
         
         cell.studentFullName.text = student.firstName + " " + student.lastName
         cell.studentURL.text = student.mediaURL
@@ -70,5 +102,60 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func filterContentForSearchText(searchText: String, scope: String = "First Name") {
+        
+        self.filteredStudents = Data.sharedInstance().studentsInformation.filter { student in
+
+            var searchByString = ""
+            switch scope {
+                
+                case "Last Name":
+                    searchByString = student.lastName
+                
+                case "Location":
+                    searchByString = student.mapString
+
+                default:
+                    searchByString = student.firstName
+
+            }
+            
+            let stringMatch = searchByString.lowercaseString.rangeOfString(searchText.lowercaseString)
+            
+            return stringMatch != nil
+        }
+    }
+    
+    /* Search Bar Delegate */
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        isBeingSearched = true
+
+        let scopes = studentSearchBar.scopeButtonTitles as! [String]
+        let selectedScope = scopes[studentSearchBar.selectedScopeButtonIndex]
+        
+        filterContentForSearchText(searchText, scope: selectedScope)
+        detailTableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        
+        studentSearchBar.showsScopeBar = true
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        isBeingSearched = false
+        studentSearchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        
+        isBeingSearched = false
+        searchBar.resignFirstResponder()
+        detailTableView.reloadData()
+    }
+
     /* Actions in ConfigUI.swift */
 }
