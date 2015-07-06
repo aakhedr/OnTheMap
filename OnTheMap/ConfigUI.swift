@@ -49,17 +49,21 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func logout() {
         
-        if Data.sharedInstance().accessToken != nil {
+        if NSUserDefaults.standardUserDefaults().stringForKey("FBAccessToken") != nil {
             
             loginManager.logOut()
-            self.targetView!.dismissViewControllerAnimated(true, completion: nil)
+            NSUserDefaults.standardUserDefaults().stringForKey("FBAccessToken")
         }
         
         UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
             
             if success {
                 
-                self.targetView!.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.targetView!.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                    NSUserDefaults.standardUserDefaults().removeObjectForKey("UdacityUserID")
+                }
             
             } else {
                 

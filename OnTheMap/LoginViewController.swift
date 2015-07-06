@@ -61,11 +61,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         self.debugLabel!.backgroundColor = self.view.backgroundColor
         
         subscribeToKeyboardNotifications()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         
         // Check if user is already logged in?
         if NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID") != nil {
             
-            completeLogin()
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                self.performSegueWithIdentifier("TabbedViewSegue", sender: self)
+            }
         }
     }
     
@@ -106,7 +112,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         else {
             
             NSUserDefaults.standardUserDefaults().setObject(FBSDKAccessToken.currentAccessToken().tokenString! , forKey: "FBAccessToken")
-//            Data.sharedInstance().accessToken = FBSDKAccessToken.currentAccessToken().tokenString
             UdacityClient.sharedInstance().authenticateWithFacebook { success, error in
                 
                 if success {

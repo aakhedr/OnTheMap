@@ -159,7 +159,6 @@ extension UdacityClient {
             /* 3. Send the desited value(s) to completion handler */
             if let error = error {
                 
-                
                 completionHandler(success: false, error: NSError(domain: "logOutFromUdacitySession", code: 0, userInfo: [NSLocalizedDescriptionKey: "network error"]))
             
             } else {
