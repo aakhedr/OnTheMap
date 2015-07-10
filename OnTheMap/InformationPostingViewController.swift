@@ -16,6 +16,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     @IBOutlet weak var findOnTheMapButton: UIButton!
     @IBOutlet weak var userMapView: MKMapView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var verifyLinkButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         /* Set the map view delegate */
         userMapView.delegate = self
         userMapView.hidden = true       // Initially
+        verifyLinkButton.hidden = true  // Initially
         
         /* Add Tap Gesture Recognizer */
         var tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
@@ -150,7 +152,36 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         nonEditableTextView.editable = true       // Enable user to type his/ her URL
         nonEditableTextView.textColor = UIColor.whiteColor()
         nonEditableTextView.text = "Enter a link and verify it!"
+        verifyLinkButton.hidden = false
     }
+    
+    @IBAction func VerifyTheLink(sender: UIButton) {
+        
+        if ConfigUI.verifyURL(nonEditableTextView.text!) {
+            
+            Data.sharedInstance().mediaURL = nonEditableTextView.text
+            
+            let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
+            
+            /* Build the URL */
+            let url = NSURL(string: Data.sharedInstance().mediaURL)!
+            let request = NSURLRequest(URL: url)
+            
+            /* set the request */
+            webViewController.request = request
+            
+            presentViewController(webViewController, animated: true, completion: nil)
+            
+        } else {
+            
+            let title = "Error!"
+            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
+            let actionTitle = "OK"
+            
+            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+        }
+    }
+    
     
     @IBAction func submit(sender: UIButton) {
         
@@ -164,8 +195,9 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
             
-            }else if nonEditableTextView.text! != "Enter a link and verify it!" && !nonEditableTextView.text.isEmpty {
+            } else if nonEditableTextView.text! != "Enter a link and verify it!" && !nonEditableTextView.text.isEmpty {
                 
+                Data.sharedInstance().mediaURL = nonEditableTextView.text
                 if Data.sharedInstance().previousLocationsExist! {
                     
                     self.updateUserLocations()
@@ -292,34 +324,5 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         textView.text = ""
         
         return true
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        
-        // Let user verify the url entered
-        if ConfigUI.verifyURL(textView.text!) {
-            
-            Data.sharedInstance().mediaURL = textView.text
-            
-            let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
-            
-            /* Build the URL */
-            let url = NSURL(string: Data.sharedInstance().mediaURL)!
-            let request = NSURLRequest(URL: url)
-            
-            /* set the request */
-            webViewController.request = request
-            
-            presentViewController(webViewController, animated: true, completion: nil)
-
-        } else {
-            
-            let title = "Error!"
-            let message = "Sorry, This link cannot be opened in Safari. Make sure it starts with 'http'"
-            let actionTitle = "OK"
-            
-            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-            
-        }
     }
 }

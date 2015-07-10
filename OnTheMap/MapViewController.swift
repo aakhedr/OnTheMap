@@ -28,28 +28,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         /* Activity Indicator */
         activityIndicator!.hidesWhenStopped = true
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
-        
-        /* Configure naviagation bar buttons */
-        ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Load up Student objects from Parse */
         
         self.activityIndicator.startAnimating()
         view.alpha = 0.8
-
+        
         ParseClient.sharedInstance().getStudentsLocations { students, error in
             
             if let students = students {
                 
                 dispatch_async(dispatch_get_main_queue()) {
-
+                    
                     Data.sharedInstance().studentsInformation = students
                     
                     let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
@@ -61,7 +51,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     }
                     
                     self.studentsMapView.addAnnotations(annotations)
-
+                    
                     self.view.alpha = 1.0
                     self.activityIndicator.stopAnimating()
                 }
@@ -69,7 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             } else {
                 
                 dispatch_async(dispatch_get_main_queue()) {
-
+                    
                     if error!.code == 0 {
                         
                         let title = "Network Error!"
@@ -77,7 +67,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         let actionTitle = "OK"
                         
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-
+                        
                     } else {
                         
                         let title = "Error!"
@@ -89,6 +79,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             }
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /* Set a human readible title for the view */
+        self.parentViewController!.title = "On The Map"
+        
+        /* Configure naviagation bar buttons */
+        ConfigUI.sharedInstance().configureNavBarButtons(self)
     }
     
     /* Map View Delegate */

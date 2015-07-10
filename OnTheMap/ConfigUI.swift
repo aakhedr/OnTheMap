@@ -87,7 +87,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         
         if self.targetView is MapViewController {
             
-            self.targetView!.viewWillAppear(true)
+            self.targetView!.viewDidLoad()
 
         } else {
             
