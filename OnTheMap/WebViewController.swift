@@ -14,7 +14,6 @@ class WebViewController: UIViewController {
     @IBOutlet weak var urlWebView: UIWebView!
     
     var request: NSURLRequest!
-    var urlString: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +23,6 @@ class WebViewController: UIViewController {
 
     @IBAction func saveURL(sender: UIBarButtonItem) {
         
-        Data.sharedInstance().mediaURL = urlString
         dismissViewControllerAnimated(true, completion: nil)
     }
     

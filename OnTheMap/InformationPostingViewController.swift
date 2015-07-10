@@ -156,7 +156,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         
         if sender.currentTitle! == "Submit" {
             
-            if nonEditableTextView.text! == "Enter a link and verify it!" || nonEditableTextView.text.isEmpty {
+            if nonEditableTextView.text.isEmpty || nonEditableTextView.text == "Enter a link and verify it!" {
                 
                 let title = "Share a link!"
                 let message = "You must share a link to submit your location."
@@ -164,7 +164,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
             
-            } else if nonEditableTextView.text! != "Enter a link and verify it!" && !nonEditableTextView.text.isEmpty {
+            }else if nonEditableTextView.text! != "Enter a link and verify it!" && !nonEditableTextView.text.isEmpty {
                 
                 if Data.sharedInstance().previousLocationsExist! {
                     
@@ -200,7 +200,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    // Do something here to update Data.studentsInformation
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -297,20 +296,19 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
     
     func textViewDidEndEditing(textView: UITextView) {
         
-        Data.sharedInstance().mediaURL = textView.text!
-        
         // Let user verify the url entered
         if ConfigUI.verifyURL(textView.text!) {
+            
+            Data.sharedInstance().mediaURL = textView.text
             
             let webViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WebView") as! WebViewController
             
             /* Build the URL */
-            let url = NSURL(string: textView.text)!
+            let url = NSURL(string: Data.sharedInstance().mediaURL)!
             let request = NSURLRequest(URL: url)
             
             /* set the request */
             webViewController.request = request
-            webViewController.urlString = textView.text!
             
             presentViewController(webViewController, animated: true, completion: nil)
 

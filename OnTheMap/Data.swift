@@ -21,7 +21,7 @@ class Data: NSObject {
     // Set in textFieldDidEndEditing (InformationPostingViewController.swift)
     var mapString: String!      // checked
 
-    // Set in saveURL (WebViewController.swift) and textViewDidEndEditing InformationPostingViewController.swift)
+    // Set textViewDidEndEditing InformationPostingViewController.swift)
     var mediaURL: String!       // checked
     
     // Set in findOnTheMapAction (InformationPostingViewController.swift)
