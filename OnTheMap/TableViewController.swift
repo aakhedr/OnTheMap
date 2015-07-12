@@ -35,37 +35,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         studentsTableView.reloadData()
     }
     
-    // So that app doesn't crash in case user taps this tab
-    // before students are loaded in the mav view
-    func getStudentsLocations() {
-        
-        ParseClient.sharedInstance().getStudentsLocations { error in
-            
-            if let error = error {
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    if error.code == 0 {
-                        
-                        let title = "Network Error!"
-                        let message = "Error connecting to Parse. Check your Internet connection!"
-                        let actionTitle = "OK"
-                        
-                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                        
-                    } else {
-                        
-                        let title = "Error!"
-                        let message = "Error getting students information from Parse!"
-                        let actionTitle = "OK"
-                        
-                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                    }
-                }
-            }
-        }
-    }
-    
     /* Table View Data Source and Table View Delegate */
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -111,5 +80,37 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    
+    // So that app doesn't crash in case user taps this tab
+    // before students are loaded in the mav view
+    func getStudentsLocations() {
+        
+        ParseClient.sharedInstance().getStudentsLocations { error in
+            
+            if let error = error {
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if error.code == 0 {
+                        
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                        
+                    } else {
+                        
+                        let title = "Error!"
+                        let message = "Error getting students information from Parse!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                    }
+                }
+            }
+        }
+    }
+
     /* Actions in ConfigUI.swift */
 }
