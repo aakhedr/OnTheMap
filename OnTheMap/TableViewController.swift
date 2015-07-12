@@ -13,13 +13,31 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var studentsTableView: UITableView!
     
     /* Lifecycle */
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         /* Set the Table View Delegate and Data Source */
         studentsTableView.delegate = self
         studentsTableView.dataSource = self
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /* Configure naviagation bar buttons */
+        ConfigUI.sharedInstance().configureNavBarButtons(self)
+        
+        /* Set a human readible title for the view */
+        parentViewController!.title = "On The Map"
+        
+        /* reload table data (For refresh) */
+        studentsTableView.reloadData()
+    }
+    
+    // So that app doesn't crash in case user taps this tab
+    // before students are loaded in the mav view
+    func getStudentsLocations() {
         
         if Data.sharedInstance().studentsInformation == nil {
             
@@ -57,23 +75,15 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
     }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        /* Configure naviagation bar buttons */
-        ConfigUI.sharedInstance().configureNavBarButtons(self)
-        
-        /* Set a human readible title for the view */
-        parentViewController!.title = "On The Map"
-        
-        /* reload table data (For refresh) */
-        studentsTableView.reloadData()
-    }
     
-    /* Table View Delegate and Table View Data Source */
+    /* Table View Data Source and Table View Delegate */
     
-    func tableView(tableView: UITableView, numberOfRowsInSection seciont: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if Data.sharedInstance().studentsInformation == nil {
+            
+            getStudentsLocations()
+        }
         
         return Data.sharedInstance().studentsInformation.count
     }
