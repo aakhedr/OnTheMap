@@ -103,14 +103,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
 
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         
-        // DONT FORGET TO HANDLE "CANCEL" BUTTON FROM FACEBOOK API
         if let error = error {
             
             println("error code: \(error.code)")
             println("error domain: \(error.domain)")
-        }
+        
+        // In case user taps cancel button (i.e. does not want to give permission to login via facebook)
+        } else if result.isCancelled {
             
-        else {
+            self.viewWillAppear(true)
+        
+        } else {
             
             NSUserDefaults.standardUserDefaults().setObject(FBSDKAccessToken.currentAccessToken().tokenString! , forKey: "FBAccessToken")
             UdacityClient.sharedInstance().authenticateWithFacebook { success, error in

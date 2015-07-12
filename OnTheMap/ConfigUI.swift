@@ -52,7 +52,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         if NSUserDefaults.standardUserDefaults().stringForKey("FBAccessToken") != nil {
             
             loginManager.logOut()
-            NSUserDefaults.standardUserDefaults().stringForKey("FBAccessToken")
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("FBAccessToken")
         }
         
         UdacityClient.sharedInstance().logOutFromUdacitySession { success, error in
