@@ -26,7 +26,7 @@ class WebViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    @IBAction func ModifyURL(sender: UIBarButtonItem) {
+    @IBAction func modifyURL(sender: UIBarButtonItem) {
         
         dismissViewControllerAnimated(true, completion: nil)
     }

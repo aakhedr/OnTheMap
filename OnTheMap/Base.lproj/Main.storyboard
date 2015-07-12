@@ -625,7 +625,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="uQR-c4-IJb"/>
                                     <barButtonItem title="Another link?" id="oLf-HM-gpg">
                                         <connections>
-                                            <action selector="ModifyURL:" destination="l1d-Ed-ztY" id="szX-Zo-pQR"/>
+                                            <action selector="modifyURL:" destination="l1d-Ed-ztY" id="PYH-qm-TFP"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
