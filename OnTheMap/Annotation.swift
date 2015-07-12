@@ -17,19 +17,16 @@ class Annotation: NSObject, MKAnnotation {
     
     init(latitude: Double, longitude: Double, firstName: String, lastName: String, mediaURL: String?) {
         
-        self.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
-        self.title = firstName + " " + lastName
+        coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        title = firstName + " " + lastName
         
-        // Check this refactor!
-//        self.subtitle = mediaURL
-
         if let mediaURL = mediaURL {
             
-            self.subtitle = mediaURL
+            subtitle = mediaURL
             
         } else {
             
-            self.subtitle = nil
+            subtitle = nil
         }
         
         super.init()

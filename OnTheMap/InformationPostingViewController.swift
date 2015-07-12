@@ -24,12 +24,12 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
         // Configure the view and colors
         
         // gainsboro
-        self.view.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
         
         // royla blue
-        self.locationTextField.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
-        self.nonEditableTextView.textColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
-        self.findOnTheMapButton.setTitleColor(UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0), forState: UIControlState.Normal)
+        locationTextField.backgroundColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
+        nonEditableTextView.textColor = UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0)
+        findOnTheMapButton.setTitleColor(UIColor(red: 65/255.0, green: 105/255.0, blue: 225/255.0, alpha: 1.0), forState: UIControlState.Normal)
         
         /* Center text horizontally and vertically */
         nonEditableTextView.textAlignment = NSTextAlignment.Center
@@ -72,7 +72,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 
             } else if locationTextField.text != "Enter your location here!" && !locationTextField.text.isEmpty {
                 
-                self.appleMapsUserLocation()
+                appleMapsUserLocation()
             }
         }
     }
@@ -121,8 +121,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             lastName: Data.sharedInstance().userLastName!,
             mediaURL: nil)
         
-        self.userMapView.setRegion(Data.sharedInstance().region, animated: true)
-        self.userMapView.addAnnotation(annotation)
+        userMapView.setRegion(Data.sharedInstance().region, animated: true)
+        userMapView.addAnnotation(annotation)
     }
 
     func getTheRegion(placemarks: [CLPlacemark]) -> MKCoordinateRegion? {
@@ -139,7 +139,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
             regions.append(MKCoordinateRegion(center: coordinate, span: span))
         }
         
-        return regions[0]
+        return regions.first
     }
     
     func alterTheView() {
@@ -200,11 +200,11 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
                 Data.sharedInstance().mediaURL = nonEditableTextView.text
                 if Data.sharedInstance().previousLocationsExist! {
                     
-                    self.updateUserLocations()
+                    updateUserLocations()
                     
                 } else {
                     
-                    self.submitNewLoaction()
+                    submitNewLoaction()
                 }
             }
         }
@@ -269,7 +269,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, U
 
     @IBAction func cancel(sender: UIButton) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     /* Dismiss keyboard in case of a tap! */

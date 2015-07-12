@@ -14,7 +14,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var studentSearchBar: UISearchBar!
     
     var filteredStudents = [Student]()
-    let searchController = UISearchController(searchResultsController: nil)
     var isBeingSearched: Bool = false
     
     override func viewDidLoad() {
@@ -79,7 +78,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
+        parentViewController!.title = "On The Map"
         
         /* reload table data (For refresh) */
         detailTableView.reloadData()
@@ -93,7 +92,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         if isBeingSearched {
             
-            return self.filteredStudents.count
+            return filteredStudents.count
         
         } else {
             

@@ -65,7 +65,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
+        parentViewController!.title = "On The Map"
         
         /* reload table data (For refresh) */
         studentsTableView.reloadData()

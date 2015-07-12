@@ -31,7 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         /* Load up Student objects from Parse */
         
-        self.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
         view.alpha = 0.8
         
         ParseClient.sharedInstance().getStudentsLocations { students, error in

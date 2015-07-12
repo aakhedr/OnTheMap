@@ -85,9 +85,9 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
     
     func refresh() {
         
-        if self.targetView is MapViewController {
+        if targetView is MapViewController {
             
-            self.targetView!.viewDidLoad()
+            targetView!.viewDidLoad()
 
         } else {
             
@@ -254,7 +254,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
         alertController.addAction(yesAction)
         alertController.addAction(cancelAction)
         
-        self.targetView!.presentViewController(alertController, animated: true, completion: nil)
+        targetView!.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func continueDelete() {

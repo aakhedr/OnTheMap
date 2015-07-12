@@ -38,7 +38,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         origin = view.frame.origin.y
         
         /* Gradient color */
-        self.configureUI()
+        configureUI()
         
         fbLoginButton.delegate = self
     }
@@ -55,10 +55,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         newOrigin = nil     // Everytime the view appears newOrigin is nil. Then it gets set in the method getKeyboardHeight
     
         /* In case of logout from the tab bar view */
-        self.email!.text = ""
-        self.password!.text = ""
-        self.debugLabel!.text = "Login to Udacity"
-        self.debugLabel!.backgroundColor = self.view.backgroundColor
+        email!.text = ""
+        password!.text = ""
+        debugLabel!.text = "Login to Udacity"
+        debugLabel!.backgroundColor = self.view.backgroundColor
         
         subscribeToKeyboardNotifications()
     }
@@ -84,7 +84,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     /* Background gradient color in case of lanscape orienation */
     override func viewDidLayoutSubviews() {
         
-        self.backgroundGradient.frame = self.view.bounds
+        backgroundGradient.frame = view.bounds
     }
     
     /* Dismiss keyboard on tap */
@@ -108,7 +108,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             println("error code: \(error.code)")
             println("error domain: \(error.domain)")
         
-        // In case user taps cancel button (i.e. does not want to give permission to login via facebook)
+        // In case user taps cancel button 
+        // (i.e. does not want to give permission to login via facebook)
         } else if result.isCancelled {
             
             self.viewWillAppear(true)
@@ -147,15 +148,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         if email!.text.isEmpty || password!.text.isEmpty {
             
-            self.debugLabel!.text = "You must enter username and password!"
-            self.debugLabel!.backgroundColor = UIColor.redColor()
+            debugLabel!.text = "You must enter username and password!"
+            debugLabel!.backgroundColor = UIColor.redColor()
             
             self.view.endEditing(true)
             
             /* Fix the view */
-            if self.view.frame.origin.y != origin {
+            if view.frame.origin.y != origin {
                 
-                self.view.frame.origin.y = origin
+                view.frame.origin.y = origin
             }
             
             return
@@ -259,12 +260,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
     
     func keyboardWillHide(notification: NSNotification) {
         
-        self.view.frame.origin.y += getKeyboardHeight(notification)
+        view.frame.origin.y += getKeyboardHeight(notification)
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
 
-        if self.view.frame.origin.y == origin {
+        if view.frame.origin.y == origin {
 
             let userInfo = notification.userInfo
             let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
@@ -283,8 +284,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         if textField == password! {
             
             textField.resignFirstResponder()
-            self.view.frame.origin.y = origin
-            self.loginWithUdacityCredentials(loginButton)
+            view.frame.origin.y = origin
+            loginWithUdacityCredentials(loginButton)
 
         } else {
 
@@ -304,7 +305,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         // color RGBs from http://www.rapidtables.com/web/color/RGB_Color.htm
         
-        self.view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clearColor()
         
         // dark orange
         let darkOrange = UIColor(red: 255/255.0, green: 0.539, blue: 0.0, alpha: 1.0).CGColor
@@ -316,7 +317,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = self.view.frame
         
-        self.view.layer.insertSublayer(backgroundGradient, atIndex: 0)
+        view.layer.insertSublayer(backgroundGradient, atIndex: 0)
         
         // Orange red
         let orangeRed = UIColor(red: 255/255.0, green: 69/255.0, blue: 0/255.0, alpha: 1.0)
@@ -324,19 +325,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         // wheat
         let wheat = UIColor(red: 245/255.0, green: 222/255.0, blue: 179/255.0, alpha: 1.0)
 
-        self.loginButton.backgroundColor = orangeRed
-        self.loginButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        loginButton.backgroundColor = orangeRed
+        loginButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
 
-        self.email!.textColor = orangeRed
-        self.email!.backgroundColor = wheat
+        email!.textColor = orangeRed
+        email!.backgroundColor = wheat
         
-        self.password!.textColor = orangeRed
-        self.password!.backgroundColor = wheat
+        password!.textColor = orangeRed
+        password!.backgroundColor = wheat
         
-        self.debugLabel!.textColor = UIColor.whiteColor()
-        self.signupButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        debugLabel!.textColor = UIColor.whiteColor()
+        signupButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
-        self.dontHaveAnAccountLabel!.textColor = UIColor.whiteColor()
+        dontHaveAnAccountLabel!.textColor = UIColor.whiteColor()
     }
 }
 
