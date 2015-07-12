@@ -91,30 +91,35 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
 
         } else {
             
-            ParseClient.sharedInstance().getStudentsLocations { students, error in
+            ParseClient.sharedInstance().getStudentsLocations { error in
 
-                if let students = students {
+                if let error = error {
                     
                     dispatch_async(dispatch_get_main_queue()) {
                         
-                        Data.sharedInstance().studentsInformation = students
-                        
-                        /* Relaod the table data */
-                        self.targetView!.viewWillAppear(true)
-                    }
-                    
-                } else {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        if error!.code == 0 {
+                        if error.code == 0 {
                             
                             let title = "Network Error!"
                             let message = "Error connecting to Parse. Check your Internet connection!"
                             let actionTitle = "OK"
                             
                             ConfigUI.configureAndPresentAlertController(self.targetView, title: title, message: message, actionTitle: actionTitle)
+                        
+                        } else {
+                            
+                            let title = "Error!"
+                            let message = "Error getting students information from Parse!"
+                            let actionTitle = "OK"
+                            
+                            ConfigUI.configureAndPresentAlertController(self.targetView, title: title, message: message, actionTitle: actionTitle)
                         }
+                    }
+                } else {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        /* Relaod the table data */
+                        self.targetView!.viewWillAppear(true)
                     }
                 }
             }

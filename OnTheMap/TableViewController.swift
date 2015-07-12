@@ -39,37 +39,27 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // before students are loaded in the mav view
     func getStudentsLocations() {
         
-        if Data.sharedInstance().studentsInformation == nil {
+        ParseClient.sharedInstance().getStudentsLocations { error in
             
-            ParseClient.sharedInstance().getStudentsLocations { students, error in
+            if let error = error {
                 
-                if let students = students {
+                dispatch_async(dispatch_get_main_queue()) {
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    if error.code == 0 {
                         
-                        Data.sharedInstance().studentsInformation = students
-                    }
-                    
-                } else {
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
+                        let title = "Network Error!"
+                        let message = "Error connecting to Parse. Check your Internet connection!"
+                        let actionTitle = "OK"
                         
-                        if error!.code == 0 {
-                            
-                            let title = "Network Error!"
-                            let message = "Error connecting to Parse. Check your Internet connection!"
-                            let actionTitle = "OK"
-                            
-                            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                            
-                        } else {
-                            
-                            let title = "Error!"
-                            let message = "Error getting students information from Parse!"
-                            let actionTitle = "OK"
-                            
-                            ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                        }
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
+                        
+                    } else {
+                        
+                        let title = "Error!"
+                        let message = "Error getting students information from Parse!"
+                        let actionTitle = "OK"
+                        
+                        ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
             }

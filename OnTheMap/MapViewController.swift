@@ -34,33 +34,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         activityIndicator.startAnimating()
         view.alpha = 0.8
         
-        ParseClient.sharedInstance().getStudentsLocations { students, error in
+        ParseClient.sharedInstance().getStudentsLocations { error in
             
-            if let students = students {
+            if let error = error {
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    Data.sharedInstance().studentsInformation = students
-                    
-                    let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
-                    
-                    // Remove existing (if any) and then add the new! ---- for Refresh()
-                    if (self.studentsMapView.annotations != nil) {
-                        
-                        self.studentsMapView.removeAnnotations(self.studentsMapView.annotations)
-                    }
-                    
-                    self.studentsMapView.addAnnotations(annotations)
-                    
-                    self.view.alpha = 1.0
-                    self.activityIndicator.stopAnimating()
-                }
-                
-            } else {
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    if error!.code == 0 {
+                    if error.code == 0 {
                         
                         let title = "Network Error!"
                         let message = "Error connecting to Parse. Check your Internet connection!"
@@ -76,6 +56,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
+                }
+            } else {
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    let annotations = Annotation.annotationsFromStudents(Data.sharedInstance().studentsInformation)
+                    
+                    // Remove existing (if any) and then add the new! ---- for Refresh()
+                    if (self.studentsMapView.annotations != nil) {
+                        
+                        self.studentsMapView.removeAnnotations(self.studentsMapView.annotations)
+                    }
+                    
+                    self.studentsMapView.addAnnotations(annotations)
+                    
+                    self.view.alpha = 1.0
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }

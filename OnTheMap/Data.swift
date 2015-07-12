@@ -36,7 +36,7 @@ class Data: NSObject {
     // Set in queryUserLocations (ParseConvenience.swift)
     var foundObjectIDs: [String]!   // checked
     
-    // Set twice: 1) viewWillAppear (MapViewController.swift). 2) refresh [table views] (ConfigUI.swift).
+    // Set in getStudentsLocations (ParseConvience.swift)
     var studentsInformation: [Student]!     // checked
     
     /* Shared Instance */
