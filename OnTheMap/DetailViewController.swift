@@ -151,7 +151,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         
         isBeingSearched = false
-        studentSearchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -159,7 +159,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         isBeingSearched = false
         searchBar.resignFirstResponder()
         detailTableView.reloadData()
-        studentSearchBar.showsScopeBar = false
+        searchBar.showsScopeBar = false
+        searchBar.text = ""
     }
 
     // So that app doesn't crash in case user taps this tab
