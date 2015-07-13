@@ -117,15 +117,13 @@ extension ParseClient {
     func queryUserLocations(completionHandler: (data: AnyObject!, success: Bool, error: NSError?) -> Void) {
         
         /* 1. Set the parameters */
+        let uniqueKey = NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")!
         let parameters = [
-            "": ""
+            ParseClient.Parameters.Where: "{\"uniqueKey\":\"\(uniqueKey)\"}"
         ]
         
-        // Fix this ******************************
-        let method = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22" + NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID")! + "%22%7D"
-        
         /* 2. Make the request */
-        let task = self.taskForGETMethod(method, parameters: parameters) { JSONResult, error in
+        let task = self.taskForGETMethod(ParseClient.Methods.BaseURLAndMethod, parameters: parameters) { JSONResult, error in
             
             if let error = error {
                 
@@ -164,6 +162,7 @@ extension ParseClient {
                     
                 } else {
                     
+                    println(JSONResult)
                     completionHandler(data: nil, success: false, error: NSError(domain: "queyUserLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "could not parse results array"]))
                 }
             }

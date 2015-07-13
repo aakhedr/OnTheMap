@@ -36,9 +36,12 @@ class ParseClient: NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler */
             if let error = downloadError {
+                
                 let newError = ParseClient.errorForData(data, response: response, error: error)
                 completionHandler(result: nil, error: error)
+            
             } else {
+                
                 ParseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         }
@@ -176,27 +179,13 @@ class ParseClient: NSObject {
             let stringValue = "\(value)"
             
             /* Escape it */
-            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())
             
-            /* Append it in case limit param only */
-            if key == "limit" {
-                
-                urlVars += [key + "=" + "\(escapedValue!)"]
-                
-            } else {
-                
-                return ""
-            }
+            /* Append it */
+            urlVars += [key + "=" + "\(escapedValue!)"]
+            
         }
         
         return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
     }
 }
-
-
-
-
-
-
-
-
