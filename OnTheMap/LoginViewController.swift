@@ -107,6 +107,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
             
             println("error code: \(error.code)")
             println("error domain: \(error.domain)")
+            println("error description: \(error.localizedDescription)")
+            
         
         // In case user taps cancel button 
         // (i.e. does not want to give permission to login via facebook)

@@ -47,7 +47,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         let actionTitle = "OK"
                         
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
-                        
+
                     } else {
                         
                         let title = "Error!"
@@ -57,6 +57,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         ConfigUI.configureAndPresentAlertController(self, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
+                
             } else {
                 
                 dispatch_async(dispatch_get_main_queue()) {

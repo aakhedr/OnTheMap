@@ -61,8 +61,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     
-                    self.targetView!.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UdacityUserID")
+                    self.targetView!.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 }
             
             } else {
@@ -155,7 +155,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                                 
                                 println("error domain: \(error.domain)")
                                 println("error code: \(error.code)")
-                                println("error info: \(error.userInfo![NSLocalizedDescriptionKey]!)")
+                                println("error description: \(error.localizedDescription)")
 
                             } else {
                                 
@@ -182,8 +182,10 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 self.getUserPublicDataAndPresentInformationPostingViewController { error in
                     
                     if let error = error {
+                        
                         println("error domain: \(error.domain)")
                         println("error code: \(error.code)")
+                        println("error description: \(error.localizedDescription)")
                     }
                 }
             
@@ -191,6 +193,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
                 println("error code: \(error.code)")
                 println("error domain: \(error.domain)")
+                println("error description: \(error.localizedDescription)")
             }
         }
     }
@@ -213,6 +216,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                         ConfigUI.configureAndPresentAlertController(self.targetView!, title: title, message: message, actionTitle: actionTitle)
                     }
                 }
+                
             } else {
                 
                 self.presentInformationPostingViewController()
@@ -270,6 +274,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 
                 println("error domain: \(error.domain)")
                 println("error code: \(error.code)")
+                println("error description: \(error.localizedDescription)")
             
             } else {
                 
