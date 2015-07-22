@@ -15,7 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // Check if user is already logged in?
+        if NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID") != nil {
+            
+            // Move directly to the tab bar view controller
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let navigationController = storyboard.instantiateViewControllerWithIdentifier("NavController") as! UINavigationController
+            window?.rootViewController = navigationController
+        }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

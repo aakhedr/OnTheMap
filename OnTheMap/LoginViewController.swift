@@ -62,19 +62,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIGestureRecog
         
         subscribeToKeyboardNotifications()
     }
-    
-    override func viewDidAppear(animated: Bool) {
         
-        // Check if user is already logged in?
-        if NSUserDefaults.standardUserDefaults().stringForKey("UdacityUserID") != nil {
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                self.performSegueWithIdentifier("TabbedViewSegue", sender: self)
-            }
-        }
-    }
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
