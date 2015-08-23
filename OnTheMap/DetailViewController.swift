@@ -41,6 +41,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         /* Set a human readible title for the view */
         title = "On The Map"
         
+        navigationController?.tabBarItem.title = "Detail"
+        
         /* reload table data (For refresh) */
         detailTableView.reloadData()
 

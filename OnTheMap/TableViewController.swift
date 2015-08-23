@@ -31,6 +31,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         /* Set a human readible title for the view */
         title = "On The Map"
         
+        navigationController?.tabBarItem.title = "List"
+        
         /* reload table data (For refresh) */
         studentsTableView.reloadData()
     }

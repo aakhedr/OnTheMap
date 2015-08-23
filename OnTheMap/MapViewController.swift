@@ -85,6 +85,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Set a human readible title for the view */
         title = "On The Map"
         
+        navigationController?.tabBarItem.title = "Map"
+        
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)
     }

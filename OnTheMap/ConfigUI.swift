@@ -60,9 +60,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             if success {
                 
                 dispatch_async(dispatch_get_main_queue()) {
-                    
+
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UdacityUserID")
-                    self.targetView.dismissViewControllerAnimated(true, completion: nil)
                 }
             
             } else {
@@ -81,6 +80,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 }
             }
         }
+        self.targetView.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func refresh() {
