@@ -230,6 +230,7 @@
                         <outlet property="loginButton" destination="Tw5-UQ-Ukf" id="E9e-8A-3ho"/>
                         <outlet property="password" destination="eni-h1-Bbt" id="3D0-wi-4Gf"/>
                         <outlet property="signupButton" destination="edp-X7-YjJ" id="yaM-dL-tTs"/>
+                        <segue destination="L3N-1z-ZHg" kind="show" identifier="TabbedViewSegue" id="hTT-oN-PcG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
