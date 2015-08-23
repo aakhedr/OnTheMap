@@ -83,7 +83,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         /* Set a human readible title for the view */
-        self.parentViewController!.title = "On The Map"
+        title = "On The Map"
         
         /* Configure naviagation bar buttons */
         ConfigUI.sharedInstance().configureNavBarButtons(self)

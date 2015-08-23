@@ -39,7 +39,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         ConfigUI.sharedInstance().configureNavBarButtons(self)
         
         /* Set a human readible title for the view */
-        parentViewController!.title = "On The Map"
+        title = "On The Map"
         
         /* reload table data (For refresh) */
         detailTableView.reloadData()
