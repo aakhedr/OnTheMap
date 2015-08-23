@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Move directly to the tab bar view controller
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let navigationController = storyboard.instantiateViewControllerWithIdentifier("NavController") as! UINavigationController
-            window?.rootViewController = navigationController
+            let tabBarController = storyboard.instantiateViewControllerWithIdentifier("TabBar") as! UITabBarController
+            window?.rootViewController = tabBarController   
         }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)

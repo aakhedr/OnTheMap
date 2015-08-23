@@ -41,8 +41,8 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
             target: self,
             action: "delete")
         
-        viewController.parentViewController!.navigationItem.leftBarButtonItems = [logoutButton, deleteButton]
-        viewController.parentViewController!.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
+        viewController.navigationItem.leftBarButtonItems = [logoutButton, deleteButton]
+        viewController.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
     }
     
     /* Actions */
