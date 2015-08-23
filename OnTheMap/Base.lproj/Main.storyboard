@@ -637,7 +637,7 @@
         <!--Map-->
         <scene sceneID="kY3-YQ-1Od">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PDy-Wk-8nG" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="PDy-Wk-8nG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Ghs-R9-ikv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2oR-gz-6g7">
@@ -656,7 +656,7 @@
         <!--List-->
         <scene sceneID="hqT-ju-AOR">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eqZ-iB-GG6" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="eqZ-iB-GG6" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="List" image="list" id="0QT-Ba-TR3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5ss-vj-XSh">
@@ -675,7 +675,7 @@
         <!--Detail-->
         <scene sceneID="gqn-EZ-DHe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZU1-41-VP0" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="ZU1-41-VP0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Detail" image="detail" id="Szc-Kj-ZVd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JJD-bQ-DZT">

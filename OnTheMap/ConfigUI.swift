@@ -62,7 +62,7 @@ class ConfigUI: NSObject, UIAlertViewDelegate {
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UdacityUserID")
-                    self.targetView!.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                    self.targetView.dismissViewControllerAnimated(true, completion: nil)
                 }
             
             } else {
